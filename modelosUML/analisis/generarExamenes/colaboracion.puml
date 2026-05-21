@@ -1,0 +1,29 @@
+@startuml generarExamenes-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":SISTEMA_DISPONIBLE" as SistemaDisponible
+rectangle #CDEBA5 ":EXAMENES_GENERADOS" as ExamenesGenerados
+rectangle #CDEBA5 ":Collaboration CompletarGestion" as CompletarGestion
+
+package generarExamenes as "generarExamenes()" {
+    rectangle #629EF9 GenerarExamenesView
+    rectangle #b5bd68 GeneracionController
+    rectangle #F2AC4E ExamenGenerator
+    rectangle #F2AC4E ExamenRepository
+    rectangle #F2AC4E Validador
+}
+
+SistemaDisponible --> GenerarExamenesView: generarExamenes()
+
+GenerarExamenesView -d-> GeneracionController: procesarGeneracion(datos) : Resultado
+
+GeneracionController --> Validador: validarDatos(datos) : boolean
+GeneracionController --> ExamenGenerator: ejecutarGeneracion(datos) : Examenes
+
+ExamenGenerator --> ExamenRepository: obtenerPreguntas(criterios)
+ExamenGenerator --> ExamenRepository: guardarExamenes(examenes)
+
+GenerarExamenesView ..> ExamenesGenerados: <<include>> [éxito]
+GenerarExamenesView ..> CompletarGestion: <<include>> completarGestion() [cancelación/error]
+
+@enduml

@@ -1,0 +1,24 @@
+@startuml exportarConfiguracionGlobal-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":SISTEMA_DISPONIBLE" as SistemaDisponible
+rectangle #CDEBA5 ":Collaboration CompletarGestion" as CompletarGestion
+
+package exportarConfiguracionGlobal as "exportarConfiguracionGlobal()" {
+    rectangle #629EF9 ExportarConfiguracionView
+    rectangle #b5bd68 ConfiguracionController
+    rectangle #F2AC4E Exportador
+    rectangle #F2AC4E ConfiguracionRepository
+}
+
+SistemaDisponible --> ExportarConfiguracionView: exportarConfiguracionGlobal()
+
+ExportarConfiguracionView -d-> ConfiguracionController: solicitarExportacion()
+
+ConfiguracionController --> ConfiguracionRepository: obtenerEstadoCompleto()
+ConfiguracionController --> Exportador: generarArchivo(datos) : Archivo
+
+ExportarConfiguracionView ..> SistemaDisponible: <<include>> [éxito]
+ExportarConfiguracionView ..> CompletarGestion: <<include>> completarGestion() [cancelación/error]
+
+@enduml

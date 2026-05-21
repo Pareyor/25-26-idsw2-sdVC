@@ -1,0 +1,24 @@
+@startuml importarConfiguracionGlobal-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":SISTEMA_DISPONIBLE" as SistemaDisponible
+rectangle #CDEBA5 ":Collaboration CompletarGestion" as CompletarGestion
+
+package importarConfiguracionGlobal as "importarConfiguracionGlobal()" {
+    rectangle #629EF9 ImportarConfiguracionView
+    rectangle #b5bd68 ConfiguracionController
+    rectangle #F2AC4E Importador
+    rectangle #F2AC4E ConfiguracionRepository
+}
+
+SistemaDisponible --> ImportarConfiguracionView: importarConfiguracionGlobal()
+
+ImportarConfiguracionView -d-> ConfiguracionController: procesarImportacion(archivo)
+
+ConfiguracionController --> Importador: parsearArchivo(archivo)
+ConfiguracionController --> ConfiguracionRepository: actualizarDatos(datos)
+
+ImportarConfiguracionView ..> SistemaDisponible: <<include>> [éxito]
+ImportarConfiguracionView ..> CompletarGestion: <<include>> completarGestion() [cancelación/error]
+
+@enduml

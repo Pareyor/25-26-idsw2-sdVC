@@ -1,0 +1,26 @@
+@startuml corregirExamenes-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":SISTEMA_DISPONIBLE" as SistemaDisponible
+rectangle #CDEBA5 ":EXAMENES_CORREGIDOS" as ExamenesCorregidos
+rectangle #CDEBA5 ":Collaboration CompletarGestion" as CompletarGestion
+
+package corregirExamenes as "corregirExamenes()" {
+    rectangle #629EF9 CorregirExamenesView
+    rectangle #b5bd68 ExamenController
+    rectangle #F2AC4E ExamenRepository
+}
+
+SistemaDisponible --> CorregirExamenesView: corregirExamenes()
+
+CorregirExamenesView -> ExamenController: cargarExamenes(datos)
+ExamenController -> ExamenRepository: validarFormato(datos)
+
+CorregirExamenesView -> ExamenController: procesarCorreccion() : Resultado
+ExamenController -> ExamenRepository: guardarCorreccion(resultados) : boolean
+
+CorregirExamenesView ..> CompletarGestion: <<include>> cancelar()
+
+CorregirExamenesView ..> ExamenesCorregidos: <<include>> [éxito]
+
+@enduml
