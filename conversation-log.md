@@ -30,5 +30,7 @@
 - Refinamiento de `asignarExamenes()` para integrar la búsqueda de alumnos y generación de claves alfanuméricas detectadas en el prototipo.
 - Corrección del diagrama de `crearPregunta()` para vincular correctamente la colaboración `CompletarGestion`.
 
+**Enlace:** [Conversación Sesión 3](conversations/sesion-22-05-26.md)
+
 **Decisión:** Se aceptaron los análisis de `importarPreguntas`, `exportarAlumnos` (abstracto) y `exportarPreguntas` (abstracto). Se modificó significativamente `asignarExamenes()` para alinearlo con las funcionalidades visuales del prototipo (búsqueda y claves). Se corrigió una inconsistencia visual en `crearPregunta()` donde `CompletarGestion` estaba definido pero no relacionado con la acción de cancelar.
 
