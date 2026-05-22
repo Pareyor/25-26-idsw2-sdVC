@@ -1,0 +1,23 @@
+@startuml crearPregunta-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":PREGUNTAS_ABIERTO" as PreguntasAbierto
+rectangle #CDEBA5 ":PREGUNTA_ABIERTO" as PreguntaDetalle
+rectangle #CDEBA5 ":Collaboration CompletarGestion" as CompletarGestion
+
+package crearPregunta as "crearPregunta()" {
+    rectangle #629EF9 CrearPreguntaView
+    rectangle #b5bd68 PreguntaController
+    rectangle #F2AC4E PreguntaRepository
+}
+
+PreguntasAbierto --> CrearPreguntaView: crearPregunta()
+
+CrearPreguntaView -d-> PreguntaController: crearNuevaPregunta(datosMinimos)
+
+PreguntaController --> PreguntaRepository: crear(datosMinimos) : nuevaPregunta
+
+CrearPreguntaView ..> PreguntaDetalle: <<include>> editarPregunta(nuevaPregunta)
+CrearPreguntaView ..> CompletarGestion: <<include>> CompletarGestion() [cancelación/error]
+
+@enduml

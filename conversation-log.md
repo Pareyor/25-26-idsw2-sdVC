@@ -21,3 +21,14 @@
 
 **Decisión:** Se han aceptado los análisis de exportarConfiguracionGlobal, importarConfiguracionGlobal, importarAlumnos y generarExamenes. Se ha modificado el análisis de corregirExamenes que no tenía en cuenta la función de cargar exámenes, además me lo relacionaba con el apartado de reconocimiento de IA que, como hablamos en clase, debemos dejarlo como un factor externo al sistema.
 
+## Sesión 3: [22/05/2026][11:45] Análisis de los casos de uso 6-10 y refinamiento por prototipos
+
+**Prompt:** Análisis de los siguientes 5 casos de uso del priorizado (importarPreguntas, exportarAlumnos, exportarPreguntas, asignarExamenes, crearPregunta) tomando como ejemplo pySigHor y validando contra sus prototipos.
+
+**Resultado:**
+- Generación de diagramas de colaboración MVC y documentación README para los 5 casos de uso mencionados.
+- Refinamiento de `asignarExamenes()` para integrar la búsqueda de alumnos y generación de claves alfanuméricas detectadas en el prototipo.
+- Corrección del diagrama de `crearPregunta()` para vincular correctamente la colaboración `CompletarGestion`.
+
+**Decisión:** Se aceptaron los análisis de `importarPreguntas`, `exportarAlumnos` (abstracto) y `exportarPreguntas` (abstracto). Se modificó significativamente `asignarExamenes()` para alinearlo con las funcionalidades visuales del prototipo (búsqueda y claves). Se corrigió una inconsistencia visual en `crearPregunta()` donde `CompletarGestion` estaba definido pero no relacionado con la acción de cancelar.
+

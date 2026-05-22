@@ -1,0 +1,27 @@
+@startuml asignarExamenes-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":EXAMENES_GENERADOS" as ExamenesGenerados
+rectangle #CDEBA5 ":EXAMENES_ASIGNADOS" as ExamenesAsignados
+rectangle #CDEBA5 ":Collaboration CompletarGestion" as CompletarGestion
+
+package asignarExamenes as "asignarExamenes()" {
+    rectangle #629EF9 AsignarExamenesView
+    rectangle #b5bd68 AsignacionController
+    rectangle #F2AC4E ExamenRepository
+    rectangle #F2AC4E AlumnoRepository
+}
+
+ExamenesGenerados --> AsignarExamenesView: asignarExamenes()
+
+AsignarExamenesView -d-> AsignacionController: buscarAlumnos(criterio)
+AsignacionController --> AlumnoRepository: filtrarAlumnos(criterio)
+
+AsignarExamenesView -d-> AsignacionController: realizarAsignacion(alumnosSeleccionados)
+
+AsignacionController --> ExamenRepository: vincularAlumnosAExamenes(asignaciones, claves)
+
+AsignarExamenesView ..> ExamenesAsignados: <<include>> [éxito]
+AsignarExamenesView ..> CompletarGestion: <<include>> completarGestion() [cancelación/error]
+
+@enduml

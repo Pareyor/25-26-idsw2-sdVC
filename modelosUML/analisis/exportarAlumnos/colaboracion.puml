@@ -1,0 +1,24 @@
+@startuml exportarAlumnos-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":exportarConfiguracionGlobal" as ExportarGlobal
+rectangle #CDEBA5 ":Collaboration CompletarGestion" as CompletarGestion
+
+package exportarAlumnos as "exportarAlumnos()" {
+    rectangle #629EF9 ExportarAlumnosView
+    rectangle #b5bd68 AlumnoController
+    rectangle #F2AC4E Exportador
+    rectangle #F2AC4E AlumnoRepository
+}
+
+ExportarGlobal --> ExportarAlumnosView: exportarAlumnos()
+
+ExportarAlumnosView -d-> AlumnoController: solicitarExportacion()
+
+AlumnoController --> AlumnoRepository: obtenerAlumnos()
+AlumnoController --> Exportador: generarArchivo(datos) : Archivo
+
+ExportarAlumnosView ..> ExportarGlobal: <<include>> [éxito]
+ExportarAlumnosView ..> CompletarGestion: <<include>> completarGestion() [cancelación/error]
+
+@enduml
