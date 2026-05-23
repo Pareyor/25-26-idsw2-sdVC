@@ -2,7 +2,7 @@
 
 ## información del artefacto
 
-- **Proyecto**: IdSw1-SdR / VC
+- **Proyecto**: Jorgestor - Sistema de Gestión de Exámenes
 - **Fase RUP**: Elaboración
 - **Disciplina**: Análisis y Diseño
 - **Versión**: 1.1
