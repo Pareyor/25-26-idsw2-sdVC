@@ -34,3 +34,16 @@
 
 **Decisión:** Se aceptaron los análisis de `importarPreguntas`, `exportarAlumnos` (abstracto) y `exportarPreguntas` (abstracto). Se modificó significativamente `asignarExamenes()` para alinearlo con las funcionalidades visuales del prototipo (búsqueda y claves). Se corrigió una inconsistencia visual en `crearPregunta()` donde `CompletarGestion` estaba definido pero no relacionado con la acción de cancelar.
 
+## Sesión 4: [23/05/2026][10:15] Análisis de Casos de Uso 11-15 y Estandarización de Estilo (MVC + Secuencia)
+
+**Prompt:** Análisis de los casos de uso 11-15 (editarPregunta, editarAsignatura, crearDocente, crearAlumno, editarDocente) siguiendo pySigHor y aplicación del estilo de diagramas de secuencia personalizado (ejemplo verPreguntas) a todo el bloque 1-15.
+
+**Resultado:**
+- Generación de análisis MVC completo para los casos 11-15, aplicando los patrones "El Gordo" (edición integral) y "El Delgado" (creación rápida C->U).
+- Creación de diagramas de secuencia "punto medio" (exquisitos pero sintetizados) para los casos 1-15, integrando activaciones, instanciación de objetos y notas de interfaz.
+- Estandarización de los 15 README.md de análisis bajo el nombre de proyecto "Jorgestor - Sistema de Gestión de Exámenes".
+
+**Enlace:** [Conversación Sesión 4](conversations/sesion-23-05-26.md)
+
+**Decisión:** Se ha modificado el análisis de casos de uso ya implementados (1-10) para corregir la forma en que hacía los diagramas de secuencia, se estableció un mismo formato para realizarlos, basandose en pySighor y amoldándose al proyecto JORGESTOR. Se modificó el caso de uso editarAsignatura() porque la IA no detectaba la colaboración con verPreguntas() y pasaba lo mismo en editarPregunta() que no detectaba la colaboración con verRespuestas(). Por se unificó el nombre del proyecto ya que el agente IA ponía siempre de base IdSw1.
+
