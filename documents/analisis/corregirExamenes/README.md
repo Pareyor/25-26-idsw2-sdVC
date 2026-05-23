@@ -5,7 +5,7 @@
 - **Proyecto**: IdSw1-SdR / VC
 - **Fase RUP**: Elaboración
 - **Disciplina**: Análisis y Diseño
-- **Versión**: 1.0
+- **Versión**: 1.1
 - **Autor**: Gemini CLI
 
 ## propósito
@@ -72,4 +72,4 @@ Análisis de colaboración del caso de uso `corregirExamenes()` mediante el patr
 - Procesar la persistencia de las correcciones realizadas.
 
 **Colaboraciones**:
-- **Control**: Responde a solicitudes de `ExamenController`.
+- **Control**: Responde a `ExamenController`.

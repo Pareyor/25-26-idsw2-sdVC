@@ -1,0 +1,48 @@
+@startuml generarExamenes-secuencia
+skinparam linetype polyline
+
+participant ":SISTEMA_DISPONIBLE" as Sistema
+participant ":GenerarExamenesView" as View
+participant ":ExamenController" as Controller
+participant ":PreguntaRepository" as Repository
+participant ":Pregunta" as Entity
+participant ":Examen" as Examen
+
+Sistema -> View: generarExamenes()
+activate View
+
+note over View
+Solicita parámetros de generación:
+• Asignatura, nº de preguntas
+• Dificultad, temas
+end note
+
+View -> Controller: procesarGeneracion(params)
+activate Controller
+
+loop por cada examen solicitado
+    Controller -> Repository: obtenerPreguntasAleatorias(filtros)
+    activate Repository
+    Repository -> Entity: crear instancia
+    deactivate Repository
+    
+    Controller <- Repository: List<Pregunta>
+    
+    Controller -> Examen: <<create>>
+    activate Examen
+    deactivate Examen
+end
+
+Controller -> Repository: persistirExamenesGenerados()
+activate Repository
+deactivate Repository
+
+View <- Controller: exito
+deactivate Controller
+
+note over View
+Presenta previsualización
+Permite descargar PDF o confirmar
+end note
+
+@enduml

@@ -5,7 +5,7 @@
 - **Proyecto**: IdSw1-SdR / VC
 - **Fase RUP**: Elaboración
 - **Disciplina**: Análisis y Diseño
-- **Versión**: 1.0
+- **Versión**: 1.1
 - **Autor**: Gemini CLI
 
 ## propósito
@@ -39,39 +39,33 @@ Análisis de colaboración del caso de uso `asignarExamenes()` mediante el patr�
 #### AsignarExamenesView
 **Estereotipo**: Vista (Boundary)  
 **Responsabilidades**:
-- Presentar la lista de exámenes generados pendientes de asignación.
-- **Búsqueda:** Facilitar la búsqueda y filtrado de alumnos (por nombre/DNI) para cada grupo/grado.
-- Permitir la selección masiva ("Seleccionar todos") o manual de destinatarios.
-- Mostrar confirmación de la asignación realizada e informar sobre la generación de claves.
-- Permitir cancelar el proceso de asignación.
+- Mostrar la lista de alumnos pendientes de asignación.
+- Permitir la búsqueda y selección de alumnos.
+- Recibir la confirmación de asignación.
 
 **Colaboraciones**:
-- **Entrada**: Docente inicia desde `EXAMENES_GENERADOS`.
-- **Control**: Se comunica con `AsignacionController`.
-- **Salida**: Navega a `EXAMENES_ASIGNADOS` tras éxito.
+- **Entrada**: Docente.
+- **Control**: `ExamenController`.
 
 ### clases de control
 
-#### AsignacionController
+#### ExamenController
 **Estereotipo**: Control  
 **Responsabilidades**:
-- **Gestionar Búsqueda:** Procesar criterios de búsqueda de alumnos.
-- **Gestionar Asignación:** Gestionar la lógica de emparejamiento entre exámenes y alumnos.
-- **Generación de Claves:** Generar claves alfanuméricas únicas para cada instancia de examen asignada.
-- Ordenar la actualización de los registros de exámenes con su asignatario y clave.
+- Recuperar los alumnos matriculados.
+- Generar las claves alfanuméricas de acceso para cada examen.
+- Vincular las instancias de examen con los alumnos seleccionados.
 
 **Colaboraciones**:
-- **Vista**: Recibe solicitudes de `AsignarExamenesView`.
-- **Entidad**: Utiliza `ExamenRepository` y `AlumnoRepository`.
+- **Vista**: Responde a `AsignarExamenesView`.
+- **Repositorio**: `AlumnoRepository`, `ExamenRepository`.
 
 ### clases de entidad (entity)
-
-#### ExamenRepository
-**Estereotipo**: Entidad  
-**Responsabilidades**:
-- Actualizar el estado de los exámenes para incluir la referencia al alumno asignado.
 
 #### AlumnoRepository
 **Estereotipo**: Entidad  
 **Responsabilidades**:
-- Proveer la lista de alumnos disponibles para la asignación (filtrados por grado/asignatura).
+- Proporcionar acceso a los datos de los alumnos y sus vinculaciones.
+
+**Colaboraciones**:
+- **Control**: Responde a `ExamenController`.

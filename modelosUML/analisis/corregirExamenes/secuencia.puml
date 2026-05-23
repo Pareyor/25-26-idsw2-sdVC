@@ -1,0 +1,60 @@
+@startuml corregirExamenes-secuencia
+skinparam linetype polyline
+
+participant ":SISTEMA_DISPONIBLE" as Sistema
+participant ":CorregirExamenesView" as View
+participant ":ExamenController" as Controller
+participant ":ExamenRepository" as Repository
+participant ":Examen" as Entity
+
+Sistema -> View: corregirExamenes()
+activate View
+
+View -> Controller: cargarExamenes(archivos)
+activate Controller
+
+Controller -> Repository: validarFormatos()
+activate Repository
+deactivate Repository
+
+Controller --> View: exito
+deactivate Controller
+
+note over View
+Presenta exámenes cargados
+Permite solicitar corrección
+end note
+
+View -> Controller: procesarCorreccion()
+activate Controller
+
+Controller -> Repository: compararConClaves()
+activate Repository
+
+Repository -> Entity: crear instancia
+deactivate Repository
+
+Controller <- Repository: List<Resultado>
+deactivate Controller
+
+View <- Controller: List<Resultado>
+deactivate View
+
+note over View
+Presenta resultados de corrección:
+• Aciertos, fallos, nota final
+• Errores de detección si los hubiera
+Permite confirmar resultados
+end note
+
+View -> Controller: guardarCorrecciones()
+activate Controller
+
+Controller -> Repository: saveAll(resultados)
+activate Repository
+deactivate Repository
+
+View <- Controller: exito
+deactivate Controller
+
+@enduml

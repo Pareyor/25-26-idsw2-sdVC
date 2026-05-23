@@ -5,20 +5,30 @@
 - **Proyecto**: IdSw1-SdR / VC
 - **Fase RUP**: Elaboración
 - **Disciplina**: Análisis y Diseño
-- **Versión**: 1.0
+- **Versión**: 1.1
 - **Autor**: Gemini CLI
 
 ## propósito
 
-Análisis de colaboración del caso de uso `importarPreguntas()` mediante el patrón MVC, identificando las clases de análisis para la importación masiva de preguntas desde archivos externos hacia la batería de preguntas.
+Análisis de colaboración para la importación masiva de preguntas desde archivos externos.
 
-## diagrama de colaboración
+## diagramas de análisis
 
+### diagrama de colaboración
 <div align=center>
 
 |![Análisis: importarPreguntas()](../../../modelosUML/analisis/importarPreguntas/colaboracion.svg)|
 |-|
-|Código fuente: [colaboracion.puml](../../../modelosUML/analisis/importarPreguntas/colaboracion.puml)|
+|Código fuente: [colaboracion.puml](colaboracion.puml)|
+
+</div>
+
+### diagrama de secuencia
+<div align=center>
+
+|![Secuencia: importarPreguntas()](../../../modelosUML/analisis/importarPreguntas/secuencia.svg)|
+|-|
+|Código fuente: [secuencia.puml](secuencia.puml)|
 
 </div>
 
@@ -29,39 +39,32 @@ Análisis de colaboración del caso de uso `importarPreguntas()` mediante el pat
 #### ImportarPreguntasView
 **Estereotipo**: Vista (Boundary)  
 **Responsabilidades**:
-- Presentar la interfaz para la selección del archivo de preguntas.
-- Capturar la entrada del docente (archivo de preguntas).
-- Mostrar estados de progreso y resultados de la importación (éxito/error).
-- Permitir la cancelación del proceso.
+- Capturar el archivo de preguntas y la asignatura de destino.
+- Informar sobre el progreso y resultado de la importación.
 
 **Colaboraciones**:
-- **Entrada**: Docente solicita importación.
-- **Control**: Se comunica con `PreguntaController`.
-- **Salida**: Navega a los estados de listado de preguntas tras finalizar.
+- **Entrada**: Docente.
+- **Control**: `PreguntaController`.
 
 ### clases de control
 
 #### PreguntaController
 **Estereotipo**: Control  
 **Responsabilidades**:
-- Coordinar el flujo de importación.
-- Solicitar el parseo del archivo al importador.
-- Validar la lógica de negocio (ej. evitar duplicados si aplica).
-- Ordenar la persistencia de las nuevas preguntas.
+- Procesar la lectura del archivo.
+- Validar la integridad de cada pregunta importada.
+- Coordinar la inserción en la batería de preguntas.
 
 **Colaboraciones**:
-- **Vista**: Recibe solicitudes de `ImportarPreguntasView`.
-- **Entidad**: Utiliza `ImportadorPreguntas` y `PreguntaRepository`.
+- **Vista**: Responde a `ImportarPreguntasView`.
+- **Repositorio**: `PreguntaRepository`.
 
 ### clases de entidad (entity)
-
-#### ImportadorPreguntas
-**Estereotipo**: Entidad  
-**Responsabilidades**:
-- Interpretar el formato del archivo (CSV, JSON, etc.).
-- Extraer y transformar los datos a objetos de dominio `Pregunta` y `Respuesta`.
 
 #### PreguntaRepository
 **Estereotipo**: Entidad  
 **Responsabilidades**:
-- Gestionar la persistencia masiva de preguntas en el sistema.
+- Persistencia de las nuevas preguntas.
+
+**Colaboraciones**:
+- **Control**: Responde a `PreguntaController`.

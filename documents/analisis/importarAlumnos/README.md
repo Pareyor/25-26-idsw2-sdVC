@@ -5,7 +5,7 @@
 - **Proyecto**: IdSw1-SdR / VC
 - **Fase RUP**: Elaboración
 - **Disciplina**: Análisis y Diseño
-- **Versión**: 1.0
+- **Versión**: 1.1
 - **Autor**: Gemini CLI
 
 ## propósito
@@ -39,25 +39,32 @@ Análisis de colaboración para la importación específica de alumnos.
 #### ImportarAlumnosView
 **Estereotipo**: Vista (Boundary)  
 **Responsabilidades**:
-- Gestionar la subida de archivos de alumnos.
-- Mostrar previsualización o errores de validación de formato.
+- Gestionar la selección del archivo de origen.
+- Presentar resumen y posibles errores de importación.
+
+**Colaboraciones**:
+- **Entrada**: Docente.
+- **Control**: `AlumnoController`.
 
 ### clases de control
 
 #### AlumnoController
 **Estereotipo**: Control  
 **Responsabilidades**:
-- Orquestar el proceso de importación de alumnos.
-- Validar reglas de negocio (ej: alumnos duplicados).
+- Leer y procesar el archivo de alumnos.
+- Validar duplicados y formatos de datos.
+- Coordinar la persistencia masiva.
+
+**Colaboraciones**:
+- **Vista**: Responde a `ImportarAlumnosView`.
+- **Repositorio**: `AlumnoRepository`.
 
 ### clases de entidad (entity)
-
-#### Importador
-**Estereotipo**: Entidad  
-**Responsabilidades**:
-- Parsear datos de alumnos de fuentes externas.
 
 #### AlumnoRepository
 **Estereotipo**: Entidad  
 **Responsabilidades**:
-- Persistir los nuevos registros de alumnos.
+- Persistencia de los datos de alumnos.
+
+**Colaboraciones**:
+- **Control**: Responde a `AlumnoController`.

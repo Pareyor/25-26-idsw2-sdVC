@@ -1,0 +1,52 @@
+@startuml asignarExamenes-secuencia
+skinparam linetype polyline
+
+participant ":EXAMENES_GENERADOS" as Sistema
+participant ":AsignarExamenesView" as View
+participant ":ExamenController" as Controller
+participant ":AlumnoRepository" as Repository
+participant ":Alumno" as Entity
+
+Sistema -> View: asignarExamenes()
+activate View
+
+View -> Controller: obtenerAlumnosSinAsignar()
+activate Controller
+
+Controller -> Repository: findAll()
+activate Repository
+
+Repository -> Entity: crear instancia
+deactivate Repository
+
+Controller <- Repository: List<Alumno>
+deactivate Controller
+
+View <- Controller: List<Alumno>
+deactivate View
+
+note over View
+Muestra alumnos matriculados
+Permite búsqueda y selección múltiple
+Permite solicitar asignación
+end note
+
+View -> Controller: generarAsignaciones(seleccionados)
+activate Controller
+
+loop para cada alumno seleccionado
+    Controller -> Controller: generarClaveAlfanumerica()
+    Controller -> Repository: vincularExamen(alumno, clave)
+    activate Repository
+    deactivate Repository
+end
+
+View <- Controller: exito
+deactivate Controller
+
+note over View
+Informa éxito de asignación
+Navega a COMPLETAR_GESTIÓN
+end note
+
+@enduml

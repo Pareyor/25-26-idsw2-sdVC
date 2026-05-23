@@ -5,7 +5,7 @@
 - **Proyecto**: IdSw1-SdR / VC
 - **Fase RUP**: Elaboración
 - **Disciplina**: Análisis y Diseño
-- **Versión**: 1.0
+- **Versión**: 1.1
 - **Autor**: Gemini CLI
 
 ## propósito
@@ -39,54 +39,33 @@ Análisis de colaboración del caso de uso `generarExamenes()` mediante el patr�
 #### GenerarExamenesView
 **Estereotipo**: Vista (Boundary)  
 **Responsabilidades**:
-- Recibir la solicitud de generación de exámenes.
-- Presentar la interfaz para introducir parámetros (Asignatura, Temas, etc.).
-- Mostrar progreso y resultados de la generación.
-- Gestionar cancelación de la generación.
+- Capturar los parámetros de generación (Asignatura, Temas, nº de exámenes, etc.).
+- Presentar la previsualización de los exámenes generados.
+- Permitir la descarga o confirmación de la generación.
 
 **Colaboraciones**:
-- **Entrada**: Recibe solicitud del Docente.
-- **Control**: Se comunica con `GeneracionController`.
-- **Salida**: Navega a `EXAMENES_GENERADOS` tras éxito.
+- **Entrada**: Docente.
+- **Control**: `ExamenController`.
 
 ### clases de control
 
-#### GeneracionController
+#### ExamenController
 **Estereotipo**: Control  
 **Responsabilidades**:
-- Coordinar el proceso completo de generación.
-- Delegar validación de datos mínimos a `Validador`.
-- Coordinar la ejecución del algoritmo de generación.
+- Orquestar la lógica de selección aleatoria de preguntas basada en filtros.
+- Gestionar el ensamblado de los objetos de examen.
+- Coordinar la persistencia de la generación.
 
 **Colaboraciones**:
 - **Vista**: Responde a `GenerarExamenesView`.
-- **Validador**: Delega validaciones.
-- **Generador**: Delega generación algorítmica a `ExamenGenerator`.
+- **Repositorio**: `PreguntaRepository`, `ExamenRepository`.
 
 ### clases de entidad (entity)
 
-#### ExamenGenerator
+#### PreguntaRepository
 **Estereotipo**: Entidad  
 **Responsabilidades**:
-- Encapsular la lógica del algoritmo de generación de exámenes.
-- Seleccionar preguntas basadas en dificultad y temas.
-- Generar los diferentes tipos de examen solicitados.
+- Proporcionar acceso filtrado a las preguntas de la batería.
 
 **Colaboraciones**:
-- **Control**: Responde a `GeneracionController`.
-- **Repositorio**: Solicita datos a `ExamenRepository`.
-
-#### ExamenRepository
-**Estereotipo**: Entidad  
-**Responsabilidades**:
-- Proporcionar acceso a bancos de preguntas, asignaturas y temas.
-- Persistir los exámenes generados.
-
-**Colaboraciones**:
-- **Generador**: Suministra datos maestros.
-
-#### Validador
-**Estereotipo**: Entidad  
-**Responsabilidades**:
-- Verificar que se han introducido todos los datos obligatorios.
-- Validar que existan suficientes preguntas para los parámetros solicitados.
+- **Control**: Responde a `ExamenController`.

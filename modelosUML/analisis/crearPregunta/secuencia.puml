@@ -1,0 +1,41 @@
+@startuml crearPregunta-secuencia
+skinparam linetype polyline
+
+participant ":PREGUNTAS_ABIERTO" as Sistema
+participant ":CrearPreguntaView" as View
+participant ":PreguntaController" as Controller
+participant ":PreguntaRepository" as Repository
+participant ":Pregunta" as Entity
+
+Sistema -> View: crearPregunta()
+activate View
+
+note over View
+Presenta formulario de datos mínimos:
+• Enunciado, Asignatura, Tema, Dificultad
+end note
+
+View -> Controller: registrarPregunta(datos)
+activate Controller
+
+Controller -> Repository: crear(datos)
+activate Repository
+
+Repository -> Entity: <<create>>
+activate Entity
+deactivate Entity
+
+deactivate Repository
+
+Controller <- Repository: Pregunta
+deactivate Controller
+
+View <- Controller: Pregunta
+deactivate View
+
+note over View
+Navegación automática (C->U):
+Navega a :Collaboration EditarPregunta
+end note
+
+@enduml

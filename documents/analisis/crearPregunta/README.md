@@ -5,7 +5,7 @@
 - **Proyecto**: IdSw1-SdR / VC
 - **Fase RUP**: Elaboración
 - **Disciplina**: Análisis y Diseño
-- **Versión**: 1.0
+- **Versión**: 1.1
 - **Autor**: Gemini CLI
 
 ## propósito
@@ -39,32 +39,33 @@ Análisis de colaboración del caso de uso `crearPregunta()` mediante el patrón
 #### CrearPreguntaView
 **Estereotipo**: Vista (Boundary)  
 **Responsabilidades**:
-- Presentar el formulario de creación con campos obligatorios (Asignatura, Enunciado, Tema, Dificultad).
-- Validar preliminarmente la completitud de los datos en el cliente.
-- Redirigir al usuario a la vista de edición tras la creación exitosa.
-- Permitir la cancelación de la operación.
+- Mostrar el formulario de alta rápida (datos mínimos).
+- Gestionar la solicitud de creación inicial.
+- Navegar automáticamente a la edición detallada.
 
 **Colaboraciones**:
-- **Entrada**: Docente inicia desde el listado de preguntas.
-- **Control**: Se comunica con `PreguntaController`.
-- **Salida**: Navega a `PREGUNTA_ABIERTO` (edición) o vuelve al listado.
+- **Entrada**: Docente.
+- **Control**: `PreguntaController`.
+- **Salida**: Navega a `PREGUNTA_ABIERTO` (vía `editarPregunta()`).
 
 ### clases de control
 
 #### PreguntaController
 **Estereotipo**: Control  
 **Responsabilidades**:
-- Gestionar el ciclo de vida de la creación de la pregunta.
-- Asegurar que se cumplan las precondiciones de negocio para la creación.
+- Validar y persistir la pregunta básica.
+- Coordinar con la vista la redirección post-creación.
 
 **Colaboraciones**:
-- **Vista**: Recibe solicitudes de `CrearPreguntaView`.
-- **Entidad**: Utiliza `PreguntaRepository`.
+- **Vista**: Responde a `CrearPreguntaView`.
+- **Repositorio**: `PreguntaRepository`.
 
 ### clases de entidad (entity)
 
 #### PreguntaRepository
 **Estereotipo**: Entidad  
 **Responsabilidades**:
-- Persistir la nueva instancia de la pregunta en la base de datos con los datos mínimos proporcionados.
-- Devolver el objeto creado (o su ID) para permitir la navegación subsiguiente.
+- Almacenar la nueva instancia de Pregunta.
+
+**Colaboraciones**:
+- **Control**: Responde a `PreguntaController`.

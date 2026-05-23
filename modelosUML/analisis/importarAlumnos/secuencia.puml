@@ -1,0 +1,44 @@
+@startuml importarAlumnos-secuencia
+skinparam linetype polyline
+
+participant ":ALUMNOS_ABIERTO" as Sistema
+participant ":ImportarAlumnosView" as View
+participant ":AlumnoController" as Controller
+participant ":AlumnoRepository" as Repository
+participant ":Alumno" as Entity
+
+Sistema -> View: importarAlumnos()
+activate View
+
+note over View
+Permite seleccionar archivo (CSV/Excel)
+Muestra previsualización de datos
+end note
+
+View -> Controller: importarDatos(archivo)
+activate Controller
+
+loop por cada registro
+    Controller -> Controller: validarFormato(datos)
+    
+    Controller -> Repository: existe(dni)
+    activate Repository
+    deactivate Repository
+    
+    alt no existe
+        Controller -> Repository: save(alumno)
+        activate Repository
+        Repository -> Entity: <<create>>
+        deactivate Repository
+    end
+end
+
+View <- Controller: totalImportados
+deactivate Controller
+
+note over View
+Presenta resumen de importación
+Regresa a la lista de alumnos
+end note
+
+@enduml
