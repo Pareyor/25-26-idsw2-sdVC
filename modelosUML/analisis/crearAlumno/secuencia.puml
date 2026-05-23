@@ -1,0 +1,41 @@
+@startuml crearAlumno-secuencia
+skinparam linetype polyline
+
+participant ":ALUMNOS_ABIERTO" as Sistema
+participant ":CrearAlumnoView" as View
+participant ":AlumnoController" as Controller
+participant ":AlumnoRepository" as Repository
+participant ":Alumno" as Entity
+
+Sistema -> View: crearAlumno()
+activate View
+
+note over View
+Presenta formulario de datos mínimos:
+• Nombre, Apellidos, DNI
+end note
+
+View -> Controller: registrarAlumno(datos)
+activate Controller
+
+Controller -> Repository: crear(datos)
+activate Repository
+
+Repository -> Entity: <<create>>
+activate Entity
+deactivate Entity
+
+deactivate Repository
+
+Controller <- Repository: Alumno
+deactivate Controller
+
+View <- Controller: Alumno
+deactivate View
+
+note over View
+Navegación automática (C->U):
+Navega a :Collaboration EditarAlumno
+end note
+
+@enduml

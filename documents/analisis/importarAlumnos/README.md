@@ -12,13 +12,23 @@
 
 Análisis de colaboración para la importación específica de alumnos.
 
-## diagrama de colaboración
+## diagramas de análisis
 
+### diagrama de colaboración
 <div align=center>
 
 |![Análisis: importarAlumnos()](../../../modelosUML/analisis/importarAlumnos/colaboracion.svg)|
 |-|
-|Código fuente: [colaboracion.puml](../../../modelosUML/analisis/importarAlumnos/colaboracion.puml)|
+|Código fuente: [colaboracion.puml](colaboracion.puml)|
+
+</div>
+
+### diagrama de secuencia
+<div align=center>
+
+|![Secuencia: importarAlumnos()](../../../modelosUML/analisis/importarAlumnos/secuencia.svg)|
+|-|
+|Código fuente: [secuencia.puml](secuencia.puml)|
 
 </div>
 

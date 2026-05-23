@@ -1,0 +1,53 @@
+@startuml editarAsignatura-secuencia
+skinparam linetype polyline
+
+participant ":ASIGNATURAS_ABIERTO" as Sistema
+participant ":EditarAsignaturaView" as View
+participant ":AsignaturaController" as Controller
+participant ":AsignaturaRepository" as Repository
+participant ":Asignatura" as Entity
+
+Sistema -> View: editarAsignatura(id)
+activate View
+
+View -> Controller: obtenerAsignatura(id)
+activate Controller
+
+Controller -> Repository: findById(id)
+activate Repository
+
+Repository -> Entity: crear instancia
+deactivate Repository
+
+Controller <- Repository: Asignatura
+deactivate Controller
+
+View <- Controller: Asignatura
+deactivate View
+
+note over View
+Presenta datos de la asignatura:
+• Código, Título, Curso académico
+• Listado de Alumnos y Grados
+• Permite: modificar, guardar, ver preguntas, generar exámenes
+end note
+
+View -> Controller: actualizarAsignatura(datos)
+activate Controller
+
+Controller -> Entity: aplicarCambios(datos)
+activate Entity
+deactivate Entity
+
+Controller -> Repository: save(asignatura)
+activate Repository
+deactivate Repository
+
+View <- Controller: exito
+deactivate Controller
+
+note over View
+Presenta mensaje de éxito
+end note
+
+@enduml

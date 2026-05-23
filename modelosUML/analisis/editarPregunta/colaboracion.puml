@@ -1,0 +1,34 @@
+@startuml editarPregunta-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":PREGUNTAS_ABIERTO" as PreguntasAbierto
+rectangle #CDEBA5 ":PREGUNTA_ABIERTO" as PreguntaAbierto
+rectangle #CDEBA5 ":Collaboration CrearPregunta" as CrearPregunta
+rectangle #CDEBA5 ":Collaboration AbrirPreguntas" as AbrirPreguntas
+rectangle #CDEBA5 ":Collaboration VerRespuestas" as VerRespuestas
+
+package editarPregunta as "editarPregunta()" {
+    rectangle #629EF9 EditarPreguntaView
+    rectangle #b5bd68 PreguntaController
+    rectangle #F2AC4E PreguntaRepository
+    rectangle #F2AC4E Pregunta
+}
+
+PreguntasAbierto --> EditarPreguntaView: editarPregunta(preguntaId)
+PreguntaAbierto --> EditarPreguntaView: editarPregunta(preguntaId)
+CrearPregunta --> EditarPreguntaView: editarPregunta(preguntaNueva)
+
+EditarPreguntaView -d-> PreguntaController: cargarPreguntaParaEdición(preguntaId) : Pregunta
+
+PreguntaController --> PreguntaRepository: obtenerPorId(preguntaId) : Pregunta
+
+EditarPreguntaView --> PreguntaController: modificarCampos(preguntaId, cambios) : boolean
+
+PreguntaController --> PreguntaRepository: actualizar(pregunta) : boolean
+
+PreguntaRepository -- Pregunta
+
+EditarPreguntaView ..> AbrirPreguntas: <<include>> abrirPreguntas()
+EditarPreguntaView ..> VerRespuestas: <<include>> verRespuestas()
+
+@enduml

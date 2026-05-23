@@ -1,0 +1,25 @@
+@startuml crearAlumno-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":ALUMNOS_ABIERTO" as AlumnosAbierto
+rectangle #CDEBA5 ":Collaboration EditarAlumno" as EditarAlumno
+rectangle #CDEBA5 ":Collaboration AbrirAlumnos" as AbrirAlumnos
+
+package crearAlumno as "crearAlumno()" {
+    rectangle #629EF9 CrearAlumnoView
+    rectangle #b5bd68 AlumnoController
+    rectangle #F2AC4E AlumnoRepository
+    rectangle #F2AC4E Alumno
+}
+
+AlumnosAbierto --> CrearAlumnoView: crearAlumno()
+
+CrearAlumnoView -d-> AlumnoController: crearAlumno(datosMínimos) : Alumno
+
+AlumnoController --> AlumnoRepository: crear(datosMínimos) : Alumno
+AlumnoRepository -- Alumno
+
+CrearAlumnoView ..> EditarAlumno: <<include>> editarAlumno(alumnoNuevo)
+CrearAlumnoView ..> AbrirAlumnos: <<include>> [cancelar] abrirAlumnos()
+
+@enduml

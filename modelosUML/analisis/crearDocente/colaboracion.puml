@@ -1,0 +1,25 @@
+@startuml crearDocente-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":DOCENTES_ABIERTO" as DocentesAbierto
+rectangle #CDEBA5 ":Collaboration EditarDocente" as EditarDocente
+rectangle #CDEBA5 ":Collaboration AbrirDocentes" as AbrirDocentes
+
+package crearDocente as "crearDocente()" {
+    rectangle #629EF9 CrearDocenteView
+    rectangle #b5bd68 DocenteController
+    rectangle #F2AC4E DocenteRepository
+    rectangle #F2AC4E Docente
+}
+
+DocentesAbierto --> CrearDocenteView: crearDocente()
+
+CrearDocenteView -d-> DocenteController: crearDocente(datosMínimos) : Docente
+
+DocenteController --> DocenteRepository: crear(datosMínimos) : Docente
+DocenteRepository -- Docente
+
+CrearDocenteView ..> EditarDocente: <<include>> editarDocente(docenteNuevo)
+CrearDocenteView ..> AbrirDocentes: <<include>> [cancelar] abrirDocentes()
+
+@enduml

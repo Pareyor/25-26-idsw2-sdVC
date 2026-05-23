@@ -1,0 +1,42 @@
+@startuml crearDocente-secuencia
+skinparam linetype polyline
+
+participant ":DOCENTES_ABIERTO" as Sistema
+participant ":CrearDocenteView" as View
+participant ":DocenteController" as Controller
+participant ":DocenteRepository" as Repository
+participant ":Docente" as Entity
+
+Sistema -> View: crearDocente()
+activate View
+
+note over View
+Presenta formulario de datos mínimos:
+• Nombre, Apellidos, DNI
+• Usuario, Email, Password
+end note
+
+View -> Controller: registrarDocente(datos)
+activate Controller
+
+Controller -> Repository: crear(datos)
+activate Repository
+
+Repository -> Entity: <<create>>
+activate Entity
+deactivate Entity
+
+deactivate Repository
+
+Controller <- Repository: Docente
+deactivate Controller
+
+View <- Controller: Docente
+deactivate View
+
+note over View
+Navegación automática (C->U):
+Navega a :Collaboration EditarDocente
+end note
+
+@enduml

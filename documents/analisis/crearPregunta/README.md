@@ -12,13 +12,23 @@
 
 Análisis de colaboración del caso de uso `crearPregunta()` mediante el patrón MVC. Este caso de uso aplica la filosofía de "creación rápida" con datos mínimos y transferencia inmediata a la edición detallada.
 
-## diagrama de colaboración
+## diagramas de análisis
 
+### diagrama de colaboración
 <div align=center>
 
 |![Análisis: crearPregunta()](../../../modelosUML/analisis/crearPregunta/colaboracion.svg)|
 |-|
-|Código fuente: [colaboracion.puml](../../../modelosUML/analisis/crearPregunta/colaboracion.puml)|
+|Código fuente: [colaboracion.puml](colaboracion.puml)|
+
+</div>
+
+### diagrama de secuencia
+<div align=center>
+
+|![Secuencia: crearPregunta()](../../../modelosUML/analisis/crearPregunta/secuencia.svg)|
+|-|
+|Código fuente: [secuencia.puml](secuencia.puml)|
 
 </div>
 

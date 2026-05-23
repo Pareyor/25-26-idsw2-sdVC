@@ -12,13 +12,23 @@
 
 Análisis de colaboración del caso de uso `asignarExamenes()` mediante el patrón MVC. Este proceso permite al docente vincular los exámenes previamente generados con los alumnos correspondientes.
 
-## diagrama de colaboración
+## diagramas de análisis
 
+### diagrama de colaboración
 <div align=center>
 
 |![Análisis: asignarExamenes()](../../../modelosUML/analisis/asignarExamenes/colaboracion.svg)|
 |-|
-|Código fuente: [colaboracion.puml](../../../modelosUML/analisis/asignarExamenes/colaboracion.puml)|
+|Código fuente: [colaboracion.puml](colaboracion.puml)|
+
+</div>
+
+### diagrama de secuencia
+<div align=center>
+
+|![Secuencia: asignarExamenes()](../../../modelosUML/analisis/asignarExamenes/secuencia.svg)|
+|-|
+|Código fuente: [secuencia.puml](secuencia.puml)|
 
 </div>
 

@@ -12,13 +12,23 @@
 
 Análisis de colaboración del caso de uso `generarExamenes()` mediante el patrón MVC, identificando las clases de análisis, sus responsabilidades y colaboraciones necesarias para la generación algorítmica de exámenes.
 
-## diagrama de colaboración
+## diagramas de análisis
 
+### diagrama de colaboración
 <div align=center>
 
 |![Análisis: generarExamenes()](../../../modelosUML/analisis/generarExamenes/colaboracion.svg)|
 |-|
-|Código fuente: [colaboracion.puml](../../../modelosUML/analisis/generarExamenes/colaboracion.puml)|
+|Código fuente: [colaboracion.puml](colaboracion.puml)|
+
+</div>
+
+### diagrama de secuencia
+<div align=center>
+
+|![Secuencia: generarExamenes()](../../../modelosUML/analisis/generarExamenes/secuencia.svg)|
+|-|
+|Código fuente: [secuencia.puml](secuencia.puml)|
 
 </div>
 

@@ -12,13 +12,23 @@
 
 Análisis de colaboración del caso de uso `corregirExamenes()` mediante el patrón MVC, identificando las clases de análisis, sus responsabilidades y colaboraciones necesarias para el proceso de corrección de exámenes.
 
-## diagrama de colaboración
+## diagramas de análisis
 
+### diagrama de colaboración
 <div align=center>
 
 |![Análisis: corregirExamenes()](../../../modelosUML/analisis/corregirExamenes/colaboracion.svg)|
 |-|
-|Código fuente: [colaboracion.puml](../../../modelosUML/analisis/corregirExamenes/colaboracion.puml)|
+|Código fuente: [colaboracion.puml](colaboracion.puml)|
+
+</div>
+
+### diagrama de secuencia
+<div align=center>
+
+|![Secuencia: corregirExamenes()](../../../modelosUML/analisis/corregirExamenes/secuencia.svg)|
+|-|
+|Código fuente: [secuencia.puml](secuencia.puml)|
 
 </div>
 

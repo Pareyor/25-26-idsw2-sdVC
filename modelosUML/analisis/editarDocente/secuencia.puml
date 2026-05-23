@@ -1,0 +1,49 @@
+@startuml editarDocente-secuencia
+skinparam linetype polyline
+
+participant ":DOCENTES_ABIERTO" as Sistema
+participant ":EditarDocenteView" as View
+participant ":DocenteController" as Controller
+participant ":DocenteRepository" as Repository
+participant ":Docente" as Entity
+
+Sistema -> View: editarDocente(id)
+activate View
+
+View -> Controller: obtenerDocente(id)
+activate Controller
+
+Controller -> Repository: findById(id)
+activate Repository
+
+Repository -> Entity: crear instancia
+deactivate Repository
+
+Controller <- Repository: Docente
+deactivate Controller
+
+View <- Controller: Docente
+deactivate View
+
+note over View
+Presenta datos del docente:
+• Nombre, Apellidos, DNI
+• Usuario, Email, Password
+• Permite: modificar, guardar, eliminar, cancelar
+end note
+
+View -> Controller: actualizarDocente(datos)
+activate Controller
+
+Controller -> Entity: aplicarCambios(datos)
+activate Entity
+deactivate Entity
+
+Controller -> Repository: save(docente)
+activate Repository
+deactivate Repository
+
+View <- Controller: exito
+deactivate Controller
+
+@enduml

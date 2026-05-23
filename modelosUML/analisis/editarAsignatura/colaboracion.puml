@@ -1,0 +1,36 @@
+@startuml editarAsignatura-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":ASIGNATURAS_ABIERTO" as AsignaturasAbierto
+rectangle #CDEBA5 ":ASIGNATURA_ABIERTO" as AsignaturaAbierto
+rectangle #CDEBA5 ":Collaboration CrearAsignatura" as CrearAsignatura
+rectangle #CDEBA5 ":Collaboration AbrirAsignaturas" as AbrirAsignaturas
+rectangle #CDEBA5 ":Collaboration VerPreguntas" as VerPreguntas
+rectangle #CDEBA5 ":Collaboration GenerarExamenes" as GenerarExamenes
+
+package editarAsignatura as "editarAsignatura()" {
+    rectangle #629EF9 EditarAsignaturaView
+    rectangle #b5bd68 AsignaturaController
+    rectangle #F2AC4E AsignaturaRepository
+    rectangle #F2AC4E Asignatura
+}
+
+AsignaturasAbierto --> EditarAsignaturaView: editarAsignatura(asignaturaId)
+AsignaturaAbierto --> EditarAsignaturaView: editarAsignatura(asignaturaId)
+CrearAsignatura --> EditarAsignaturaView: editarAsignatura(asignaturaNueva)
+
+EditarAsignaturaView -d-> AsignaturaController: cargarAsignaturaParaEdición(asignaturaId) : Asignatura
+
+AsignaturaController --> AsignaturaRepository: obtenerPorId(asignaturaId) : Asignatura
+
+EditarAsignaturaView --> AsignaturaController: modificarCampos(asignaturaId, cambios) : boolean
+
+AsignaturaController --> AsignaturaRepository: actualizar(asignatura) : boolean
+
+AsignaturaRepository -- Asignatura
+
+EditarAsignaturaView ..> AbrirAsignaturas: <<include>> abrirAsignaturas()
+EditarAsignaturaView ..> VerPreguntas: <<include>> verPreguntas()
+EditarAsignaturaView ..> GenerarExamenes: <<include>> generarExamenes()
+
+@enduml
