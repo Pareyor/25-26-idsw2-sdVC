@@ -1,0 +1,37 @@
+@startuml crearGrado-secuencia
+skinparam linetype polyline
+
+participant ":GRADOS_ABIERTO" as Sistema
+participant ":CrearGradoView" as View
+participant ":GradoController" as Controller
+participant ":GradoRepository" as Repository
+participant ":Grado" as Entity
+
+Sistema -> View: crearGrado()
+activate View
+
+note over View
+Presenta formulario de creación:
+• Nombre del Grado
+• Selector para vinculación inicial de Alumnos
+• Botones: Crear, Cancelar
+end note
+
+View -> Controller: crearGrado(datos, alumnosIds)
+activate Controller
+
+Controller -> Entity ** : create(datos)
+activate Entity
+Entity -> Entity: vincularAlumnos(alumnosIds)
+deactivate Entity
+
+Controller -> Repository: save(grado)
+activate Repository
+deactivate Repository
+
+View <- Controller: gradoCreado
+deactivate Controller
+
+View -> View: redireccionar a editarGrado(id)
+
+@enduml

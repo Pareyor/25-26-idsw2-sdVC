@@ -1,0 +1,53 @@
+@startuml editarGrado-secuencia
+skinparam linetype polyline
+
+participant ":GRADOS_ABIERTO" as Sistema
+participant ":EditarGradoView" as View
+participant ":GradoController" as Controller
+participant ":GradoRepository" as Repository
+participant ":Grado" as Entity
+
+Sistema -> View: editarGrado(id)
+activate View
+
+View -> Controller: obtenerGrado(id)
+activate Controller
+
+Controller -> Repository: findById(id)
+activate Repository
+
+Repository -> Entity: crear instancia
+deactivate Repository
+
+Controller <- Repository: Grado
+deactivate Controller
+
+View <- Controller: Grado
+deactivate View
+
+note over View
+Presenta datos del grado:
+• Nombre del Grado
+• Listado de Alumnos vinculados
+• Permite: modificar, guardar, asignar exámenes, cancelar
+end note
+
+View -> Controller: actualizarGrado(datos)
+activate Controller
+
+Controller -> Entity: aplicarCambios(datos)
+activate Entity
+deactivate Entity
+
+Controller -> Repository: save(grado)
+activate Repository
+deactivate Repository
+
+View <- Controller: exito
+deactivate Controller
+
+note over View
+Presenta mensaje de éxito
+end note
+
+@enduml

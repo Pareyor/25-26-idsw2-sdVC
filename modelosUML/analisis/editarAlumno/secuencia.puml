@@ -1,0 +1,53 @@
+@startuml editarAlumno-secuencia
+skinparam linetype polyline
+
+participant ":ALUMNOS_ABIERTO" as Sistema
+participant ":EditarAlumnoView" as View
+participant ":AlumnoController" as Controller
+participant ":AlumnoRepository" as Repository
+participant ":Alumno" as Entity
+
+Sistema -> View: editarAlumno(id)
+activate View
+
+View -> Controller: obtenerAlumno(id)
+activate Controller
+
+Controller -> Repository: findById(id)
+activate Repository
+
+Repository -> Entity: crear instancia
+deactivate Repository
+
+Controller <- Repository: Alumno
+deactivate Controller
+
+View <- Controller: Alumno
+deactivate View
+
+note over View
+Presenta datos del alumno:
+• Nombre, Apellidos, DNI, Email
+• Listado de Asignaturas vinculadas
+• Permite: modificar, guardar, cancelar
+end note
+
+View -> Controller: actualizarAlumno(datos)
+activate Controller
+
+Controller -> Entity: aplicarCambios(datos)
+activate Entity
+deactivate Entity
+
+Controller -> Repository: save(alumno)
+activate Repository
+deactivate Repository
+
+View <- Controller: exito
+deactivate Controller
+
+note over View
+Presenta mensaje de éxito
+end note
+
+@enduml

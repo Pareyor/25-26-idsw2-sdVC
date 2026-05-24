@@ -1,0 +1,28 @@
+@startuml verPreguntas-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":ASIGNATURA_ABIERTO" as AsignaturaAbierto
+rectangle #CDEBA5 ":EDITAR_ASIGNATURA_ABIERTO" as EditarAsignaturaAbierto
+rectangle #CDEBA5 ":Collaboration CrearPregunta" as CrearPregunta
+rectangle #CDEBA5 ":Collaboration ImportarPreguntas" as ImportarPreguntas
+
+package verPreguntas as "verPreguntas()" {
+    rectangle #629EF9 VerPreguntasView
+    rectangle #b5bd68 PreguntaController
+    rectangle #F2AC4E PreguntaRepository
+    rectangle #F2AC4E Pregunta
+}
+
+AsignaturaAbierto --> VerPreguntasView: verPreguntas(asignaturaId)
+EditarAsignaturaAbierto --> VerPreguntasView: verPreguntas(asignaturaId)
+
+VerPreguntasView -d-> PreguntaController: obtenerPreguntasFiltradas(filtros) : List<Pregunta>
+
+PreguntaController --> PreguntaRepository: buscarPorFiltros(filtros) : List<Pregunta>
+
+PreguntaRepository -- Pregunta
+
+VerPreguntasView ..> CrearPregunta: <<include>> crearPregunta()
+VerPreguntasView ..> ImportarPreguntas: <<include>> importarPreguntas()
+
+@enduml

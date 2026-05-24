@@ -1,0 +1,28 @@
+@startuml crearAsignatura-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":ASIGNATURAS_ABIERTO" as AsignaturasAbierto
+rectangle #CDEBA5 ":Collaboration EditarAsignatura" as EditarAsignatura
+
+package crearAsignatura as "crearAsignatura()" {
+    rectangle #629EF9 CrearAsignaturaView
+    rectangle #b5bd68 AsignaturaController
+    rectangle #F2AC4E AsignaturaRepository
+    rectangle #F2AC4E Asignatura
+    rectangle #F2AC4E BateriaDePreguntas
+}
+
+AsignaturasAbierto --> CrearAsignaturaView: crearAsignatura()
+
+CrearAsignaturaView --> AsignaturaController: crearAsignatura(datos, gradosIds) : Asignatura
+
+AsignaturaController --> Asignatura ** : create(datos)
+AsignaturaController --> BateriaDePreguntas ** : create()
+AsignaturaController --> AsignaturaRepository: guardar(asignatura) : boolean
+
+AsignaturaRepository -- Asignatura
+Asignatura -- BateriaDePreguntas
+
+CrearAsignaturaView ..> EditarAsignatura: <<include>> editarAsignatura(asignaturaId)
+
+@enduml

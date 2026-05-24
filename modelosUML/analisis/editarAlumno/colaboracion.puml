@@ -1,0 +1,32 @@
+@startuml editarAlumno-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":ALUMNOS_ABIERTO" as AlumnosAbierto
+rectangle #CDEBA5 ":ALUMNO_ABIERTO" as AlumnoAbierto
+rectangle #CDEBA5 ":Collaboration CrearAlumno" as CrearAlumno
+rectangle #CDEBA5 ":Collaboration AbrirAlumnos" as AbrirAlumnos
+
+package editarAlumno as "editarAlumno()" {
+    rectangle #629EF9 EditarAlumnoView
+    rectangle #b5bd68 AlumnoController
+    rectangle #F2AC4E AlumnoRepository
+    rectangle #F2AC4E Alumno
+}
+
+AlumnosAbierto --> EditarAlumnoView: editarAlumno(alumnoId)
+AlumnoAbierto --> EditarAlumnoView: editarAlumno(alumnoId)
+CrearAlumno --> EditarAlumnoView: editarAlumno(alumnoNuevo)
+
+EditarAlumnoView -d-> AlumnoController: cargarAlumnoParaEdición(alumnoId) : Alumno
+
+AlumnoController --> AlumnoRepository: obtenerPorId(alumnoId) : Alumno
+
+EditarAlumnoView --> AlumnoController: modificarCampos(alumnoId, cambios) : boolean
+
+AlumnoController --> AlumnoRepository: actualizar(alumno) : boolean
+
+AlumnoRepository -- Alumno
+
+EditarAlumnoView ..> AbrirAlumnos: <<include>> abrirAlumnos()
+
+@enduml

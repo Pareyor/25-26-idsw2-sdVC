@@ -1,0 +1,44 @@
+@startuml crearAsignatura-secuencia
+skinparam linetype polyline
+
+participant ":ASIGNATURAS_ABIERTO" as Sistema
+participant ":CrearAsignaturaView" as View
+participant ":AsignaturaController" as Controller
+participant ":AsignaturaRepository" as Repository
+participant ":Asignatura" as Entity
+participant ":BateriaDePreguntas" as Bateria
+
+Sistema -> View: crearAsignatura()
+activate View
+
+note over View
+Presenta formulario de creación:
+• Título, Código, Curso académico
+• Selector para vinculación inicial de Grados
+• Botones: Crear, Cancelar
+end note
+
+View -> Controller: crearAsignatura(datos, gradosIds)
+activate Controller
+
+Controller -> Entity ** : create(datos)
+activate Entity
+Entity -> Entity: vincularGrados(gradosIds)
+
+Controller -> Bateria ** : create()
+activate Bateria
+deactivate Bateria
+
+Entity -> Bateria: asignarBateria(bateria)
+deactivate Entity
+
+Controller -> Repository: save(asignatura)
+activate Repository
+deactivate Repository
+
+View <- Controller: asignaturaCreada
+deactivate Controller
+
+View -> View: redireccionar a editarAsignatura(id)
+
+@enduml

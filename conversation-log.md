@@ -47,3 +47,17 @@
 
 **Decisión:** Se ha modificado el análisis de casos de uso ya implementados (1-10) para corregir la forma en que hacía los diagramas de secuencia, se estableció un mismo formato para realizarlos, basandose en pySighor y amoldándose al proyecto JORGESTOR. Se modificó el caso de uso editarAsignatura() porque la IA no detectaba la colaboración con verPreguntas() y pasaba lo mismo en editarPregunta() que no detectaba la colaboración con verRespuestas(). Por se unificó el nombre del proyecto ya que el agente IA ponía siempre de base IdSw1.
 
+## Sesión 5: [24/05/2026][12:45] Análisis de Casos de Uso 16-20 y Alineación con Prototipos y Estilo Visual
+
+**Prompt:** Análisis de los casos de uso 16-20 (editarAlumno, crearGrado, crearAsignatura, editarGrado, verPreguntas) siguiendo el patrón MVC, validando contra sus prototipos y estandarizando el estilo visual (colores y estructura) basándose en el ejemplo `editarAsignatura`.
+
+**Resultado:**
+- Generación de análisis MVC completo y diagramas (Colaboración y Secuencia) para los casos 16-20.
+- Aplicación del estilo visual estandarizado: colores específicos para capas MVC (`#CDEBA5`, `#629EF9`, `#b5bd68`, `#F2AC4E`) y uso de `rectangle` en colaboraciones.
+- Inclusión de notas de interfaz detalladas en los diagramas de secuencia basadas en los wireframes de prototipado.
+- Refinamiento de la lógica de creación (`crearGrado`, `crearAsignatura`) para incluir asociaciones iniciales y redirección automática.
+- Actualización de los `README.md` de análisis documentando los patrones "El Gordo" y "El Delgado".
+
+**Enlace:** [Conversación Sesión 5](conversations/sesion-24-05-26.md)
+
+**Decisión:** Se aceptó el análisis inicial de los 5 casos de uso, pero se modificó posteriormente para cumplir con dos requisitos críticos: 1) la alineación con los prototipos visuales (se añadieron campos de selección de alumnos y grados en las creaciones) y 2) la estandarización estética total siguiendo el modelo de `editarAsignatura`. Se corrigió la falta de mención a la `BateriaDePreguntas` en `crearAsignatura` y se detalló el bucle de filtrado en `verPreguntas`.
