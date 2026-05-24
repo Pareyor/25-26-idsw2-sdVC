@@ -60,4 +60,4 @@
 
 **Enlace:** [Conversación Sesión 5](conversations/sesion-24-05-26.md)
 
-**Decisión:** Se aceptó el análisis inicial de los 5 casos de uso, pero se modificó posteriormente para cumplir con dos requisitos críticos: 1) la alineación con los prototipos visuales (se añadieron campos de selección de alumnos y grados en las creaciones) y 2) la estandarización estética total siguiendo el modelo de `editarAsignatura`. Se corrigió la falta de mención a la `BateriaDePreguntas` en `crearAsignatura` y se detalló el bucle de filtrado en `verPreguntas`.
+**Decisión:** Esta vez no se acepto ningún análisis de los casos de uso generados por la IA, fue necesario cambiar todos los diagramas de colaboración ya que no se incluían las relaciones explícitas con los repositorios y no seguían el diseño general aplicado para los casos de uso analizados previamente en otras sesiones, se tuvo que realizar un segundo ciclo para formatear todos los análisis proporcionados inicialmente por la IA. 
