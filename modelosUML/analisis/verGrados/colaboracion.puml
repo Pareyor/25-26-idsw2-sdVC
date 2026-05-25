@@ -1,7 +1,8 @@
 @startuml verGrados-analisis
 skinparam linetype polyline
 
-rectangle #CDEBA5 ":MAIN_VIEW" as MainView
+rectangle #CDEBA5 ":SISTEMA_DISPONIBLE" as SistemaDisponible
+rectangle #CDEBA5 ":GRADO_ABIERTO" as GradoAbierto
 rectangle #CDEBA5 ":Collaboration CrearGrado" as CrearGrado
 rectangle #CDEBA5 ":Collaboration EditarGrado" as EditarGrado
 rectangle #CDEBA5 ":Collaboration EliminarGrado" as EliminarGrado
@@ -15,7 +16,8 @@ package verGrados as "verGrados()" {
     rectangle #F2AC4E Grado
 }
 
-MainView --> VerGradosView: verGrados()
+SistemaDisponible --> VerGradosView: verGrados()
+GradoAbierto --> VerGradosView: verGrados()
 
 VerGradosView -d-> GradoController: obtenerGrados() : List<Grado>
 
