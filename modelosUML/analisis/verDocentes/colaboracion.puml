@@ -1,0 +1,30 @@
+@startuml verDocentes-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":ADMIN_MAIN_VIEW" as AdminMainView
+rectangle #CDEBA5 ":Collaboration CrearDocente" as CrearDocente
+rectangle #CDEBA5 ":Collaboration EditarDocente" as EditarDocente
+rectangle #CDEBA5 ":Collaboration EliminarDocente" as EliminarDocente
+rectangle #CDEBA5 ":Collaboration CompletarGestion" as CompletarGestion
+
+package verDocentes as "verDocentes()" {
+    rectangle #629EF9 VerDocentesView
+    rectangle #b5bd68 DocenteController
+    rectangle #F2AC4E DocenteRepository
+    rectangle #F2AC4E Docente
+}
+
+AdminMainView --> VerDocentesView: verDocentes()
+
+VerDocentesView -d-> DocenteController: obtenerDocentes() : List<Docente>
+
+DocenteController --> DocenteRepository: findAll() : List<Docente>
+
+DocenteRepository -- Docente
+
+VerDocentesView ..> CrearDocente: <<include>> crearDocente()
+VerDocentesView ..> EditarDocente: <<include>> editarDocente(id)
+VerDocentesView ..> EliminarDocente: <<include>> eliminarDocente(id)
+VerDocentesView ..> CompletarGestion: <<include>> completarGestion()
+
+@enduml
