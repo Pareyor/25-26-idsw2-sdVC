@@ -1,7 +1,8 @@
 @startuml verDocentes-analisis
 skinparam linetype polyline
 
-rectangle #CDEBA5 ":ADMIN_MAIN_VIEW" as AdminMainView
+rectangle #CDEBA5 ":SISTEMA_DISPONIBLE" as SistemaDisponible
+rectangle #CDEBA5 ":DOCENTE_ABIERTO" as DocenteAbierto
 rectangle #CDEBA5 ":Collaboration CrearDocente" as CrearDocente
 rectangle #CDEBA5 ":Collaboration EditarDocente" as EditarDocente
 rectangle #CDEBA5 ":Collaboration EliminarDocente" as EliminarDocente
@@ -14,7 +15,8 @@ package verDocentes as "verDocentes()" {
     rectangle #F2AC4E Docente
 }
 
-AdminMainView --> VerDocentesView: verDocentes()
+SistemaDisponible --> VerDocentesView: verDocentes()
+DocenteAbierto --> VerDocentesView: verDocentes()
 
 VerDocentesView -d-> DocenteController: obtenerDocentes() : List<Docente>
 
