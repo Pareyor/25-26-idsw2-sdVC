@@ -1,0 +1,32 @@
+@startuml verGrados-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":MAIN_VIEW" as MainView
+rectangle #CDEBA5 ":Collaboration CrearGrado" as CrearGrado
+rectangle #CDEBA5 ":Collaboration EditarGrado" as EditarGrado
+rectangle #CDEBA5 ":Collaboration EliminarGrado" as EliminarGrado
+rectangle #CDEBA5 ":Collaboration ImportarGrados" as ImportarGrados
+rectangle #CDEBA5 ":Collaboration CompletarGestion" as CompletarGestion
+
+package verGrados as "verGrados()" {
+    rectangle #629EF9 VerGradosView
+    rectangle #b5bd68 GradoController
+    rectangle #F2AC4E GradoRepository
+    rectangle #F2AC4E Grado
+}
+
+MainView --> VerGradosView: verGrados()
+
+VerGradosView -d-> GradoController: obtenerGrados() : List<Grado>
+
+GradoController --> GradoRepository: findAll() : List<Grado>
+
+GradoRepository -- Grado
+
+VerGradosView ..> CrearGrado: <<include>> crearGrado()
+VerGradosView ..> EditarGrado: <<include>> editarGrado(id)
+VerGradosView ..> EliminarGrado: <<include>> eliminarGrado(id)
+VerGradosView ..> ImportarGrados: <<include>> importarGrados()
+VerGradosView ..> CompletarGestion: <<include>> completarGestion()
+
+@enduml
