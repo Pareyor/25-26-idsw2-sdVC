@@ -1,7 +1,8 @@
 @startuml verAlumnos-analisis
 skinparam linetype polyline
 
-rectangle #CDEBA5 ":MAIN_VIEW" as MainView
+rectangle #CDEBA5 ":SISTEMA_DISPONIBLE" as SistemaDisponible
+rectangle #CDEBA5 ":ALUMNO_ABIERTO" as AlumnoAbierto
 rectangle #CDEBA5 ":Collaboration CrearAlumno" as CrearAlumno
 rectangle #CDEBA5 ":Collaboration EditarAlumno" as EditarAlumno
 rectangle #CDEBA5 ":Collaboration EliminarAlumno" as EliminarAlumno
@@ -15,7 +16,8 @@ package verAlumnos as "verAlumnos()" {
     rectangle #F2AC4E Alumno
 }
 
-MainView --> VerAlumnosView: verAlumnos()
+SistemaDisponible --> VerAlumnosView: verAlumnos()
+AlumnoAbierto --> VerAlumnosView: verAlumnos()
 
 VerAlumnosView -d-> AlumnoController: obtenerAlumnos() : List<Alumno>
 
