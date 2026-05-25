@@ -1,0 +1,32 @@
+@startuml verAlumnos-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":MAIN_VIEW" as MainView
+rectangle #CDEBA5 ":Collaboration CrearAlumno" as CrearAlumno
+rectangle #CDEBA5 ":Collaboration EditarAlumno" as EditarAlumno
+rectangle #CDEBA5 ":Collaboration EliminarAlumno" as EliminarAlumno
+rectangle #CDEBA5 ":Collaboration ImportarAlumnos" as ImportarAlumnos
+rectangle #CDEBA5 ":Collaboration CompletarGestion" as CompletarGestion
+
+package verAlumnos as "verAlumnos()" {
+    rectangle #629EF9 VerAlumnosView
+    rectangle #b5bd68 AlumnoController
+    rectangle #F2AC4E AlumnoRepository
+    rectangle #F2AC4E Alumno
+}
+
+MainView --> VerAlumnosView: verAlumnos()
+
+VerAlumnosView -d-> AlumnoController: obtenerAlumnos() : List<Alumno>
+
+AlumnoController --> AlumnoRepository: findAll() : List<Alumno>
+
+AlumnoRepository -- Alumno
+
+VerAlumnosView ..> CrearAlumno: <<include>> crearAlumno()
+VerAlumnosView ..> EditarAlumno: <<include>> editarAlumno(id)
+VerAlumnosView ..> EliminarAlumno: <<include>> eliminarAlumno(id)
+VerAlumnosView ..> ImportarAlumnos: <<include>> importarAlumnos()
+VerAlumnosView ..> CompletarGestion: <<include>> completarGestion()
+
+@enduml
