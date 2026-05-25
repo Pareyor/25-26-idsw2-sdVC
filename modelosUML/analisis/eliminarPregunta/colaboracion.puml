@@ -1,0 +1,26 @@
+@startuml eliminarPregunta-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":VerPreguntasView" as VerPreguntasView
+rectangle #CDEBA5 ":EditarPreguntaView" as EditarPreguntaView
+rectangle #CDEBA5 ":Collaboration VerPreguntas" as CollaborationVerPreguntas
+
+package eliminarPregunta as "eliminarPregunta()" {
+    rectangle #629EF9 ConfirmacionEliminarPreguntaDialog
+    rectangle #b5bd68 PreguntaController
+    rectangle #F2AC4E PreguntaRepository
+    rectangle #F2AC4E Pregunta
+}
+
+VerPreguntasView --> ConfirmacionEliminarPreguntaDialog: eliminarPregunta(id)
+EditarPreguntaView --> ConfirmacionEliminarPreguntaDialog: eliminarPregunta(id)
+
+ConfirmacionEliminarPreguntaDialog -d-> PreguntaController: confirmarEliminacion(id) : boolean
+
+PreguntaController --> PreguntaRepository: eliminar(id) : boolean
+
+PreguntaRepository -- Pregunta
+
+ConfirmacionEliminarPreguntaDialog ..> CollaborationVerPreguntas: <<include>> verPreguntas()
+
+@enduml

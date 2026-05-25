@@ -1,0 +1,37 @@
+@startuml eliminarPregunta-secuencia
+skinparam linetype polyline
+
+participant ":VerPreguntasView" as View
+participant ":ConfirmacionEliminarPreguntaDialog" as Dialog
+participant ":PreguntaController" as Controller
+participant ":PreguntaRepository" as Repository
+
+View -> Dialog: eliminarPregunta(id)
+activate Dialog
+
+note over Dialog
+Muestra diálogo de confirmación:
+"¿Está seguro de que desea eliminar esta pregunta?
+Esta acción no se puede deshacer."
+end note
+
+Dialog -> Dialog: usuario confirma
+activate Dialog
+
+Dialog -> Controller: confirmarEliminacion(id)
+activate Controller
+
+Controller -> Repository: eliminar(id)
+activate Repository
+deactivate Repository
+
+Controller <- Repository: exito
+deactivate Controller
+
+Dialog <- Controller: exito
+deactivate Dialog
+
+Dialog -> View: cerrar y actualizar
+deactivate Dialog
+
+@enduml
