@@ -1,0 +1,32 @@
+@startuml verAsignaturas-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":MAIN_VIEW" as MainView
+rectangle #CDEBA5 ":Collaboration CrearAsignatura" as CrearAsignatura
+rectangle #CDEBA5 ":Collaboration EditarAsignatura" as EditarAsignatura
+rectangle #CDEBA5 ":Collaboration EliminarAsignatura" as EliminarAsignatura
+rectangle #CDEBA5 ":Collaboration ImportarAsignatura" as ImportarAsignatura
+rectangle #CDEBA5 ":Collaboration CompletarGestion" as CompletarGestion
+
+package verAsignaturas as "verAsignaturas()" {
+    rectangle #629EF9 VerAsignaturasView
+    rectangle #b5bd68 AsignaturaController
+    rectangle #F2AC4E AsignaturaRepository
+    rectangle #F2AC4E Asignatura
+}
+
+MainView --> VerAsignaturasView: verAsignaturas()
+
+VerAsignaturasView -d-> AsignaturaController: obtenerAsignaturas() : List<Asignatura>
+
+AsignaturaController --> AsignaturaRepository: findAll() : List<Asignatura>
+
+AsignaturaRepository -- Asignatura
+
+VerAsignaturasView ..> CrearAsignatura: <<include>> crearAsignatura()
+VerAsignaturasView ..> EditarAsignatura: <<include>> editarAsignatura(id)
+VerAsignaturasView ..> EliminarAsignatura: <<include>> eliminarAsignatura(id)
+VerAsignaturasView ..> ImportarAsignatura: <<include>> importarAsignatura()
+VerAsignaturasView ..> CompletarGestion: <<include>> completarGestion()
+
+@enduml
