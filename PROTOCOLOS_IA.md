@@ -13,7 +13,7 @@ Para que la IA tenga contexto de cual es el punto actual del proyecto cuando se 
 - `conversation-log.md` --> Resumen de las sesiones actualizadas con el agente de IA.
 
 ## FINALIZACIÓN
-Cuando se escriba "fin" el agente debe actualizar el archivo `conversation-log.md` con la reciente sesión de la siguiente forma:
+Cuando se escriba "fin" el agente debe añadir al archivo `conversation-log.md` la reciente sesión de la siguiente forma:
 
 ## [HH:MM] Título breve de lo que se pidió
 
