@@ -61,3 +61,17 @@
 **Enlace:** [Conversación Sesión 5](conversations/sesion-24-05-26.md)
 
 **Decisión:** Esta vez no se acepto ningún análisis de los casos de uso generados por la IA, fue necesario cambiar todos los diagramas de colaboración ya que no se incluían las relaciones explícitas con los repositorios y no seguían el diseño general aplicado para los casos de uso analizados previamente en otras sesiones, se tuvo que realizar un segundo ciclo para formatear todos los análisis proporcionados inicialmente por la IA. 
+
+## Sesión 6: [25/05/2026][13:45] Análisis de Casos de Uso 21-25 y Refinamiento de Estándares
+
+**Prompt:** Análisis de los casos de uso 21-25 (verAsignaturas, verGrados, verAlumnos, verDocentes, eliminarPregunta) siguiendo el esquema MVC de Jorgestor, aplicando diagramas de secuencia solo si es necesario y alineando con los diagramas de contexto.
+
+**Resultado:**
+- Generación de análisis MVC y diagramas de colaboración para los CU 21-25.
+- Creación de documentación README.md para cada caso.
+- Diagrama de secuencia para `eliminarPregunta()` (por su lógica de confirmación).
+- Ajuste de estados externos a `:SISTEMA_DISPONIBLE` y adición de accesos desde estados "..._ABIERTO" para mayor coherencia con el contexto.
+
+**Enlace:**[Conversación Sesión 6](conversations/sesion-25-05-26.md)
+**Decisión:** Se aceptaron en un inicio los análisis de los casos de uso del 21-25, sin embargo se tuvieron que realizar cambios para que se ajuste a nuestro proyecto, la IA ponia que se accedía a verDocentes, verAsignatura, verAlumnos y verGrados desde algo que llamó MAIN_VIEW sin embargo basándonos en nuestro diagrama de contexto esto se llama SISTEMA_DISPONIBLE, además a estos casos de uso también se puede acceder desde DOCENTE_ABIERTO, ASIGNATURA_ABIERTO, ALUMNO_ABIERTO y GRADO_ABIERTO respectivamente. 
+
