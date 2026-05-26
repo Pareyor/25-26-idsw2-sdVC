@@ -1,0 +1,39 @@
+@startuml eliminarAsignatura-secuencia
+skinparam linetype polyline
+
+participant ":VerAsignaturasView" as View
+participant ":ConfirmacionEliminarAsignaturaDialog" as Dialog
+participant ":AsignaturaController" as Controller
+participant ":AsignaturaRepository" as Repository
+
+View -> Dialog: eliminarAsignatura(id)
+activate Dialog
+
+note over Dialog
+Muestra diálogo de confirmación:
+"¿Está seguro de eliminar esta asignatura?
+Código: MAT-II
+Nombre: Matemáticas II
+⚠️ ADVERTENCIA: Esta acción es irreversible"
+end note
+
+Dialog -> Dialog: usuario confirma
+activate Dialog
+
+Dialog -> Controller: confirmarEliminacion(id)
+activate Controller
+
+Controller -> Repository: eliminar(id)
+activate Repository
+deactivate Repository
+
+Controller <- Repository: exito
+deactivate Controller
+
+Dialog <- Controller: exito
+deactivate Dialog
+
+Dialog -> View: cerrar y actualizar
+deactivate Dialog
+
+@enduml

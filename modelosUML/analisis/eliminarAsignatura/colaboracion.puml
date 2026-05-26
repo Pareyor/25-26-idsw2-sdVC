@@ -1,0 +1,26 @@
+@startuml eliminarAsignatura-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":VerAsignaturasView" as VerAsignaturasView
+rectangle #CDEBA5 ":EditarAsignaturaView" as EditarAsignaturaView
+rectangle #CDEBA5 ":Collaboration VerAsignaturas" as CollaborationVerAsignaturas
+
+package eliminarAsignatura as "eliminarAsignatura()" {
+    rectangle #629EF9 ConfirmacionEliminarAsignaturaDialog
+    rectangle #b5bd68 AsignaturaController
+    rectangle #F2AC4E AsignaturaRepository
+    rectangle #F2AC4E Asignatura
+}
+
+VerAsignaturasView --> ConfirmacionEliminarAsignaturaDialog: eliminarAsignatura(id)
+EditarAsignaturaView --> ConfirmacionEliminarAsignaturaDialog: eliminarAsignatura(id)
+
+ConfirmacionEliminarAsignaturaDialog -d-> AsignaturaController: confirmarEliminacion(id) : boolean
+
+AsignaturaController --> AsignaturaRepository: eliminar(id) : boolean
+
+AsignaturaRepository -- Asignatura
+
+ConfirmacionEliminarAsignaturaDialog ..> CollaborationVerAsignaturas: <<include>> verAsignaturas()
+
+@enduml
