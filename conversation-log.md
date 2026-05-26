@@ -75,3 +75,17 @@
 **Enlace:**[Conversación Sesión 6](conversations/sesion-25-05-26.md)
 **Decisión:** Se aceptaron en un inicio los análisis de los casos de uso del 21-25, sin embargo se tuvieron que realizar cambios para que se ajuste a nuestro proyecto, la IA ponia que se accedía a verDocentes, verAsignatura, verAlumnos y verGrados desde algo que llamó MAIN_VIEW sin embargo basándonos en nuestro diagrama de contexto esto se llama SISTEMA_DISPONIBLE, además a estos casos de uso también se puede acceder desde DOCENTE_ABIERTO, ASIGNATURA_ABIERTO, ALUMNO_ABIERTO y GRADO_ABIERTO respectivamente. 
 
+## Sesión 7: [26/05/2026][12:30] Análisis de Casos de Uso 26-30 y Refinamiento de Flujos
+
+**Prompt:** Análisis de los casos de uso 26-30 (eliminarAsignatura, eliminarGrado, eliminarAlumno, eliminarDocente, iniciarSesion) siguiendo el patrón MVC, validando contra prototipos y el diagrama de contexto, con diagramas de colaboración (todos) y secuencia (solo necesarios).
+
+**Resultado:**
+- Generación de análisis MVC completo para los CU 26-30.
+- Estandarización de los README.md de análisis basándose en el ejemplo `editarAsignatura`.
+- Ajuste de los diagramas de colaboración para reflejar las entradas desde estados del sistema (`:ASIGNATURAS_ABIERTO`, etc.) en lugar de vistas genéricas.
+- Refinamiento de `iniciarSesion()` para incluir la creación de la entidad `Sesion` y la transición `sistemaDisponible(usuario)`.
+
+**Enlace:**[Conversación Sesión 6](conversations/sesion-26-05-26.md)
+
+**Decisión:** Se modificó el nombre de las vistas de eliminación de "Dialog" a "View" para mantener la consistencia del esquema definido. Se eliminaron los diagramas de secuencia en las eliminaciones por ser procesos directos de confirmación. Se corrigió el flujo de `iniciarSesion` para cumplir con el diagrama de estados específico y la lógica de negocio de creación de sesión.
+
