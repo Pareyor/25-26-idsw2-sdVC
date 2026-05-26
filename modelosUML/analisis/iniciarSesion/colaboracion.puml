@@ -1,0 +1,24 @@
+@startuml iniciarSesion-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":SESION_CERRADA" as SesionCerrada
+rectangle #CDEBA5 ":Collaboration AbrirSistemaDisponible" as AbrirSistemaDisponible
+
+package iniciarSesion as "iniciarSesion()" {
+    rectangle #629EF9 IniciarSesionView
+    rectangle #b5bd68 SesionController
+    rectangle #F2AC4E UsuarioRepository
+    rectangle #F2AC4E Usuario
+}
+
+SesionCerrada --> IniciarSesionView: iniciarSesion()
+
+IniciarSesionView -d-> SesionController: autenticar(usuario, contraseña) : boolean
+
+SesionController --> UsuarioRepository: buscarPorCredenciales(usuario, contraseña) : Usuario
+
+UsuarioRepository -- Usuario
+
+IniciarSesionView ..> AbrirSistemaDisponible: <<include>> [éxito] abrirSistemaDisponible()
+
+@enduml
