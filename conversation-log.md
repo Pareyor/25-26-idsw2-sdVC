@@ -89,3 +89,17 @@
 
 **Decisión:** Se modificó el nombre de las vistas de eliminación de "Dialog" a "View" para mantener la consistencia del esquema definido. Se eliminaron los diagramas de secuencia en las eliminaciones por ser procesos directos de confirmación. Se corrigió el flujo de `iniciarSesion` para cumplir con el diagrama de estados específico y la lógica de negocio de creación de sesión.
 
+## Sesión 8: [27/05/2026][20:00] Análisis de Casos de Uso 31-34 y Refinamiento de Navegación y Sesión
+
+**Prompt:** Análisis de los casos de uso 31-34 (cerrarSesion, completarGestion, verRespuestas, crearRespuesta) siguiendo el patrón MVC, diagramas de contexto y prototipos, aplicando commits individuales por caso de uso.
+
+**Resultado:**
+- Generación de análisis MVC completo para los CU 31-34.
+- **cerrarSesion()**: Refinamiento de la lógica de cancelación (retorno a `SISTEMA_DISPONIBLE`) y actualización de métodos (`eliminarSesion(usuario)`).
+- **completarGestion()**: Implementación como Menú Principal Dinámico, desacoplando la Vista de la Sesión y centralizando la lógica en el controlador con `PermisosRepository` y `OpcionesMenu`.
+- **verRespuestas()**: Inclusión de accesos contextuales y generales desde estados de Pregunta y Respuesta.
+- **crearRespuesta()**: Aplicación del patrón "El Delgado" con soporte para flujos generales y contextuales.
+
+**Enlace:**[Conversación Sesión 8](conversations/sesion-27-05-26.md)
+
+**Decisión:** Se ajustó el análisis de `cerrarSesion` para incluir explícitamente el flujo de cancelación y renombrar el controlador. En `completarGestion`, se rechazó la dependencia directa de la vista con la sesión, moviendo la lógica al controlador y usando un repositorio de permisos, también se cambió la lógica de relaciones propuestas por la IA para que a parte de poder acceder desde casos de uso como verGrado,verDocente,ver/* a completarGestion esta tambien pueda accede a ellos(menu). En `verRespuestas` y `crearRespuesta`, se corrigieron los diagramas de colaboración para alinearlos con todos los puntos de entrada definidos en el diagrama de contexto (contextuales vs generales). Se eliminó el diagrama de secuencia de `crearRespuesta`.
