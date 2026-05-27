@@ -3,6 +3,8 @@ skinparam linetype polyline
 
 rectangle #CDEBA5 ":PREGUNTA_ABIERTO" as PreguntaAbierto
 rectangle #CDEBA5 ":PREGUNTA_CONTEXTUAL_ABIERTO" as PreguntaContextualAbierto
+rectangle #CDEBA5 ":RESPUESTA_ABIERTO" as RespuestaAbierto
+rectangle #CDEBA5 ":RESPUESTA_CONTEXTUAL_ABIERTO" as RespuestaContextualAbierto
 
 rectangle #CDEBA5 ":Collaboration CrearRespuesta" as CrearRespuesta
 rectangle #CDEBA5 ":Collaboration EditarRespuesta" as EditarRespuesta
@@ -18,6 +20,9 @@ package verRespuestas as "verRespuestas()" {
 
 PreguntaAbierto --> VerRespuestasView: verRespuestas(preguntaId)
 PreguntaContextualAbierto --> VerRespuestasView: verRespuestas(preguntaId)
+
+RespuestaAbierto --> VerRespuestasView: verRespuestas(preguntaId)
+RespuestaContextualAbierto --> VerRespuestasView: verRespuestas(preguntaId)
 
 VerRespuestasView -d-> PreguntaController: cargarRespuestas(preguntaId)
 

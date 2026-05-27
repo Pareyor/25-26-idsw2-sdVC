@@ -27,6 +27,15 @@ Análisis de colaboración del caso de uso `verRespuestas()` mediante el patrón
 
 </div>
 
+### diagrama de secuencia
+<div align=center>
+
+|![Secuencia: verRespuestas()](../../../modelosUML/analisis/verRespuestas/secuencia.svg)|
+|-|
+|Código fuente: [secuencia.puml](secuencia.puml)|
+
+</div>
+
 ## clases de análisis identificadas
 
 ### clases de vista (boundary)

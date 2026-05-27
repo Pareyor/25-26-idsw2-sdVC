@@ -1,0 +1,38 @@
+@startuml verRespuestas-secuencia
+skinparam linetype polyline
+
+participant ":PREGUNTA_ABIERTO" as Sistema
+participant ":VerRespuestasView" as View
+participant ":PreguntaController" as Controller
+participant ":RespuestaRepository" as Repository
+participant ":Respuesta" as Entity
+
+Sistema -> View: verRespuestas(preguntaId)
+activate View
+
+View -> Controller: cargarRespuestas(preguntaId)
+activate Controller
+
+Controller -> Repository: buscarPorPregunta(preguntaId)
+activate Repository
+
+Repository -> Entity: <<load>>
+activate Entity
+deactivate Entity
+
+Controller <- Repository: List<Respuesta>
+deactivate Repository
+
+View <- Controller: List<Respuesta>
+deactivate Controller
+
+note over View
+Muestra el listado de respuestas:
+• Contenido
+• ¿Es correcta?
+• Opciones: Editar, Eliminar, Crear, Salir
+end note
+
+deactivate View
+
+@enduml
