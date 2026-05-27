@@ -1,0 +1,33 @@
+@startuml verRespuestas-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":PREGUNTA_ABIERTO" as PreguntaAbierto
+rectangle #CDEBA5 ":PREGUNTA_CONTEXTUAL_ABIERTO" as PreguntaContextualAbierto
+
+rectangle #CDEBA5 ":Collaboration CrearRespuesta" as CrearRespuesta
+rectangle #CDEBA5 ":Collaboration EditarRespuesta" as EditarRespuesta
+rectangle #CDEBA5 ":Collaboration EliminarRespuesta" as EliminarRespuesta
+rectangle #CDEBA5 ":Collaboration EditarPregunta" as EditarPregunta
+
+package verRespuestas as "verRespuestas()" {
+    rectangle #629EF9 VerRespuestasView
+    rectangle #b5bd68 PreguntaController
+    rectangle #F2AC4E RespuestaRepository
+    rectangle #F2AC4E Respuesta
+}
+
+PreguntaAbierto --> VerRespuestasView: verRespuestas(preguntaId)
+PreguntaContextualAbierto --> VerRespuestasView: verRespuestas(preguntaId)
+
+VerRespuestasView -d-> PreguntaController: cargarRespuestas(preguntaId)
+
+PreguntaController --> RespuestaRepository: buscarPorPregunta(preguntaId) : List<Respuesta>
+
+RespuestaRepository -- Respuesta
+
+VerRespuestasView ..> CrearRespuesta: crearRespuesta()
+VerRespuestasView ..> EditarRespuesta: editarRespuesta(id)
+VerRespuestasView ..> EliminarRespuesta: eliminarRespuesta(id)
+VerRespuestasView ..> EditarPregunta: salir()
+
+@enduml

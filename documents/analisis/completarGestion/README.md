@@ -46,18 +46,13 @@ Análisis de colaboración del caso de uso `completarGestion()` mediante el patr
 #### CompletarGestionController
 **Estereotipo**: Control  
 **Responsabilidades**:
-- Identificar al usuario a través de la `Sesion` activa.
-- Consultar en `PermisosRepository` las funciones habilitadas para dicho usuario.
+- Coordinar la obtención de opciones de menú permitidas para el perfil de usuario.
 - Instanciar y configurar el objeto `OpcionesMenu` para la vista.
 
 **Colaboraciones**:
-- **Entidad**: `Sesion`, `PermisosRepository`, `OpcionesMenu`.
+- **Entidad**: `PermisosRepository`, `OpcionesMenu`.
 
 ### clases de entidad (entity)
-
-#### Sesion
-**Estereotipo**: Entidad  
-**Responsabilidades**: Proveer el contexto del usuario actual (`getUsuarioActual`).
 
 #### PermisosRepository
 **Estereotipo**: Entidad (Repositorio)  
@@ -72,7 +67,6 @@ Análisis de colaboración del caso de uso `completarGestion()` mediante el patr
 ### secuencia: carga de menú centralizada
 
 1. **Invocación**: La vista solicita `cargarMenu()` sin parámetros.
-2. **Contextualización**: El controlador recupera el usuario de la sesión global.
-3. **Autorización**: Se obtienen las opciones permitidas del repositorio.
-4. **Construcción**: El controlador ensambla el objeto `OpcionesMenu`.
-5. **Respuesta**: El controlador inyecta el menú construido en la vista para su visualización.
+2. **Autorización**: Se obtienen las opciones permitidas del repositorio.
+3. **Construcción**: El controlador ensambla el objeto `OpcionesMenu`.
+4. **Respuesta**: El controlador inyecta el menú construido en la vista para su visualización.
