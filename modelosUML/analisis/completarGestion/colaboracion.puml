@@ -1,0 +1,64 @@
+@startuml completarGestion-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":SISTEMA_DISPONIBLE" as SistemaDisponible
+
+rectangle #CDEBA5 ":GRADOS_ABIERTO" as GradosAbierto
+rectangle #CDEBA5 ":ASIGNATURAS_ABIERTO" as AsignaturasAbierto
+rectangle #CDEBA5 ":ALUMNOS_ABIERTO" as AlumnosAbierto
+rectangle #CDEBA5 ":PREGUNTAS_ABIERTO" as PreguntasAbierto
+rectangle #CDEBA5 ":EXAMENES_ASIGNADOS" as ExamenesAsignados
+rectangle #CDEBA5 ":EXAMENES_CORREGIDOS" as ExamenesCorregidos
+rectangle #CDEBA5 ":DOCENTES_ABIERTO" as DocentesAbierto
+
+package completarGestion as "completarGestion()" {
+    rectangle #629EF9 CompletarGestionView
+    rectangle #b5bd68 CompletarGestionController
+    rectangle #F2AC4E PermisosRepository
+    rectangle #F2AC4E OpcionesMenu
+    rectangle #F2AC4E Sesion
+}
+
+rectangle #CDEBA5 ":Collaboration VerGrados" as VerGrados
+rectangle #CDEBA5 ":Collaboration VerAsignaturas" as VerAsignaturas
+rectangle #CDEBA5 ":Collaboration VerAlumnos" as VerAlumnos
+rectangle #CDEBA5 ":Collaboration VerPreguntas" as VerPreguntas
+rectangle #CDEBA5 ":Collaboration GenerarExamenes" as GenerarExamenes
+rectangle #CDEBA5 ":Collaboration CorregirExamenes" as CorregirExamenes
+rectangle #CDEBA5 ":Collaboration ImportarConfiguracionGlobal" as ImportarConfiguracionGlobal
+rectangle #CDEBA5 ":Collaboration ExportarConfiguracionGlobal" as ExportarConfiguracionGlobal
+rectangle #CDEBA5 ":Collaboration CerrarSesion" as CerrarSesion
+rectangle #CDEBA5 ":Collaboration VerDocentes" as VerDocentes
+
+' Acceso y retornos
+SistemaDisponible -r-> CompletarGestionView: mostrarMenu()
+GradosAbierto --> CompletarGestionView: completarGestion()
+AsignaturasAbierto --> CompletarGestionView: completarGestion()
+AlumnosAbierto --> CompletarGestionView: completarGestion()
+PreguntasAbierto --> CompletarGestionView: completarGestion()
+ExamenesAsignados --> CompletarGestionView: completarGestion()
+ExamenesCorregidos --> CompletarGestionView: completarGestion()
+DocentesAbierto --> CompletarGestionView: completarGestion()
+
+' Lógica refinada: La vista ya no pasa el usuario, el controlador lo obtiene de la sesión
+CompletarGestionView -d-> CompletarGestionController: cargarMenu()
+
+CompletarGestionController --> Sesion: getUsuarioActual() : Usuario
+CompletarGestionController --> PermisosRepository: obtenerOpcionesPorPerfil(usuario) : List<Opcion>
+CompletarGestionController -r-> OpcionesMenu: <<create>> construir(opciones)
+
+CompletarGestionController --d> CompletarGestionView: mostrarOpciones(OpcionesMenu)
+
+' Navegación
+CompletarGestionView ..> VerGrados: verGrados()
+CompletarGestionView ..> VerAsignaturas: verAsignaturas()
+CompletarGestionView ..> VerAlumnos: verAlumnos()
+CompletarGestionView ..> VerPreguntas: verPreguntas()
+CompletarGestionView ..> GenerarExamenes: generarExamenes()
+CompletarGestionView ..> CorregirExamenes: corregirExamenes()
+CompletarGestionView ..> ImportarConfiguracionGlobal: importarConfiguracionGlobal()
+CompletarGestionView ..> ExportarConfiguracionGlobal: exportarConfiguracionGlobal()
+CompletarGestionView ..> CerrarSesion: cerrarSesion()
+CompletarGestionView ..> VerDocentes: verDocentes()
+
+@enduml
