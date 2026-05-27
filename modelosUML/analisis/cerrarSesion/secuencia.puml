@@ -1,0 +1,32 @@
+@startuml cerrarSesion-secuencia
+skinparam linetype polyline
+
+participant ":SISTEMA_DISPONIBLE" as Sistema
+participant ":CerrarSesionView" as View
+participant ":SesionController" as Controller
+participant ":Sesion" as Entity
+
+Sistema -> View: cerrarSesion()
+activate View
+
+note over View
+Muestra diálogo de confirmación:
+"¿Desea cerrar la sesión activa?"
+Usuario actual: Docente/Admin
+end note
+
+View -> Controller: cerrarSesion()
+activate Controller
+
+Controller -> Entity: eliminar()
+activate Entity
+deactivate Entity
+destroy Entity
+
+View <- Controller: exito
+deactivate Controller
+
+View -> Sistema: [Redirección] SESION_CERRADA
+deactivate View
+
+@enduml

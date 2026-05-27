@@ -1,0 +1,21 @@
+@startuml cerrarSesion-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":SISTEMA_DISPONIBLE" as SistemaDisponible
+rectangle #CDEBA5 ":SESION_CERRADA" as SesionCerrada
+
+package cerrarSesion as "cerrarSesion()" {
+    rectangle #629EF9 CerrarSesionView
+    rectangle #b5bd68 SesionController
+    rectangle #F2AC4E Sesion
+}
+
+SistemaDisponible --> CerrarSesionView: cerrarSesion()
+
+CerrarSesionView -d-> SesionController: cerrarSesion()
+
+SesionController --> Sesion: <<destroy>> eliminar()
+
+CerrarSesionView ..> SesionCerrada: <<include>> [confirmado] sesionCerrada()
+
+@enduml
