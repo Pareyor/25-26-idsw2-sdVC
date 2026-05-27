@@ -8,13 +8,13 @@
 - **Proyecto**: Jorgestor - Sistema de Gestión de Exámenes
 - **Fase RUP**: Elaboración
 - **Disciplina**: Análisis y Diseño
-- **Versión**: 1.0
+- **Versión**: 1.1
 - **Fecha**: 2026-05-27
 - **Autor**: Gemini CLI
 
 ## propósito
 
-Análisis de colaboración del caso de uso `cerrarSesion()` mediante el patrón MVC, asegurando la finalización segura de la sesión activa y el retorno al estado inicial del sistema.
+Análisis de colaboración del caso de uso `cerrarSesion()` mediante el patrón MVC, asegurando la finalización segura de la sesión activa para el usuario actual y el retorno al estado inicial del sistema, o el mantenimiento del estado actual en caso de cancelación.
 
 ## diagramas de análisis
 
@@ -44,23 +44,23 @@ Análisis de colaboración del caso de uso `cerrarSesion()` mediante el patrón 
 **Estereotipo**: Vista (Boundary)  
 **Responsabilidades**:
 - Presentar el diálogo de confirmación de cierre de sesión.
-- Mostrar información del usuario actual.
-- Capturar la intención de confirmar o cancelar el cierre.
-- Redirigir al estado `SESION_CERRADA` tras el éxito.
+- Mostrar el identificador del usuario actual.
+- Capturar la confirmación o la cancelación de la acción.
+- Redirigir a `:SESION_CERRADA` tras confirmar.
+- Retornar a `:SISTEMA_DISPONIBLE` si se cancela.
 
 **Colaboraciones**:
 - **Entrada**: Recibe `cerrarSesion()` desde `:SISTEMA_DISPONIBLE`.
-- **Control**: Se comunica con `SesionController`.
-- **Salida**: Redirige a `:SESION_CERRADA`.
+- **Control**: Se comunica con `CerrarSesionController`.
+- **Salida**: Redirige a `:SESION_CERRADA` o retorna a `:SISTEMA_DISPONIBLE`.
 
 ### clases de control
 
-#### SesionController
+#### CerrarSesionController
 **Estereotipo**: Control  
 **Responsabilidades**:
-- Coordinar la destrucción de la sesión activa.
-- Invalidar tokens o credenciales en memoria si aplica.
-- Notificar el éxito de la operación a la vista.
+- Coordinar la invalidación de la sesión del usuario específico.
+- Notificar el éxito de la destrucción de la sesión a la vista.
 
 **Colaboraciones**:
 - **Vista**: Responde a `CerrarSesionView`.
@@ -72,15 +72,15 @@ Análisis de colaboración del caso de uso `cerrarSesion()` mediante el patrón 
 **Estereotipo**: Entidad  
 **Responsabilidades**:
 - Representar la sesión activa del usuario.
-- Mantener referencia al Usuario autenticado.
-- Ser destruida tras el cierre de sesión.
+- Exponer el método `eliminarSesion(usuario)` para finalizar la instancia.
 
 ## flujo de colaboración principal
 
 ### secuencia: cerrar sesión
 
-1. **Inicio**: El Docente o Administrador solicita cerrar sesión desde el menú principal.
-2. **Confirmación**: `CerrarSesionView` solicita confirmación al usuario.
-3. **Cierre**: `SesionController.cerrarSesion()` es invocado.
-4. **Destrucción**: El controlador elimina la instancia de `Sesion`.
-5. **Finalización**: La vista redirige al sistema al estado `SESION_CERRADA`.
+1. **Inicio**: El usuario solicita cerrar sesión desde el menú principal.
+2. **Confirmación**: `CerrarSesionView` solicita confirmación.
+3. **Cierre**: Si se confirma, `CerrarSesionController.cerrarSesion(usuario)` es invocado.
+4. **Destrucción**: Se ejecuta `eliminarSesion(usuario)` sobre la entidad `Sesion`.
+5. **Cancelación**: Si se cancela, la vista simplemente redirige de vuelta a `:SISTEMA_DISPONIBLE`.
+6. **Finalización**: Tras el éxito, el sistema transita al estado `SESION_CERRADA`.

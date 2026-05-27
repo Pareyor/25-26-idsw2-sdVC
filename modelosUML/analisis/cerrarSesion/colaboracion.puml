@@ -6,16 +6,17 @@ rectangle #CDEBA5 ":SESION_CERRADA" as SesionCerrada
 
 package cerrarSesion as "cerrarSesion()" {
     rectangle #629EF9 CerrarSesionView
-    rectangle #b5bd68 SesionController
+    rectangle #b5bd68 CerrarSesionController
     rectangle #F2AC4E Sesion
 }
 
-SistemaDisponible --> CerrarSesionView: cerrarSesion()
+SistemaDisponible --> CerrarSesionView: cerrarSesion(usuario)
 
-CerrarSesionView -d-> SesionController: cerrarSesion()
+CerrarSesionView -d-> CerrarSesionController: cerrarSesion(usuario)
 
-SesionController --> Sesion: <<destroy>> eliminar()
+CerrarSesionController --> Sesion: <<destroy>> eliminarSesion(usuario)
 
-CerrarSesionView ..> SesionCerrada: <<include>> [confirmado] sesionCerrada()
+CerrarSesionView ..> SesionCerrada: sesionCerrada()
+CerrarSesionView ..> SistemaDisponible: cancelar()
 
 @enduml
