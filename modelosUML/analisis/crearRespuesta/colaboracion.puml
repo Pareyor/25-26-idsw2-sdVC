@@ -1,0 +1,28 @@
+@startuml crearRespuesta-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":RESPUESTAS_ABIERTO" as RespuestasAbierto
+rectangle #CDEBA5 ":RESPUESTAS_CONTEXTUALES_ABIERTO" as RespuestasContextualesAbierto
+rectangle #CDEBA5 ":Collaboration EditarRespuesta" as RespuestaAbierto
+rectangle #CDEBA5 ":Collaboration VerRespuestas" as VerRespuestas
+
+package crearRespuesta as "crearRespuesta()" {
+    rectangle #629EF9 CrearRespuestaView
+    rectangle #b5bd68 PreguntaController
+    rectangle #F2AC4E RespuestaRepository
+    rectangle #F2AC4E Respuesta
+}
+
+RespuestasAbierto --> CrearRespuestaView: crearRespuesta()
+RespuestasContextualesAbierto --> CrearRespuestaView: crearRespuesta()
+
+CrearRespuestaView -d-> PreguntaController: crearNuevaRespuesta(datos)
+
+PreguntaController --> RespuestaRepository: crear(datos) : Respuesta
+
+RespuestaRepository -- Respuesta
+
+CrearRespuestaView ..> RespuestaAbierto: <<include>> editarRespuesta(nuevaRespuesta)
+CrearRespuestaView ..> VerRespuestas: <<include>> cancelar()
+
+@enduml
