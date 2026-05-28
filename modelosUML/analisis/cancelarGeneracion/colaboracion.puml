@@ -1,0 +1,29 @@
+@startuml cancelarGeneracion-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":EXAMENES_GENERADOS" as ExamenesGenerados
+rectangle #CDEBA5 ":EXAMENES_GENERADOS_CONTEXTUALES" as ExamenesGeneradosContextuales
+rectangle #CDEBA5 ":Collaboration GenerarExamenes" as GenerarExamenes
+rectangle #CDEBA5 ":Collaboration CompletarGestion" as CompletarGestion
+rectangle #CDEBA5 ":Collaboration EditarAsignatura" as EditarAsignatura
+
+package cancelarGeneracion as "cancelarGeneracion()" {
+    rectangle #629EF9 CancelarGeneracionView
+    rectangle #b5bd68 ExamenController
+    rectangle #F2AC4E ExamenRepository
+    rectangle #F2AC4E Examen
+}
+
+ExamenesGenerados --> CancelarGeneracionView: cancelarGeneracion()
+ExamenesGeneradosContextuales --> CancelarGeneracionView: cancelarGeneracion()
+GenerarExamenes --> CancelarGeneracionView: cancelarGeneracion()
+
+CancelarGeneracionView -d-> ExamenController: cancelarGeneracionActual()
+ExamenController --> ExamenRepository: eliminarExamenesTemporales()
+ExamenRepository -- Examen
+
+CancelarGeneracionView ..> CompletarGestion: <<include>> confirmar() [Global]
+CancelarGeneracionView ..> EditarAsignatura: <<include>> confirmar() [Contextual]
+CancelarGeneracionView ..> GenerarExamenes: <<include>> cancelar()
+
+@enduml

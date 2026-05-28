@@ -1,0 +1,35 @@
+@startuml cancelarGeneracion-secuencia
+skinparam linetype polyline
+
+participant ":EXAMENES_GENERADOS" as Sistema
+participant ":CancelarGeneracionView" as View
+participant ":ExamenController" as Controller
+participant ":ExamenRepository" as Repository
+
+Sistema -> View: cancelarGeneracion()
+activate View
+
+note over View
+Muestra advertencia:
+"Si confirma la cancelación, los
+exámenes generados se perderán."
+end note
+
+View -> Controller: confirmarCancelacion()
+activate Controller
+
+Controller -> Repository: eliminarTemporales()
+activate Repository
+deactivate Repository
+
+View <- Controller: exito
+deactivate Controller
+
+alt Flujo Global
+    View -> Sistema: completarGestion()
+else Flujo Contextual
+    View -> Sistema: editarAsignatura()
+end
+deactivate View
+
+@enduml
