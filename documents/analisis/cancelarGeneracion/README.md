@@ -27,15 +27,6 @@ Análisis de colaboración del caso de uso `cancelarGeneracion()` mediante el pa
 
 </div>
 
-### diagrama de secuencia
-<div align=center>
-
-|![Secuencia: cancelarGeneracion()](../../../modelosUML/analisis/cancelarGeneracion/secuencia.svg)|
-|-|
-|Código fuente: [secuencia.puml](secuencia.puml)|
-
-</div>
-
 ## clases de análisis identificadas
 
 ### clases de vista (boundary)
