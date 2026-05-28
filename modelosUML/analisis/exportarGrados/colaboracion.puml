@@ -1,0 +1,22 @@
+@startuml exportarGrados-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Collaboration ExportarConfiguracionGlobal" as ExportGlobal
+
+package exportarGrados as "exportarGrados()" {
+    rectangle #629EF9 ExportarGradosView
+    rectangle #b5bd68 GradoController
+    rectangle #F2AC4E GradoRepository
+    rectangle #F2AC4E Grado
+    rectangle #F2AC4E Exportador
+}
+
+ExportGlobal --> ExportarGradosView: <<include>> exportarGrados()
+
+ExportarGradosView -d-> GradoController: exportarDatos(formato)
+GradoController --> GradoRepository: obtenerTodos() : List<Grado>
+GradoController --> Exportador: transformar(datos, formato) : File
+
+GradoRepository -- Grado
+
+@enduml
