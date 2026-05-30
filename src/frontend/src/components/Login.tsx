@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { login } from '../services/auth.service';
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await login(username, password);
-      window.location.reload(); // Redirigir o actualizar estado global
+      navigate('/dashboard');
     } catch (err) {
       setError('Usuario o contraseña incorrectos');
     }

@@ -31,7 +31,7 @@ public class AuthService {
             throw new BadCredentialsException("Contraseña incorrecta");
         }
 
-        String token = jwtUtils.generateJwtToken(usuario.getUsername());
+        String token = jwtUtils.generateJwtToken(usuario.getUsername(), usuario.getRole().name());
         return new JwtResponse(token, usuario.getUsername(), usuario.getRole().name());
     }
 }

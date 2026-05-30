@@ -17,9 +17,10 @@ public class JwtUtils {
     @Value("${jorgestor.jwt.expiration}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(String username) {
+    public String generateJwtToken(String username, String role) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
@@ -33,6 +34,11 @@ public class JwtUtils {
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parserBuilder().setSigningKey(getSigningKey()).build()
                 .parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public String getRoleFromJwtToken(String token) {
+        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build()
+                .parseClaimsJws(token).getBody().get("role", String.class);
     }
 
     public boolean validateJwtToken(String authToken) {
