@@ -1,0 +1,45 @@
+@startuml
+title Diagrama de Secuencia - Iniciar Sesión (Spring Boot + React + JWT)
+
+actor "Usuario (Docente/Admin)" as Actor
+participant "Frontend (React)" as FE
+participant "AuthController" as Controller
+participant "AuthService" as Service
+participant "JwtProvider" as Jwt
+participant "UsuarioRepository" as Repo
+database "Base de Datos (PostgreSQL)" as DB
+
+Actor -> FE: Ingresa credenciales (username, password)\ny clic en "Entrar"
+activate FE
+FE -> Controller: POST /api/auth/login (JSON: username, password)
+activate Controller
+Controller -> Service: authenticate(loginRequest)
+activate Service
+Service -> Repo: findByUsername(username)
+activate Repo
+Repo -> DB: SELECT * FROM usuarios WHERE username = ?
+activate DB
+DB --> Repo: Usuario (con password hash)
+deactivate DB
+Repo --> Service: Usuario
+deactivate Repo
+
+Service -> Service: Validar password (BCrypt)
+alt Credenciales Válidas
+    Service -> Jwt: generateToken(usuario)
+    activate Jwt
+    Jwt --> Service: token (JWT String)
+    deactivate Jwt
+    Service --> Controller: AuthResponseDTO(token, usuarioDTO)
+    Controller --> FE: 200 OK (JSON: token, role, etc.)
+    FE -> FE: Guardar token en localStorage/Context
+    FE --> Actor: Redirigir a "Sistema Disponible"
+else Credenciales Inválidas
+    Service --> Controller: throw BadCredentialsException
+    deactivate Service
+    Controller --> FE: 401 Unauthorized (Error JSON)
+    deactivate Controller
+    FE --> Actor: Mostrar mensaje de error\n"Usuario o contraseña incorrectos"
+    deactivate FE
+end
+@enduml
