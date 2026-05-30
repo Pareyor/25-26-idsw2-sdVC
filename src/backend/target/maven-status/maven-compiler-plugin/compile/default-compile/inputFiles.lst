@@ -1,0 +1,11 @@
+/Users/pareyor/Desktop/25-26-idsw2-sdVC/src/backend/src/main/java/com/jorgestor/backend/model/Usuario.java
+/Users/pareyor/Desktop/25-26-idsw2-sdVC/src/backend/src/main/java/com/jorgestor/backend/security/SecurityConfig.java
+/Users/pareyor/Desktop/25-26-idsw2-sdVC/src/backend/src/main/java/com/jorgestor/backend/BackendApplication.java
+/Users/pareyor/Desktop/25-26-idsw2-sdVC/src/backend/src/main/java/com/jorgestor/backend/dto/LoginRequest.java
+/Users/pareyor/Desktop/25-26-idsw2-sdVC/src/backend/src/main/java/com/jorgestor/backend/dto/JwtResponse.java
+/Users/pareyor/Desktop/25-26-idsw2-sdVC/src/backend/src/main/java/com/jorgestor/backend/model/Role.java
+/Users/pareyor/Desktop/25-26-idsw2-sdVC/src/backend/src/main/java/com/jorgestor/backend/repository/UsuarioRepository.java
+/Users/pareyor/Desktop/25-26-idsw2-sdVC/src/backend/src/main/java/com/jorgestor/backend/config/DataInitializer.java
+/Users/pareyor/Desktop/25-26-idsw2-sdVC/src/backend/src/main/java/com/jorgestor/backend/service/AuthService.java
+/Users/pareyor/Desktop/25-26-idsw2-sdVC/src/backend/src/main/java/com/jorgestor/backend/security/JwtUtils.java
+/Users/pareyor/Desktop/25-26-idsw2-sdVC/src/backend/src/main/java/com/jorgestor/backend/controller/AuthController.java
