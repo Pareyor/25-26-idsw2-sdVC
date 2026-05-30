@@ -8,25 +8,36 @@ Se ha optado por una arquitectura de **Single Page Application (SPA)** con una *
 
 ### Backend: Java + Spring Boot
 - **Framework:** Spring Boot 3.x.
-- **Justificación:** Ecosistema robusto, inyección de dependencias (IoC), manejo avanzado de persistencia con Spring Data JPA y seguridad integral con Spring Security.
+- **Gestor de proyectos:** Maven.
+- **Justificación:** Ecosistema robusto, inyección de dependencias (IoC), manejo avanzado de persistencia con Spring Data JPA y seguridad integral con Spring Security. Maven es el estándar de facto para la gestión de dependencias y construcción en entornos Java profesionales.
 - **Rol:** Proveedor de servicios REST, orquestador de lógica de negocio y guardián de la integridad de los datos.
 
 ### Frontend: React + TypeScript
-- **Framework:** React 18+.
+- **Framework:** React 18+ (Vite).
 - **Lenguaje:** TypeScript (Tipado estricto).
 - **Estilos:** Tailwind CSS.
-- **Justificación:** Tailwind permite un diseño moderno, altamente personalizable y eficiente mediante clases de utilidad, eliminando la necesidad de archivos CSS extensos y facilitando la consistencia visual.
+- **Justificación:** Tailwind permite un diseño moderno, altamente personalizable y eficiente mediante clases de utilidad, eliminando la necesidad de archivos CSS extensos y facilitando la consistencia visual. Vite proporciona un entorno de desarrollo extremadamente rápido.
 - **Rol:** Interfaz de usuario reactiva, gestión de estado en cliente y consumo de la API REST.
 
 ### Base de Datos: PostgreSQL + Docker
 - **Motor:** PostgreSQL (Relacional).
-- **Infraestructura:** Contenedores Docker.
+- **Infraestructura:** Contenedores Docker (Docker Compose).
 - **Justificación:** El uso de Docker asegura que el entorno de base de datos sea idéntico para todos los desarrolladores y en cualquier máquina, facilitando el despliegue y cumpliendo con estándares profesionales de "arranque inmediato".
 - **ORM:** Hibernate (vía Spring Data JPA).
 
 ---
 
-## 2. Decisiones de Diseño Globales
+## 2. Organización del Código
+
+Para asegurar una separación clara de responsabilidades, el código fuente se organiza en el directorio `src/` bajo la siguiente estructura:
+
+- `src/backend/`: Proyecto Spring Boot completo gestionado por Maven.
+- `src/frontend/`: Aplicación React SPA gestionada por Vite y npm.
+- `src/docker/`: Configuraciones de infraestructura (e.g., `docker-compose.yml`).
+
+---
+
+## 3. Decisiones de Diseño Globales
 
 ### Comunicación Cliente-Servidor
 - **Protocolo:** HTTPS / JSON.
