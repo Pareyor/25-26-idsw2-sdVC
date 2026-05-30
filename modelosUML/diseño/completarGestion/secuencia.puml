@@ -22,9 +22,9 @@ Controller -> Service: obtenerOpcionesMenu(roles)
 activate Service
 
 alt ROLE_ADMIN
-    Service --> Controller: List<OpcionMenuDTO> (Ver Docentes, Crear Docente...)
+    Service --> Controller: List<OpcionMenuDTO> (verDocentes, cerrarSesion)
 else ROLE_DOCENTE
-    Service --> Controller: List<OpcionMenuDTO> (Ver Asignaturas, Crear Pregunta, Generar Exámenes...)
+    Service --> Controller: List<OpcionMenuDTO> (verGrados, verAsignaturas, verAlumnos, verPreguntas, generarExamenes, corregirExamenes, importar/exportarConfiguracion, cerrarSesion)
 end
 deactivate Service
 
