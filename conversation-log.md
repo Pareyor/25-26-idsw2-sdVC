@@ -116,3 +116,20 @@
 **Enlace:** [Conversación Sesión 9](conversations/sesion-28-05-26.md)
 
 **Decisión:** Se completó el análisis de todo el catálogo de casos de uso (1-41). Se modificaron los análisis de `editarRespuesta` y `eliminarRespuesta` tras detectar la falta de accesos contextuales requeridos por el diagrama de contexto. Se eliminaron los diagramas de secuencia en `editarRespuesta`, `eliminarRespuesta`, `cancelarGeneracion`, `importarAsignaturas` e `importarGrados`.
+
+## Sesión 10: [30/05/2026][17:30] Diseño de Autenticación e Inicialización del Entorno de Desarrollo
+
+**Prompt:** Diseñar los casos de uso `iniciarSesion` y `cerrarSesion` basándose en el README de arquitectura (Spring Boot + React + JWT) y prototipos. Posteriormente, preparar el entorno de desarrollo instalando requisitos, definiendo la estructura de carpetas en `src/` e implementando la lógica base de seguridad con roles (Admin y Docente).
+
+**Resultado:**
+- Generación de diagramas de secuencia de diseño y documentación README en `documents/diseño/` para `iniciarSesion` (flujo JWT) y `cerrarSesion` (limpieza local + modal).
+- Inicialización de la estructura `src/backend`, `src/frontend` y `src/docker`.
+- Creación de infraestructura Docker para PostgreSQL.
+- Implementación en el Backend: Entidad `Usuario`, `Role` (ADMIN, DOCENTE), `SecurityConfig`, `JwtUtils`, `AuthService`, `AuthController` y `DataInitializer`.
+- Implementación en el Frontend: `auth.service.ts`, componente `Login.tsx` con Tailwind y configuración en `App.tsx`.
+- Resolución de problemas de compilación eliminando la dependencia de Lombok y añadiendo boilerplate manual (Getters/Setters/Constructores).
+
+**Enlace:** [Conversación Sesión 10](conversations/sesion-30-05-26.md)
+
+**Decisión:** Se aceptó el stack tecnológico (Maven para el backend, Vite para el frontend). Se decidió eliminar Lombok para asegurar la compatibilidad con el entorno de terminal del usuario tras fallos persistentes en la generación de símbolos. Se ajustó el `DataInitializer` para crear automáticamente usuarios `admin/admin123` y `docente/docente123`. Se validó la estructura de carpetas `src/backend`, `src/frontend` y `src/docker`, también se aceptó el diseño de iniciarSesion y cerrarSesion.
+
