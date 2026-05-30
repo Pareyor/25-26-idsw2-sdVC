@@ -1,0 +1,36 @@
+# Java / Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.tar.gz
+.mvn/wrapper/maven-wrapper.jar
+
+# Node / React / Vite
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env
+.env.*
+!.env.example
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker
+src/docker/jorgestor-data/

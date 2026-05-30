@@ -1,0 +1,38 @@
+@startuml
+title Diagrama de Secuencia - Completar Gestión (Dashboard Dinámico)
+
+actor "Usuario (Docente/Admin)" as Actor
+participant "Frontend (React)" as FE
+participant "MenuController" as Controller
+participant "MenuService" as Service
+participant "SecurityContext" as Context
+
+Actor -> FE: Accede al Dashboard (SISTEMA_DISPONIBLE)
+activate FE
+
+FE -> Controller: GET /api/menu\n(Header: Authorization: Bearer <token>)
+activate Controller
+
+Controller -> Context: getAuthentication().getAuthorities()
+activate Context
+Context --> Controller: roles (e.g., ROLE_ADMIN)
+deactivate Context
+
+Controller -> Service: obtenerOpcionesMenu(roles)
+activate Service
+
+alt ROLE_ADMIN
+    Service --> Controller: List<OpcionMenuDTO> (Ver Docentes, Crear Docente...)
+else ROLE_DOCENTE
+    Service --> Controller: List<OpcionMenuDTO> (Ver Asignaturas, Crear Pregunta, Generar Exámenes...)
+end
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: List<OpcionMenuDTO>)
+deactivate Controller
+
+FE -> FE: Renderizar Sidebar/Menú dinámicamente
+FE --> Actor: Mostrar opciones de gestión permitidas
+deactivate FE
+
+@enduml
