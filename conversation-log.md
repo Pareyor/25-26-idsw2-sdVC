@@ -133,3 +133,18 @@
 
 **Decisión:** Se aceptó el stack tecnológico (Maven para el backend, Vite para el frontend). Se decidió eliminar Lombok para asegurar la compatibilidad con el entorno de terminal del usuario tras fallos persistentes en la generación de símbolos. Se ajustó el `DataInitializer` para crear automáticamente usuarios `admin/admin123` y `docente/docente123`. Se validó la estructura de carpetas `src/backend`, `src/frontend` y `src/docker`, también se aceptó el diseño de iniciarSesion y cerrarSesion.
 
+## Sesión 11: [30/05/2026][20:00] Diseño y Desarrollo de Completar Gestión y Logout
+
+**Prompt:** Diseñar el caso de uso `completarGestion` (Dashboard dinámico) basándose en los diagramas de contexto y análisis previo. Posteriormente, desarrollar tanto el backend como el frontend para este dashboard y para el caso de uso `cerrarSesion`, asegurando la navegación entre el login y el panel de control según los roles de Admin y Docente.
+
+**Resultado:**
+- **Diseño**: Creación de diagrama de secuencia y documentación para `completarGestion`, alineando las opciones de menú con las transiciones permitidas en los diagramas de contexto de Admin y Docente.
+- **Backend**: Implementación de `MenuController`, `MenuService` y `MenuOptionDTO`. Refuerzo de la seguridad con `AuthTokenFilter` para extraer roles de los tokens JWT y configuración de CORS. Añadido endpoint `/api/auth/logout`.
+- **Frontend**: Instalación de `react-router-dom` y `lucide-react`. Implementación de `Dashboard.tsx` con renderizado dinámico de iconos y títulos. Configuración de rutas protegidas en `App.tsx` y flujo de navegación `Login -> Dashboard -> Logout`.
+- **Integración**: Verificación exitosa del flujo completo. El Admin solo ve "Gestión de Docentes" y "Cerrar Sesión", mientras que el Docente ve todos sus módulos de gestión.
+
+**Enlace:** [Conversación Sesión 11](conversations/sesion-30-05-26(SegundaSesion).md)
+
+**Decisión:** Se ajustó el menú del Administrador para incluir estrictamente `verDocentes` y `cerrarSesion`, cumpliendo con el diagrama de contexto. Se decidió integrar la notificación de logout al servidor incluso en arquitectura stateless para trazabilidad. Se resolvió un problema de carga del dashboard configurando el filtro de seguridad para leer los roles de los usuarios desde el JWT. Como la primera sesion estaba siendo muy larga decidí empezar otra para mayor eficiencia.
+
+
