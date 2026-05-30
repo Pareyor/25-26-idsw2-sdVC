@@ -22,4 +22,12 @@ public class AuthController {
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(authService.login(loginRequest));
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser(@RequestHeader("Authorization") String token) {
+        if (token != null && token.startsWith("Bearer ")) {
+            authService.invalidateSession(token.substring(7));
+        }
+        return ResponseEntity.ok().build();
+    }
 }

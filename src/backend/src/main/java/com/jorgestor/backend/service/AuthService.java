@@ -34,4 +34,11 @@ public class AuthService {
         String token = jwtUtils.generateJwtToken(usuario.getUsername(), usuario.getRole().name());
         return new JwtResponse(token, usuario.getUsername(), usuario.getRole().name());
     }
+
+    public void invalidateSession(String token) {
+        // En una arquitectura JWT pura, el servidor es stateless.
+        // Aquí podríamos añadir el token a una "Blacklist" si fuera necesario.
+        // Por ahora, simplemente registramos el evento o validamos el token.
+        System.out.println("Sesión finalizada para el token: " + token.substring(0, 10) + "...");
+    }
 }

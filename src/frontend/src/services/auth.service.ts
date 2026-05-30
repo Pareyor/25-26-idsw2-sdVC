@@ -13,7 +13,17 @@ export const login = async (username: string, password: string) => {
   return response.data;
 };
 
-export const logout = () => {
+export const logout = async () => {
+  const user = getCurrentUser();
+  if (user?.token) {
+    try {
+      await axios.post(API_URL + 'logout', {}, {
+        headers: { Authorization: `Bearer ${user.token}` }
+      });
+    } catch (err) {
+      console.error("Error al notificar logout al servidor", err);
+    }
+  }
   localStorage.removeItem('user');
 };
 

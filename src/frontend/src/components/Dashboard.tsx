@@ -18,10 +18,10 @@ const Dashboard: React.FC = () => {
     getMenuOptions().then(setOptions).catch(() => navigate('/login'));
   }, [navigate]);
 
-  const handleAction = (path: string) => {
+  const handleAction = async (path: string) => {
     if (path === '/logout') {
       if (window.confirm('¿Está seguro de que desea salir?')) {
-        logout();
+        await logout();
         navigate('/login');
       }
     } else {
