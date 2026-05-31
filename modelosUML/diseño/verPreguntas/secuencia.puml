@@ -1,0 +1,34 @@
+@startuml
+title Diagrama de Secuencia - Ver Preguntas (Batería)
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "PreguntaController" as Controller
+participant "PreguntaService" as Service
+participant "PreguntaRepository" as Repo
+
+Actor -> FE: Accede a "Batería de Preguntas"
+activate FE
+
+FE -> Controller: GET /api/preguntas\n(Header: Authorization: Bearer <token>)
+activate Controller
+
+Controller -> Service: listarPreguntas()
+activate Service
+
+Service -> Repo: findAll()
+activate Repo
+Repo --> Service: List<Pregunta>
+deactivate Repo
+
+Service --> Controller: List<PreguntaDTO>
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: List<PreguntaDTO>)
+deactivate Controller
+
+FE -> FE: Renderizar listado de preguntas\n(Enunciado, Tema, Dificultad, Acciones)
+FE --> Actor: Muestra batería de preguntas
+deactivate FE
+
+@enduml
