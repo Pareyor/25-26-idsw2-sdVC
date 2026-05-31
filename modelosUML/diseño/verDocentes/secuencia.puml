@@ -1,0 +1,34 @@
+@startuml
+title Diagrama de Secuencia - Ver Docentes (Listado)
+
+actor "Administrador" as Actor
+participant "Frontend (React)" as FE
+participant "DocenteController" as Controller
+participant "DocenteService" as Service
+participant "UsuarioRepository" as Repo
+
+Actor -> FE: Accede a "Gestión de Docentes"
+activate FE
+
+FE -> Controller: GET /api/docentes\n(Header: Authorization: Bearer <token>)
+activate Controller
+
+Controller -> Service: listarDocentes()
+activate Service
+
+Service -> Repo: findByRole(Role.ROLE_DOCENTE)
+activate Repo
+Repo --> Service: List<Usuario>
+deactivate Repo
+
+Service --> Controller: List<DocenteDTO>
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: List<DocenteDTO>)
+deactivate Controller
+
+FE -> FE: Renderizar tabla de docentes\n(Nombre, Apellidos, Email, Acciones)
+FE --> Actor: Muestra listado de docentes
+deactivate FE
+
+@enduml
