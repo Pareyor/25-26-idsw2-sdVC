@@ -1,0 +1,34 @@
+@startuml
+title Diagrama de Secuencia - Ver Grados (Listado)
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "GradoController" as Controller
+participant "GradoService" as Service
+participant "GradoRepository" as Repo
+
+Actor -> FE: Accede a "Gestión de Grados"
+activate FE
+
+FE -> Controller: GET /api/grados\n(Header: Authorization: Bearer <token>)
+activate Controller
+
+Controller -> Service: listarGrados()
+activate Service
+
+Service -> Repo: findAll()
+activate Repo
+Repo --> Service: List<Grado>
+deactivate Repo
+
+Service --> Controller: List<GradoDTO>
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: List<GradoDTO>)
+deactivate Controller
+
+FE -> FE: Renderizar tabla de grados\n(Título, Código, Acciones)
+FE --> Actor: Muestra listado de grados
+deactivate FE
+
+@enduml
