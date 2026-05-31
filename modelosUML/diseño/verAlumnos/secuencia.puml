@@ -1,0 +1,34 @@
+@startuml
+title Diagrama de Secuencia - Ver Alumnos (Listado)
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "AlumnoController" as Controller
+participant "AlumnoService" as Service
+participant "AlumnoRepository" as Repo
+
+Actor -> FE: Accede a "Gestión de Alumnos"
+activate FE
+
+FE -> Controller: GET /api/alumnos\n(Header: Authorization: Bearer <token>)
+activate Controller
+
+Controller -> Service: listarAlumnos()
+activate Service
+
+Service -> Repo: findAll()
+activate Repo
+Repo --> Service: List<Alumno>
+deactivate Repo
+
+Service --> Controller: List<AlumnoDTO>
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: List<AlumnoDTO>)
+deactivate Controller
+
+FE -> FE: Renderizar tabla de alumnos\n(NIU, Nombre, Apellidos, Acciones)
+FE --> Actor: Muestra listado de alumnos
+deactivate FE
+
+@enduml
