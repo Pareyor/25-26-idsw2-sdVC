@@ -1,0 +1,41 @@
+@startuml
+title Diagrama de Secuencia - Ver Asignaturas (Listado)
+
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "AsignaturaController" as Controller
+participant "AsignaturaService" as Service
+database "AsignaturaRepository" as Repo
+
+autonumber
+
+Actor -> FE: Selecciona "Gestión de Asignaturas"
+activate FE
+
+FE -> Controller: GET /api/asignaturas\n(Authorization: Bearer <token>)
+activate Controller
+
+note right of Controller: El filtro JWT valida el token\ny extrae el ROLE_DOCENTE
+
+Controller -> Service: listarAsignaturas()
+activate Service
+
+Service -> Repo: findAll()
+activate Repo
+Repo --> Service: List<Asignatura>
+deactivate Repo
+
+Service --> Controller: List<AsignaturaDTO>
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: List<AsignaturaDTO>)
+deactivate Controller
+
+FE -> FE: Renderizar tabla dinámicamente\n(Título, Código, Curso)
+FE --> Actor: Visualización de Asignaturas
+deactivate FE
+
+@enduml
