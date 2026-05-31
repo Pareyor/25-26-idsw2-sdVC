@@ -147,4 +147,18 @@
 
 **Decisión:** Se ajustó el menú del Administrador para incluir estrictamente `verDocentes` y `cerrarSesion`, cumpliendo con el diagrama de contexto. Se decidió integrar la notificación de logout al servidor incluso en arquitectura stateless para trazabilidad. Se resolvió un problema de carga del dashboard configurando el filtro de seguridad para leer los roles de los usuarios desde el JWT. Como la primera sesion estaba siendo muy larga decidí empezar otra para mayor eficiencia.
 
+## Sesión 12: [31/05/2026][23:00] Diseño de Módulos del Dashboard y Refinamiento del Entorno
+
+**Prompt:** Inicializar contexto según el protocolo `Inicio` y realizar el diseño de los casos de uso del panel general de `completarGestion` (`verDocentes`, `verGrados`, `verAsignaturas`, `verAlumnos`, `verPreguntas`) basándose en los análisis previos y diagramas de contexto, antes de proceder a su implementación en la siguiente sesión.
+
+**Resultado:**
+- Inicialización exitosa de contexto leyendo diagramas de entidad, casos de uso, contexto y logs previos.
+- Creación de la documentación de diseño (`README.md`) y diagramas de secuencia (`.puml`) para 5 casos de uso: `verDocentes`, `verGrados`, `verAsignaturas`, `verAlumnos` y `verPreguntas`.
+- Mejora del entorno de trabajo mediante la creación de un archivo `.gitignore` profesional para filtrar archivos compilados y temporales.
+- Sincronización de las opciones de menú en el backend con las transiciones permitidas en los diagramas de contexto.
+
+**Enlace:** [Conversación Sesión 12](conversations/sesion-31-05-26.md)
+
+**Decisión:** Se decidió completar el diseño de todos los módulos del Dashboard antes de iniciar la implementación para asegurar la coherencia del panel. Se rechazaron propuestas de cambio estético en los diagramas de secuencia para mantener la simplicidad técnica. Se corrigieron erratas en las etiquetas de los diagramas de secuencia para asegurar la precisión del dominio en cada módulo.
+
 
