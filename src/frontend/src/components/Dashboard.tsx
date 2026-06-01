@@ -25,8 +25,7 @@ const Dashboard: React.FC = () => {
         navigate('/login');
       }
     } else {
-      console.log('Navegando a:', path);
-      // Aquí navegaremos a los futuros componentes
+      navigate(path);
     }
   };
 
