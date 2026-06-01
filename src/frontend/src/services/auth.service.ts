@@ -29,6 +29,13 @@ export const logout = async () => {
 
 export const getCurrentUser = () => {
   const userStr = localStorage.getItem('user');
-  if (userStr) return JSON.parse(userStr);
+  if (userStr) {
+    try {
+      return JSON.parse(userStr);
+    } catch (e) {
+      localStorage.removeItem('user');
+      return null;
+    }
+  }
   return null;
 };

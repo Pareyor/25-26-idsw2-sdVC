@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import DocenteService, { Docente } from '../services/docente.service';
+import { getDocentes } from '../services/docente.service';
+import type { Docente } from '../services/docente.service';
 import { Search, UserPlus, Edit, Trash2, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +17,7 @@ const DocenteList: React.FC = () => {
 
   const fetchDocentes = async () => {
     try {
-      const response = await DocenteService.getDocentes();
+      const response = await getDocentes();
       setDocentes(response.data);
       setLoading(false);
     } catch (err) {

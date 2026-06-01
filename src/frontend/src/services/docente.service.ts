@@ -10,17 +10,12 @@ export interface Docente {
   apellidos: string;
 }
 
-const getDocentes = () => {
-  const token = localStorage.getItem('token');
+export const getDocentes = () => {
+  const userStr = localStorage.getItem('user');
+  const token = userStr ? JSON.parse(userStr).token : null;
   return axios.get<Docente[]>(API_URL, {
     headers: {
       Authorization: `Bearer ${token}`
     }
   });
 };
-
-const DocenteService = {
-  getDocentes
-};
-
-export default DocenteService;

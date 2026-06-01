@@ -12,10 +12,18 @@ interface MenuOption {
 
 const Dashboard: React.FC = () => {
   const [options, setOptions] = useState<MenuOption[]>([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getMenuOptions().then(setOptions).catch(() => navigate('/login'));
+    getMenuOptions()
+      .then(data => {
+        setOptions(Array.isArray(data) ? data : []);
+        setLoading(false);
+      })
+      .catch(() => {
+        navigate('/login');
+      });
   }, [navigate]);
 
   const handleAction = async (path: string) => {
@@ -30,11 +38,17 @@ const Dashboard: React.FC = () => {
   };
 
   const DynamicIcon = ({ name, size = 24 }: { name: string; size?: number }) => {
-    // Mapeo simple de nombres a componentes Lucide
+    if (!name) return <Icons.HelpCircle size={size} />;
+    
     const iconName = name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('') as keyof typeof Icons;
-    const LucideIcon = (Icons[iconName] || Icons.HelpCircle) as React.ElementType;
-    return <LucideIcon size={size} />;
+    const LucideIcon = (Icons[iconName] || Icons.HelpCircle || Icons.Info) as React.ElementType;
+    
+    return LucideIcon ? <LucideIcon size={size} /> : <div style={{ width: size, height: size }} />;
   };
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Cargando menú...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
