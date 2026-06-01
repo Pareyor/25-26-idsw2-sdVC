@@ -161,4 +161,20 @@
 
 **Decisión:** Se decidió completar el diseño de todos los módulos del Dashboard antes de iniciar la implementación para asegurar la coherencia del panel. Se rechazaron propuestas de cambio estético en los diagramas de secuencia para mantener la simplicidad técnica. Se corrigieron erratas en las etiquetas de los diagramas de secuencia para asegurar la precisión del dominio en cada módulo.
 
+## Sesión 13: [01/06/2026][12:40] Implementación de verDocentes, verGrados y Estabilización del Entorno
+
+**Prompt:** implementar los diseños que hicimos en la sesion de ayer, vamos a ir uno a uno, cuando terminemos uno esperas a que yo te diga siguiente porque lo probaré antes de seguir.
+
+**Resultado:**
+- **verDocentes**: Implementación completa del listado de docentes. Se creó el DTO, Servicio y Controlador en el backend, y el Servicio y Componente en el frontend.
+- **verGrados**: Implementación completa de la entidad Grado y su listado. Se añadió lógica de inicialización de datos para pruebas.
+- **Correcciones Técnicas**: Resolución de un `SyntaxError` crítico en el frontend mediante el uso de `import type` y exportaciones nombradas para compatibilidad con Vite/ESM. Se corrigió la recuperación del token JWT en los servicios.
+- **Backend**: Resolución de fallos de compilación en `DataInitializer` por imports faltantes.
+- **Git**: Configuración de `.gitignore` y asesoramiento sobre la eliminación de carpetas `target/` del historial de Git.
+
+**Enlace:** [Conversación Sesión 13](conversations/sesion-01-06-26.md)
+
+**Decisión:** Se aceptó el cambio de estándar en el frontend a **exportaciones nombradas** para mejorar la robustez contra errores de carga de módulos. Se corrigieron varios errores en la implementación de verDocentes y verGrados, faltaban imports que hacían que la pantalla se quedase en blanco.
+
+
 
