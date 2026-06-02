@@ -176,5 +176,19 @@
 
 **Decisión:** Se aceptó el cambio de estándar en el frontend a **exportaciones nombradas** para mejorar la robustez contra errores de carga de módulos. Se corrigieron varios errores en la implementación de verDocentes y verGrados, faltaban imports que hacían que la pantalla se quedase en blanco.
 
+## Sesión 14: [02/06/2026][21:45] Implementación de verAsignaturas, verAlumnos, verPreguntas y Optimización de Búsqueda
+
+**Prompt:** Implementación modular de los casos de uso `verAsignaturas`, `verAlumnos` y `verPreguntas` siguiendo los diseños previos. Adicionalmente, se solicitó que los filtros de búsqueda en todos los listados ignoraran tildes y mayúsculas.
+
+**Resultado:**
+- **verAsignaturas, verAlumnos, verPreguntas**: Implementación completa del stack MVC (Entidad, DTO, Repository, Service, Controller en Backend; Service, Componente y Ruta en Frontend) para los tres módulos.
+- **Optimización de Búsqueda**: Creación de la utilidad `normalizeString` y su integración en todos los componentes de listado (`AsignaturaList`, `GradoList`, `DocenteList`, `AlumnoList`, `PreguntaList`) para búsquedas insensibles a acentos y caja.
+- **Backend**: Enriquecimiento del `DataInitializer` con datos de prueba para todos los nuevos módulos y resolución de conflicto de puerto 8080.
+- **Frontend**: Integración de iconos de `lucide-react` y estilos de badges dinámicos para dificultad en preguntas.
+
+**Enlace:** [Conversación Sesión 14](conversations/sesion-02-06-26.md)
+
+**Decisión:** Se aceptó la implementación modular y secuencial propuesta. Se corrigió parte del código para que en el filtro de búsquedas no tuviese en cuenta las tildes mayúsculas,... Se rechazó la implementación inmediata de `verRespuestas` al ser un caso de uso contextual que requiere mayor profundidad en el CRUD de preguntas.
+
 
 
