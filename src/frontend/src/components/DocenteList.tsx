@@ -3,6 +3,7 @@ import { getDocentes } from '../services/docente.service';
 import type { Docente } from '../services/docente.service';
 import { Search, UserPlus, Edit, Trash2, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { normalizeString } from '../utils/searchUtils';
 
 const DocenteList: React.FC = () => {
   const [docentes, setDocentes] = useState<Docente[]>([]);
@@ -26,11 +27,12 @@ const DocenteList: React.FC = () => {
     }
   };
 
-  const filteredDocentes = docentes.filter(docente =>
-    docente.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    docente.apellidos.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    docente.username.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredDocentes = docentes.filter(docente => {
+    const term = normalizeString(searchTerm);
+    return normalizeString(docente.nombre).includes(term) ||
+           normalizeString(docente.apellidos).includes(term) ||
+           normalizeString(docente.username).includes(term);
+  });
 
   if (loading) return <div className="p-8 text-center">Cargando docentes...</div>;
   if (error) return <div className="p-8 text-center text-red-500">{error}</div>;

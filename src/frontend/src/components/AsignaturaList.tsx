@@ -3,6 +3,7 @@ import { getAsignaturas } from '../services/asignatura.service';
 import type { Asignatura } from '../services/asignatura.service';
 import { Search, Plus, Edit, Trash2, ArrowLeft, BookOpen } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { normalizeString } from '../utils/searchUtils';
 
 const AsignaturaList: React.FC = () => {
   const [asignaturas, setAsignaturas] = useState<Asignatura[]>([]);
@@ -26,10 +27,11 @@ const AsignaturaList: React.FC = () => {
     }
   };
 
-  const filteredAsignaturas = asignaturas.filter(asignatura =>
-    asignatura.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    asignatura.codigo.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredAsignaturas = asignaturas.filter(asignatura => {
+    const term = normalizeString(searchTerm);
+    return normalizeString(asignatura.titulo).includes(term) ||
+           normalizeString(asignatura.codigo).includes(term);
+  });
 
   if (loading) return <div className="p-8 text-center">Cargando asignaturas...</div>;
   if (error) return <div className="p-8 text-center text-red-500">{error}</div>;

@@ -3,6 +3,7 @@ import { getGrados } from '../services/grado.service';
 import type { Grado } from '../services/grado.service';
 import { Search, Plus, Edit, Trash2, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { normalizeString } from '../utils/searchUtils';
 
 const GradoList: React.FC = () => {
   const [grados, setGrados] = useState<Grado[]>([]);
@@ -26,10 +27,11 @@ const GradoList: React.FC = () => {
     }
   };
 
-  const filteredGrados = grados.filter(grado =>
-    grado.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    grado.codigo.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredGrados = grados.filter(grado => {
+    const term = normalizeString(searchTerm);
+    return normalizeString(grado.titulo).includes(term) ||
+           normalizeString(grado.codigo).includes(term);
+  });
 
   if (loading) return <div className="p-8 text-center">Cargando grados...</div>;
   if (error) return <div className="p-8 text-center text-red-500">{error}</div>;
