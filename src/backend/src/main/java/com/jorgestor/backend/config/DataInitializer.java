@@ -1,7 +1,9 @@
 package com.jorgestor.backend.config;
 
+import com.jorgestor.backend.model.Asignatura;
 import com.jorgestor.backend.model.Role;
 import com.jorgestor.backend.model.Usuario;
+import com.jorgestor.backend.repository.AsignaturaRepository;
 import com.jorgestor.backend.repository.GradoRepository;
 import com.jorgestor.backend.repository.UsuarioRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -13,11 +15,16 @@ public class DataInitializer implements CommandLineRunner {
 
     private final UsuarioRepository usuarioRepository;
     private final GradoRepository gradoRepository;
+    private final AsignaturaRepository asignaturaRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public DataInitializer(UsuarioRepository usuarioRepository, GradoRepository gradoRepository, PasswordEncoder passwordEncoder) {
+    public DataInitializer(UsuarioRepository usuarioRepository, 
+                           GradoRepository gradoRepository, 
+                           AsignaturaRepository asignaturaRepository,
+                           PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.gradoRepository = gradoRepository;
+        this.asignaturaRepository = asignaturaRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -27,6 +34,13 @@ public class DataInitializer implements CommandLineRunner {
             gradoRepository.save(new com.jorgestor.backend.model.Grado("GII", "Grado en Ingeniería Informática"));
             gradoRepository.save(new com.jorgestor.backend.model.Grado("GIM", "Grado en Ingeniería Mecánica"));
             System.out.println("Grados de prueba creados.");
+        }
+
+        if (asignaturaRepository.count() == 0) {
+            asignaturaRepository.save(new Asignatura("IS1", "Ingeniería de Software I", "2025-2026"));
+            asignaturaRepository.save(new Asignatura("IS2", "Ingeniería de Software II", "2025-2026"));
+            asignaturaRepository.save(new Asignatura("SI", "Sistemas Inteligentes", "2025-2026"));
+            System.out.println("Asignaturas de prueba creadas.");
         }
 
         if (usuarioRepository.count() == 0) {

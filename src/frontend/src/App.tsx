@@ -3,6 +3,7 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import DocenteList from './components/DocenteList';
 import GradoList from './components/GradoList';
+import AsignaturaList from './components/AsignaturaList';
 import { getCurrentUser } from './services/auth.service';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -36,6 +37,14 @@ function App() {
           element={
             <PrivateRoute>
               <GradoList />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/asignaturas" 
+          element={
+            <PrivateRoute>
+              <AsignaturaList />
             </PrivateRoute>
           } 
         />
