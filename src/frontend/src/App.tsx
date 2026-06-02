@@ -5,6 +5,7 @@ import DocenteList from './components/DocenteList';
 import GradoList from './components/GradoList';
 import AsignaturaList from './components/AsignaturaList';
 import AlumnoList from './components/AlumnoList';
+import PreguntaList from './components/PreguntaList';
 import { getCurrentUser } from './services/auth.service';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -54,6 +55,14 @@ function App() {
           element={
             <PrivateRoute>
               <AlumnoList />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/preguntas" 
+          element={
+            <PrivateRoute>
+              <PreguntaList />
             </PrivateRoute>
           } 
         />
