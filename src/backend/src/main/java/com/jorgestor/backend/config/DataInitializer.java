@@ -1,8 +1,10 @@
 package com.jorgestor.backend.config;
 
+import com.jorgestor.backend.model.Alumno;
 import com.jorgestor.backend.model.Asignatura;
 import com.jorgestor.backend.model.Role;
 import com.jorgestor.backend.model.Usuario;
+import com.jorgestor.backend.repository.AlumnoRepository;
 import com.jorgestor.backend.repository.AsignaturaRepository;
 import com.jorgestor.backend.repository.GradoRepository;
 import com.jorgestor.backend.repository.UsuarioRepository;
@@ -16,15 +18,18 @@ public class DataInitializer implements CommandLineRunner {
     private final UsuarioRepository usuarioRepository;
     private final GradoRepository gradoRepository;
     private final AsignaturaRepository asignaturaRepository;
+    private final AlumnoRepository alumnoRepository;
     private final PasswordEncoder passwordEncoder;
 
     public DataInitializer(UsuarioRepository usuarioRepository, 
                            GradoRepository gradoRepository, 
                            AsignaturaRepository asignaturaRepository,
+                           AlumnoRepository alumnoRepository,
                            PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.gradoRepository = gradoRepository;
         this.asignaturaRepository = asignaturaRepository;
+        this.alumnoRepository = alumnoRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -41,6 +46,13 @@ public class DataInitializer implements CommandLineRunner {
             asignaturaRepository.save(new Asignatura("IS2", "Ingeniería de Software II", "2025-2026"));
             asignaturaRepository.save(new Asignatura("SI", "Sistemas Inteligentes", "2025-2026"));
             System.out.println("Asignaturas de prueba creadas.");
+        }
+
+        if (alumnoRepository.count() == 0) {
+            alumnoRepository.save(new Alumno("100456789", "Juan", "Pérez García"));
+            alumnoRepository.save(new Alumno("100456790", "María", "López Rodríguez"));
+            alumnoRepository.save(new Alumno("100456791", "Carlos", "Sánchez Martínez"));
+            System.out.println("Alumnos de prueba creados.");
         }
 
         if (usuarioRepository.count() == 0) {
