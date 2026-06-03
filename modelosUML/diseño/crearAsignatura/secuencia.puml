@@ -1,0 +1,46 @@
+@startuml
+title Diagrama de Secuencia - Crear Asignatura
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "AsignaturaController" as Controller
+participant "AsignaturaService" as Service
+participant "AsignaturaRepository" as Repo
+participant "GradoRepository" as GradoRepo
+
+Actor -> FE: Rellena formulario (título, código, curso, gradoId) y pulsa "Guardar"
+activate FE
+
+FE -> Controller: POST /api/asignaturas\n(Header: Authorization: Bearer <token>, Body: AsignaturaDTO)
+activate Controller
+
+Controller -> Service: crearAsignatura(AsignaturaDTO)
+activate Service
+
+Service -> Repo: findByCodigo(codigo)
+activate Repo
+Repo --> Service: Optional.empty()
+deactivate Repo
+
+Service -> GradoRepo: findById(gradoId)
+activate GradoRepo
+GradoRepo --> Service: Grado
+deactivate GradoRepo
+
+Service -> Repo: save(nuevaAsignatura)
+activate Repo
+Repo --> Service: Asignatura (persisted)
+deactivate Repo
+
+Service --> Controller: AsignaturaDTO (con ID)
+deactivate Service
+
+Controller --> FE: 201 Created (JSON: AsignaturaDTO)
+deactivate Controller
+
+FE -> FE: Mostrar notificación de éxito
+FE -> FE: Redirigir a listado (/dashboard/asignaturas)
+FE --> Actor: Muestra listado actualizado
+deactivate FE
+
+@enduml
