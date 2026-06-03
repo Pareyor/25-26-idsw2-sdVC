@@ -6,6 +6,7 @@ participant "Frontend (React)" as FE
 participant "AlumnoController" as Controller
 participant "AlumnoService" as Service
 participant "AlumnoRepository" as Repo
+participant "GradoService" as GradoService
 participant "GradoRepository" as GradoRepo
 
 Actor -> FE: Pulsa "Editar" en un alumno
@@ -44,10 +45,14 @@ activate Repo
 Repo --> Service: Alumno (existente)
 deactivate Repo
 
-Service -> GradoRepo: findById(gradoId)
+Service -> GradoService: validarGrado(gradoId)
+activate GradoService
+GradoService -> GradoRepo: findById(gradoId)
 activate GradoRepo
-GradoRepo --> Service: Grado
+GradoRepo --> GradoService: Grado
 deactivate GradoRepo
+GradoService --> Service: Grado válido
+deactivate GradoService
 
 Service -> Repo: save(alumnoActualizado)
 activate Repo

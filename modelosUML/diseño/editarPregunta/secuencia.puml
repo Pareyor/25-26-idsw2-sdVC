@@ -1,0 +1,73 @@
+@startuml
+title Diagrama de Secuencia - Editar Pregunta
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "PreguntaController" as Controller
+participant "PreguntaService" as Service
+participant "PreguntaRepository" as Repo
+participant "AsignaturaService" as AsigService
+participant "AsignaturaRepository" as AsigRepo
+
+Actor -> FE: Pulsa "Editar" en una pregunta
+activate FE
+
+FE -> Controller: GET /api/preguntas/{id}\n(Header: Authorization: Bearer <token>)
+activate Controller
+
+Controller -> Service: obtenerPregunta(id)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Pregunta
+deactivate Repo
+
+Service --> Controller: PreguntaDTO
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: PreguntaDTO)
+deactivate Controller
+
+FE -> FE: Cargar datos en el formulario
+FE --> Actor: Muestra formulario de edición
+
+Actor -> FE: Modifica datos y pulsa "Guardar"
+
+FE -> Controller: PUT /api/preguntas/{id}\n(Header: Authorization: Bearer <token>, Body: PreguntaDTO)
+activate Controller
+
+Controller -> Service: actualizarPregunta(id, PreguntaDTO)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Pregunta (existente)
+deactivate Repo
+
+Service -> AsigService: validarAsignatura(asignaturaId)
+activate AsigService
+AsigService -> AsigRepo: findById(asignaturaId)
+activate AsigRepo
+AsigRepo --> AsigService: Asignatura
+deactivate AsigRepo
+AsigService --> Service: Asignatura válida
+deactivate AsigService
+
+Service -> Repo: save(preguntaActualizada)
+activate Repo
+Repo --> Service: Pregunta (persisted)
+deactivate Repo
+
+Service --> Controller: PreguntaDTO (actualizado)
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: PreguntaDTO)
+deactivate Controller
+
+FE -> FE: Mostrar notificación de éxito
+FE -> FE: Redirigir a listado (/dashboard/preguntas)
+FE --> Actor: Muestra listado actualizado
+deactivate FE
+
+@enduml

@@ -30,15 +30,15 @@ Detallar la implementación técnica de la edición de datos de un alumno existe
 
 - **Frontend (React)**: Componente `AlumnoEdit.tsx` que gestiona la carga de datos inicial y el formulario de modificación.
 - **AlumnoController**: Endpoints `GET /api/alumnos/{id}` y `PUT /api/alumnos/{id}` protegidos por `@PreAuthorize("hasRole('DOCENTE')")`.
-- **AlumnoService**: Lógica para recuperar la entidad, validar cambios y persistir la actualización.
+- **AlumnoService**: Lógica para recuperar la entidad, validar cambios y persistir la actualización, validando el Grado a través de `GradoService`.
 - **AlumnoRepository**: Interface para interactuar con la persistencia de los alumnos.
-- **GradoRepository**: Interface para validar la existencia del grado si este es modificado.
+- **GradoService**: Servicio responsable de las operaciones sobre grados.
 - **AlumnoDTO**: Clase para transferir los datos del alumno entre capas.
 
 ## Decisiones de diseño
 
 - **Carga Previa**: Se realiza una petición GET inicial para asegurar que el usuario edita la versión más reciente del alumno.
-- **Validación de Grado**: Si el Docente cambia el Grado del alumno, el servicio valida que el nuevo ID de Grado exista en la base de datos.
+- **Validación de Grado**: Si el Docente cambia el Grado del alumno, se utiliza `GradoService` para asegurar la validez del nuevo ID antes de aplicar cambios.
 - **Integridad**: El servicio verifica la existencia del alumno antes de actualizar (`404 Not Found` si no existe).
 - **Seguridad**: Solo usuarios con el rol `ROLE_DOCENTE` pueden realizar estas operaciones.
 - **Flujo de Usuario**: Tras guardar los cambios, el sistema redirige al listado general para confirmar visualmente la actualización.
