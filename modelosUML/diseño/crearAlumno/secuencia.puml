@@ -1,0 +1,46 @@
+@startuml
+title Diagrama de Secuencia - Crear Alumno
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "AlumnoController" as Controller
+participant "AlumnoService" as Service
+participant "AlumnoRepository" as Repo
+participant "GradoRepository" as GradoRepo
+
+Actor -> FE: Rellena formulario (nombre, apellidos, DNI, gradoId) y pulsa "Guardar"
+activate FE
+
+FE -> Controller: POST /api/alumnos\n(Header: Authorization: Bearer <token>, Body: AlumnoDTO)
+activate Controller
+
+Controller -> Service: crearAlumno(AlumnoDTO)
+activate Service
+
+Service -> Repo: findByDni(DNI)
+activate Repo
+Repo --> Service: Optional.empty()
+deactivate Repo
+
+Service -> GradoRepo: findById(gradoId)
+activate GradoRepo
+GradoRepo --> Service: Grado
+deactivate GradoRepo
+
+Service -> Repo: save(nuevoAlumno)
+activate Repo
+Repo --> Service: Alumno (persisted)
+deactivate Repo
+
+Service --> Controller: AlumnoDTO (con ID)
+deactivate Service
+
+Controller --> FE: 201 Created (JSON: AlumnoDTO)
+deactivate Controller
+
+FE -> FE: Mostrar notificación de éxito
+FE -> FE: Redirigir a listado (/dashboard/alumnos)
+FE --> Actor: Muestra listado actualizado
+deactivate FE
+
+@enduml
