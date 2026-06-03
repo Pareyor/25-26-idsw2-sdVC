@@ -228,6 +228,16 @@
 - Integración de validaciones de integridad referencial (vinculación con la entidad `Grado`).
 - Aplicación de patrones: "El Delgado" para creación y "El Gordo" para edición integral.
 
-**Enlace:** [Sesión 17](conversations/sesion-17.md)
+## Sesión 18: [03/06/2026][15:15] Diseño del Módulo de Gestión de Alumnos (CRUD)
 
-**Decisión:** Se validaron los flujos de gestión de asignaturas. Se decidió incluir validaciones explícitas en el servicio (`AsignaturaService`) para asegurar que el `Grado` asociado exista en la base de datos antes de permitir la persistencia. Se mantuvo el estándar de respuestas HTTP (201 para creación, 204 para eliminación).
+**Prompt:** Inicio de la sesión 18. Diseño de los casos de uso del bloque de alumnos (crearAlumno, editarAlumno, eliminarAlumno) siguiendo los estándares de diseño del proyecto y la metodología de las sesiones anteriores.
+
+**Resultado:**
+- Inicialización de contexto mediante el protocolo "Inicio".
+- Generación de documentación de diseño (`README.md`) y diagramas de secuencia (`.puml`) para `crearAlumno`, `editarAlumno` y `eliminarAlumno`.
+- Aplicación de patrones: "El Delgado" para creación y "El Gordo" para edición integral.
+- Mantenimiento de la consistencia técnica (MVC, Spring Boot, React) y seguridad basada en roles (`ROLE_DOCENTE`).
+
+**Enlace:** [Sesión 18](conversations/sesion-18.md)
+
+**Decisión:** Se validaron los flujos de gestión de alumnos. Se clarificó la diferencia entre casos de uso de manipulación de relaciones (donde se requiere `GradoRepository` para validar integridad) y de simple eliminación (donde no es necesario consultar el grado). Se confirmó la estrategia de refresco visual en el frontend tras las operaciones CRUD.
