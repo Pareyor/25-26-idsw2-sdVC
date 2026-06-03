@@ -203,3 +203,17 @@
 **Enlace:** [Sesión 15](conversations/sesion-15.md)
 
 **Decisión:** Se aceptó el cambio de nomenclatura de servicios de "DocenteService" a "UsuarioService" tras detectar que no existe una entidad Docente independiente, sino que se gestionan mediante el servicio de usuarios con roles específicos. Se actualizaron retroactivamente los diseños de `verDocentes` y `crearDocente` para mantener esta coherencia en todo el módulo. Se validó el flujo de confirmación en la interfaz para la eliminación.
+
+## Sesión 16: [03/06/2026][12:00] Diseño del Módulo de Gestión de Grados (CRUD)
+
+**Prompt:** Inicio de la sesión 16. Diseño de los casos de uso del bloque de grados (crearGrado, editarGrado, eliminarGrado) siguiendo los estándares de diseño del proyecto y la metodología de la sesión anterior.
+
+**Resultado:**
+- Inicialización de contexto mediante el protocolo "Inicio" (lectura de diagramas, consideraciones y logs).
+- Generación de documentación de diseño (`README.md`) y diagramas de secuencia (`.puml`) para `crearGrado`, `editarGrado` y `eliminarGrado`.
+- Aplicación de patrones: "El Delgado" para creación y "El Gordo" para edición integral de grados.
+- Mantenimiento de la consistencia técnica con el stack tecnológico (Spring Boot + React) y seguridad basada en roles (`ROLE_DOCENTE`).
+
+**Enlace:** [Sesión 16](conversations/sesion-16.md)
+
+**Decisión:** Se validaron los flujos de creación, edición y eliminación para el Módulo Grado. Se mantuvo la estructura de controladores y servicios semánticos (`GradoController`, `GradoService`) alineados con la entidad `Grado` del modelo de dominio. Se confirmó el uso de modales de confirmación en el frontend para eliminaciones.
