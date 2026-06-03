@@ -1,0 +1,43 @@
+@startuml
+title Diagrama de Secuencia - Eliminar Asignatura
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "AsignaturaController" as Controller
+participant "AsignaturaService" as Service
+participant "AsignaturaRepository" as Repo
+
+Actor -> FE: Pulsa "Eliminar" en una asignatura
+activate FE
+
+FE -> FE: Mostrar modal de confirmación
+Actor -> FE: Confirma eliminación
+
+FE -> Controller: DELETE /api/asignaturas/{id}\n(Header: Authorization: Bearer <token>)
+activate Controller
+
+Controller -> Service: eliminarAsignatura(id)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Asignatura (existente)
+deactivate Repo
+
+Service -> Repo: delete(asignatura)
+activate Repo
+Repo --> Service: (success)
+deactivate Repo
+
+Service --> Controller: (void)
+deactivate Service
+
+Controller --> FE: 204 No Content
+deactivate Controller
+
+FE -> FE: Mostrar notificación de éxito
+FE -> FE: Refrescar lista de asignaturas
+FE --> Actor: Muestra listado actualizado
+deactivate FE
+
+@enduml
