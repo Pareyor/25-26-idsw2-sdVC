@@ -17,7 +17,7 @@
 - Estructuración de la documentación técnica en `documents/analisis/` y los modelos en `modelosUML/analisis/`.
 - Refinamiento del análisis de `corregirExamenes()` para incluir explícitamente las responsabilidades de carga, corrección y cancelación.
 
-**Enlace:** [Sesión 2](conversations/sesion-2.md)
+**Enlace:** [Sesión 2](conversations/sesion-02.md)
 
 **Decisión:** Se han aceptado los análisis de exportarConfiguracionGlobal, importarConfiguracionGlobal, importarAlumnos y generarExamenes. Se ha modificado el análisis de corregirExamenes que no tenía en cuenta la función de cargar exámenes, además me lo relacionaba con el apartado de reconocimiento de IA que, como hablamos en clase, debemos dejarlo como un factor externo al sistema.
 
@@ -30,7 +30,7 @@
 - Refinamiento de `asignarExamenes()` para integrar la búsqueda de alumnos y generación de claves alfanuméricas detectadas en el prototipo.
 - Corrección del diagrama de `crearPregunta()` para vincular correctamente la colaboración `CompletarGestion`.
 
-**Enlace:** [Sesión 3](conversations/sesion-3.md)
+**Enlace:** [Sesión 3](conversations/sesion-03.md)
 
 **Decisión:** Se aceptaron los análisis de `importarPreguntas`, `exportarAlumnos` (abstracto) y `exportarPreguntas` (abstracto). Se modificó significativamente `asignarExamenes()` para alinearlo con las funcionalidades visuales del prototipo (búsqueda y claves). Se corrigió una inconsistencia visual en `crearPregunta()` donde `CompletarGestion` estaba definido pero no relacionado con la acción de cancelar.
 
@@ -43,7 +43,7 @@
 - Creación de diagramas de secuencia "punto medio" (exquisitos pero sintetizados) para los casos 1-15, integrando activaciones, instanciación de objetos y notas de interfaz.
 - Estandarización de los 15 README.md de análisis bajo el nombre de proyecto "Jorgestor - Sistema de Gestión de Exámenes".
 
-**Enlace:** [Sesión 4](conversations/sesion-4.md)
+**Enlace:** [Sesión 4](conversations/sesion-04.md)
 
 **Decisión:** Se ha modificado el análisis de casos de uso ya implementados (1-10) para corregir la forma en que hacía los diagramas de secuencia, se estableció un mismo formato para realizarlos, basandose en pySighor y amoldándose al proyecto JORGESTOR. Se modificó el caso de uso editarAsignatura() porque la IA no detectaba la colaboración con verPreguntas() y pasaba lo mismo en editarPregunta() que no detectaba la colaboración con verRespuestas(). Por se unificó el nombre del proyecto ya que el agente IA ponía siempre de base IdSw1.
 
@@ -58,7 +58,7 @@
 - Refinamiento de la lógica de creación (`crearGrado`, `crearAsignatura`) para incluir asociaciones iniciales y redirección automática.
 - Actualización de los `README.md` de análisis documentando los patrones "El Gordo" y "El Delgado".
 
-**Enlace:** [Sesión 5](conversations/sesion-5.md)
+**Enlace:** [Sesión 5](conversations/sesion-05.md)
 
 **Decisión:** Esta vez no se acepto ningún análisis de los casos de uso generados por la IA, fue necesario cambiar todos los diagramas de colaboración ya que no se incluían las relaciones explícitas con los repositorios y no seguían el diseño general aplicado para los casos de uso analizados previamente en otras sesiones, se tuvo que realizar un segundo ciclo para formatear todos los análisis proporcionados inicialmente por la IA. 
 
@@ -72,7 +72,7 @@
 - Diagrama de secuencia para `eliminarPregunta()` (por su lógica de confirmación).
 - Ajuste de estados externos a `:SISTEMA_DISPONIBLE` y adición de accesos desde estados "..._ABIERTO" para mayor coherencia con el contexto.
 
-**Enlace:** [Sesión 6](conversations/sesion-6.md)
+**Enlace:** [Sesión 6](conversations/sesion-06.md)
 **Decisión:** Se aceptaron en un inicio los análisis de los casos de uso del 21-25, sin embargo se tuvieron que realizar cambios para que se ajuste a nuestro proyecto, la IA ponia que se accedía a verDocentes, verAsignatura, verAlumnos y verGrados desde algo que llamó MAIN_VIEW sin embargo basándonos en nuestro diagrama de contexto esto se llama SISTEMA_DISPONIBLE, además a estos casos de uso también se puede acceder desde DOCENTE_ABIERTO, ASIGNATURA_ABIERTO, ALUMNO_ABIERTO y GRADO_ABIERTO respectivamente. 
 
 ## Sesión 7: [26/05/2026][12:30] Análisis de Casos de Uso 26-30 y Refinamiento de Flujos
@@ -85,7 +85,7 @@
 - Ajuste de los diagramas de colaboración para reflejar las entradas desde estados del sistema (`:ASIGNATURAS_ABIERTO`, etc.) en lugar de vistas genéricas.
 - Refinamiento de `iniciarSesion()` para incluir la creación de la entidad `Sesion` y la transición `sistemaDisponible(usuario)`.
 
-**Enlace:** [Sesión 7](conversations/sesion-7.md)
+**Enlace:** [Sesión 7](conversations/sesion-07.md)
 
 **Decisión:** Se modificó el nombre de las vistas de eliminación de "Dialog" a "View" para mantener la consistencia del esquema definido. Se eliminaron los diagramas de secuencia en las eliminaciones por ser procesos directos de confirmación. Se corrigió el flujo de `iniciarSesion` para cumplir con el diagrama de estados específico y la lógica de negocio de creación de sesión.
 
@@ -100,7 +100,7 @@
 - **verRespuestas()**: Inclusión de accesos contextuales y generales desde estados de Pregunta y Respuesta.
 - **crearRespuesta()**: Aplicación del patrón "El Delgado" con soporte para flujos generales y contextuales.
 
-**Enlace:** [Sesión 8](conversations/sesion-8.md)
+**Enlace:** [Sesión 8](conversations/sesion-08.md)
 
 **Decisión:** Se ajustó el análisis de `cerrarSesion` para incluir explícitamente el flujo de cancelación y renombrar el controlador. En `completarGestion`, se rechazó la dependencia directa de la vista con la sesión, moviendo la lógica al controlador y usando un repositorio de permisos, también se cambió la lógica de relaciones propuestas por la IA para que a parte de poder acceder desde casos de uso como verGrado,verDocente,ver/* a completarGestion esta tambien pueda accede a ellos(menu). En `verRespuestas` y `crearRespuesta`, se corrigieron los diagramas de colaboración para alinearlos con todos los puntos de entrada definidos en el diagrama de contexto (contextuales vs generales). Se eliminó el diagrama de secuencia de `crearRespuesta`.
 
@@ -113,7 +113,7 @@
 - Refinamiento de accesos contextuales en `editarRespuesta` y `eliminarRespuesta` para incluir `:RESPUESTAS_CONTEXTUALES_ABIERTO` y `:RESPUESTA_CONTEXTUAL_ABIERTO`.
 - Aplicación de la política de no incluir diagramas de secuencia en eliminaciones e importaciones masivas por simplificación arquitectónica.
 
-**Enlace:** [Sesión 9](conversations/sesion-9.md)
+**Enlace:** [Sesión 9](conversations/sesion-09.md)
 
 **Decisión:** Se completó el análisis de todo el catálogo de casos de uso (1-41). Se modificaron los análisis de `editarRespuesta` y `eliminarRespuesta` tras detectar la falta de accesos contextuales requeridos por el diagrama de contexto. Se eliminaron los diagramas de secuencia en `editarRespuesta`, `eliminarRespuesta`, `cancelarGeneracion`, `importarAsignaturas` e `importarGrados`.
 
