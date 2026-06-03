@@ -1,0 +1,41 @@
+@startuml
+title Diagrama de Secuencia - Crear Pregunta
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "PreguntaController" as Controller
+participant "PreguntaService" as Service
+participant "PreguntaRepository" as Repo
+participant "AsignaturaRepository" as AsignaturaRepo
+
+Actor -> FE: Rellena formulario (enunciado, tema, dificultad, asignaturaId) y pulsa "Guardar"
+activate FE
+
+FE -> Controller: POST /api/preguntas\n(Header: Authorization: Bearer <token>, Body: PreguntaDTO)
+activate Controller
+
+Controller -> Service: crearPregunta(PreguntaDTO)
+activate Service
+
+Service -> AsignaturaRepo: findById(asignaturaId)
+activate AsignaturaRepo
+AsignaturaRepo --> Service: Asignatura (con Bateria)
+deactivate AsignaturaRepo
+
+Service -> Repo: save(nuevaPregunta)
+activate Repo
+Repo --> Service: Pregunta (persisted)
+deactivate Repo
+
+Service --> Controller: PreguntaDTO (con ID)
+deactivate Service
+
+Controller --> FE: 201 Created (JSON: PreguntaDTO)
+deactivate Controller
+
+FE -> FE: Mostrar notificación de éxito
+FE -> FE: Redirigir a listado (/dashboard/preguntas)
+FE --> Actor: Muestra listado actualizado
+deactivate FE
+
+@enduml
