@@ -17,7 +17,7 @@
 - Estructuración de la documentación técnica en `documents/analisis/` y los modelos en `modelosUML/analisis/`.
 - Refinamiento del análisis de `corregirExamenes()` para incluir explícitamente las responsabilidades de carga, corrección y cancelación.
 
-**Enlace:** [Conversación Sesión 2](conversations/sesion-21-05-26.md)
+**Enlace:** [Sesión 2](conversations/sesion-2.md)
 
 **Decisión:** Se han aceptado los análisis de exportarConfiguracionGlobal, importarConfiguracionGlobal, importarAlumnos y generarExamenes. Se ha modificado el análisis de corregirExamenes que no tenía en cuenta la función de cargar exámenes, además me lo relacionaba con el apartado de reconocimiento de IA que, como hablamos en clase, debemos dejarlo como un factor externo al sistema.
 
@@ -30,7 +30,7 @@
 - Refinamiento de `asignarExamenes()` para integrar la búsqueda de alumnos y generación de claves alfanuméricas detectadas en el prototipo.
 - Corrección del diagrama de `crearPregunta()` para vincular correctamente la colaboración `CompletarGestion`.
 
-**Enlace:** [Conversación Sesión 3](conversations/sesion-22-05-26.md)
+**Enlace:** [Sesión 3](conversations/sesion-3.md)
 
 **Decisión:** Se aceptaron los análisis de `importarPreguntas`, `exportarAlumnos` (abstracto) y `exportarPreguntas` (abstracto). Se modificó significativamente `asignarExamenes()` para alinearlo con las funcionalidades visuales del prototipo (búsqueda y claves). Se corrigió una inconsistencia visual en `crearPregunta()` donde `CompletarGestion` estaba definido pero no relacionado con la acción de cancelar.
 
@@ -43,7 +43,7 @@
 - Creación de diagramas de secuencia "punto medio" (exquisitos pero sintetizados) para los casos 1-15, integrando activaciones, instanciación de objetos y notas de interfaz.
 - Estandarización de los 15 README.md de análisis bajo el nombre de proyecto "Jorgestor - Sistema de Gestión de Exámenes".
 
-**Enlace:** [Conversación Sesión 4](conversations/sesion-23-05-26.md)
+**Enlace:** [Sesión 4](conversations/sesion-4.md)
 
 **Decisión:** Se ha modificado el análisis de casos de uso ya implementados (1-10) para corregir la forma en que hacía los diagramas de secuencia, se estableció un mismo formato para realizarlos, basandose en pySighor y amoldándose al proyecto JORGESTOR. Se modificó el caso de uso editarAsignatura() porque la IA no detectaba la colaboración con verPreguntas() y pasaba lo mismo en editarPregunta() que no detectaba la colaboración con verRespuestas(). Por se unificó el nombre del proyecto ya que el agente IA ponía siempre de base IdSw1.
 
@@ -58,7 +58,7 @@
 - Refinamiento de la lógica de creación (`crearGrado`, `crearAsignatura`) para incluir asociaciones iniciales y redirección automática.
 - Actualización de los `README.md` de análisis documentando los patrones "El Gordo" y "El Delgado".
 
-**Enlace:** [Conversación Sesión 5](conversations/sesion-24-05-26.md)
+**Enlace:** [Sesión 5](conversations/sesion-5.md)
 
 **Decisión:** Esta vez no se acepto ningún análisis de los casos de uso generados por la IA, fue necesario cambiar todos los diagramas de colaboración ya que no se incluían las relaciones explícitas con los repositorios y no seguían el diseño general aplicado para los casos de uso analizados previamente en otras sesiones, se tuvo que realizar un segundo ciclo para formatear todos los análisis proporcionados inicialmente por la IA. 
 
@@ -72,7 +72,7 @@
 - Diagrama de secuencia para `eliminarPregunta()` (por su lógica de confirmación).
 - Ajuste de estados externos a `:SISTEMA_DISPONIBLE` y adición de accesos desde estados "..._ABIERTO" para mayor coherencia con el contexto.
 
-**Enlace:**[Conversación Sesión 6](conversations/sesion-25-05-26.md)
+**Enlace:** [Sesión 6](conversations/sesion-6.md)
 **Decisión:** Se aceptaron en un inicio los análisis de los casos de uso del 21-25, sin embargo se tuvieron que realizar cambios para que se ajuste a nuestro proyecto, la IA ponia que se accedía a verDocentes, verAsignatura, verAlumnos y verGrados desde algo que llamó MAIN_VIEW sin embargo basándonos en nuestro diagrama de contexto esto se llama SISTEMA_DISPONIBLE, además a estos casos de uso también se puede acceder desde DOCENTE_ABIERTO, ASIGNATURA_ABIERTO, ALUMNO_ABIERTO y GRADO_ABIERTO respectivamente. 
 
 ## Sesión 7: [26/05/2026][12:30] Análisis de Casos de Uso 26-30 y Refinamiento de Flujos
@@ -85,7 +85,7 @@
 - Ajuste de los diagramas de colaboración para reflejar las entradas desde estados del sistema (`:ASIGNATURAS_ABIERTO`, etc.) en lugar de vistas genéricas.
 - Refinamiento de `iniciarSesion()` para incluir la creación de la entidad `Sesion` y la transición `sistemaDisponible(usuario)`.
 
-**Enlace:**[Conversación Sesión 6](conversations/sesion-26-05-26.md)
+**Enlace:** [Sesión 7](conversations/sesion-7.md)
 
 **Decisión:** Se modificó el nombre de las vistas de eliminación de "Dialog" a "View" para mantener la consistencia del esquema definido. Se eliminaron los diagramas de secuencia en las eliminaciones por ser procesos directos de confirmación. Se corrigió el flujo de `iniciarSesion` para cumplir con el diagrama de estados específico y la lógica de negocio de creación de sesión.
 
@@ -100,7 +100,7 @@
 - **verRespuestas()**: Inclusión de accesos contextuales y generales desde estados de Pregunta y Respuesta.
 - **crearRespuesta()**: Aplicación del patrón "El Delgado" con soporte para flujos generales y contextuales.
 
-**Enlace:** [Conversación Sesión 8](conversations/sesion-27-05-26.md)
+**Enlace:** [Sesión 8](conversations/sesion-8.md)
 
 **Decisión:** Se ajustó el análisis de `cerrarSesion` para incluir explícitamente el flujo de cancelación y renombrar el controlador. En `completarGestion`, se rechazó la dependencia directa de la vista con la sesión, moviendo la lógica al controlador y usando un repositorio de permisos, también se cambió la lógica de relaciones propuestas por la IA para que a parte de poder acceder desde casos de uso como verGrado,verDocente,ver/* a completarGestion esta tambien pueda accede a ellos(menu). En `verRespuestas` y `crearRespuesta`, se corrigieron los diagramas de colaboración para alinearlos con todos los puntos de entrada definidos en el diagrama de contexto (contextuales vs generales). Se eliminó el diagrama de secuencia de `crearRespuesta`.
 
@@ -113,7 +113,7 @@
 - Refinamiento de accesos contextuales en `editarRespuesta` y `eliminarRespuesta` para incluir `:RESPUESTAS_CONTEXTUALES_ABIERTO` y `:RESPUESTA_CONTEXTUAL_ABIERTO`.
 - Aplicación de la política de no incluir diagramas de secuencia en eliminaciones e importaciones masivas por simplificación arquitectónica.
 
-**Enlace:** [Conversación Sesión 9](conversations/sesion-28-05-26.md)
+**Enlace:** [Sesión 9](conversations/sesion-9.md)
 
 **Decisión:** Se completó el análisis de todo el catálogo de casos de uso (1-41). Se modificaron los análisis de `editarRespuesta` y `eliminarRespuesta` tras detectar la falta de accesos contextuales requeridos por el diagrama de contexto. Se eliminaron los diagramas de secuencia en `editarRespuesta`, `eliminarRespuesta`, `cancelarGeneracion`, `importarAsignaturas` e `importarGrados`.
 
@@ -129,7 +129,7 @@
 - Implementación en el Frontend: `auth.service.ts`, componente `Login.tsx` con Tailwind y configuración en `App.tsx`.
 - Resolución de problemas de compilación eliminando la dependencia de Lombok y añadiendo boilerplate manual (Getters/Setters/Constructores).
 
-**Enlace:** [Conversación Sesión 10](conversations/sesion-30-05-26.md)
+**Enlace:** [Sesión 10](conversations/sesion-10.md)
 
 **Decisión:** Se aceptó el stack tecnológico (Maven para el backend, Vite para el frontend). Se decidió eliminar Lombok para asegurar la compatibilidad con el entorno de terminal del usuario tras fallos persistentes en la generación de símbolos. Se ajustó el `DataInitializer` para crear automáticamente usuarios `admin/admin123` y `docente/docente123`. Se validó la estructura de carpetas `src/backend`, `src/frontend` y `src/docker`, también se aceptó el diseño de iniciarSesion y cerrarSesion.
 
@@ -143,7 +143,7 @@
 - **Frontend**: Instalación de `react-router-dom` y `lucide-react`. Implementación de `Dashboard.tsx` con renderizado dinámico de iconos y títulos. Configuración de rutas protegidas en `App.tsx` y flujo de navegación `Login -> Dashboard -> Logout`.
 - **Integración**: Verificación exitosa del flujo completo. El Admin solo ve "Gestión de Docentes" y "Cerrar Sesión", mientras que el Docente ve todos sus módulos de gestión.
 
-**Enlace:** [Conversación Sesión 11](conversations/sesion-30-05-26(SegundaSesion).md)
+**Enlace:** [Sesión 11](conversations/sesion-11.md)
 
 **Decisión:** Se ajustó el menú del Administrador para incluir estrictamente `verDocentes` y `cerrarSesion`, cumpliendo con el diagrama de contexto. Se decidió integrar la notificación de logout al servidor incluso en arquitectura stateless para trazabilidad. Se resolvió un problema de carga del dashboard configurando el filtro de seguridad para leer los roles de los usuarios desde el JWT. Como la primera sesion estaba siendo muy larga decidí empezar otra para mayor eficiencia.
 
@@ -157,7 +157,7 @@
 - Mejora del entorno de trabajo mediante la creación de un archivo `.gitignore` profesional para filtrar archivos compilados y temporales.
 - Sincronización de las opciones de menú en el backend con las transiciones permitidas en los diagramas de contexto.
 
-**Enlace:** [Conversación Sesión 12](conversations/sesion-31-05-26.md)
+**Enlace:** [Sesión 12](conversations/sesion-12.md)
 
 **Decisión:** Se decidió completar el diseño de todos los módulos del Dashboard antes de iniciar la implementación para asegurar la coherencia del panel. Se rechazaron propuestas de cambio estético en los diagramas de secuencia para mantener la simplicidad técnica. Se corrigieron erratas en las etiquetas de los diagramas de secuencia para asegurar la precisión del dominio en cada módulo.
 
@@ -172,7 +172,7 @@
 - **Backend**: Resolución de fallos de compilación en `DataInitializer` por imports faltantes.
 - **Git**: Configuración de `.gitignore` y asesoramiento sobre la eliminación de carpetas `target/` del historial de Git.
 
-**Enlace:** [Conversación Sesión 13](conversations/sesion-01-06-26.md)
+**Enlace:** [Sesión 13](conversations/sesion-13.md)
 
 **Decisión:** Se aceptó el cambio de estándar en el frontend a **exportaciones nombradas** para mejorar la robustez contra errores de carga de módulos. Se corrigieron varios errores en la implementación de verDocentes y verGrados, faltaban imports que hacían que la pantalla se quedase en blanco.
 
@@ -186,7 +186,7 @@
 - **Backend**: Enriquecimiento del `DataInitializer` con datos de prueba para todos los nuevos módulos y resolución de conflicto de puerto 8080.
 - **Frontend**: Integración de iconos de `lucide-react` y estilos de badges dinámicos para dificultad en preguntas.
 
-**Enlace:** [Conversación Sesión 14](conversations/sesion-02-06-26.md)
+**Enlace:** [Sesión 14](conversations/sesion-14.md)
 
 **Decisión:** Se aceptó la implementación modular y secuencial propuesta. Se corrigió parte del código para que en el filtro de búsquedas no tuviese en cuenta las tildes mayúsculas,... Se rechazó la implementación inmediata de `verRespuestas` al ser un caso de uso contextual que requiere mayor profundidad en el CRUD de preguntas.
 
@@ -203,7 +203,3 @@
 **Enlace:** [Sesión 15](conversations/sesion-15.md)
 
 **Decisión:** Se aceptó el cambio de nomenclatura de servicios de "DocenteService" a "UsuarioService" tras detectar que no existe una entidad Docente independiente, sino que se gestionan mediante el servicio de usuarios con roles específicos. Se actualizaron retroactivamente los diseños de `verDocentes` y `crearDocente` para mantener esta coherencia en todo el módulo. Se validó el flujo de confirmación en la interfaz para la eliminación.
-
-
-
-
