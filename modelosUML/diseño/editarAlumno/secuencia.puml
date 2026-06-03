@@ -1,0 +1,68 @@
+@startuml
+title Diagrama de Secuencia - Editar Alumno
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "AlumnoController" as Controller
+participant "AlumnoService" as Service
+participant "AlumnoRepository" as Repo
+participant "GradoRepository" as GradoRepo
+
+Actor -> FE: Pulsa "Editar" en un alumno
+activate FE
+
+FE -> Controller: GET /api/alumnos/{id}\n(Header: Authorization: Bearer <token>)
+activate Controller
+
+Controller -> Service: obtenerAlumno(id)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Alumno
+deactivate Repo
+
+Service --> Controller: AlumnoDTO
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: AlumnoDTO)
+deactivate Controller
+
+FE -> FE: Cargar datos en el formulario
+FE --> Actor: Muestra formulario de edición
+
+Actor -> FE: Modifica datos (nombre, apellidos, gradoId) y pulsa "Guardar"
+
+FE -> Controller: PUT /api/alumnos/{id}\n(Header: Authorization: Bearer <token>, Body: AlumnoDTO)
+activate Controller
+
+Controller -> Service: actualizarAlumno(id, AlumnoDTO)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Alumno (existente)
+deactivate Repo
+
+Service -> GradoRepo: findById(gradoId)
+activate GradoRepo
+GradoRepo --> Service: Grado
+deactivate GradoRepo
+
+Service -> Repo: save(alumnoActualizado)
+activate Repo
+Repo --> Service: Alumno (persisted)
+deactivate Repo
+
+Service --> Controller: AlumnoDTO (actualizado)
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: AlumnoDTO)
+deactivate Controller
+
+FE -> FE: Mostrar notificación de éxito
+FE -> FE: Redirigir a listado (/dashboard/alumnos)
+FE --> Actor: Muestra listado actualizado
+deactivate FE
+
+@enduml
