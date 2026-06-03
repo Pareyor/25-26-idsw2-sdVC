@@ -30,9 +30,8 @@ Detallar la implementación técnica del listado de docentes para el Administrad
 
 - **Frontend (React)**: Componente `DocenteList.tsx` que consume el endpoint `/api/docentes`.
 - **DocenteController**: Endpoint `GET /api/docentes` protegido por `@PreAuthorize("hasRole('ADMIN')")`.
-- **DocenteService**: Lógica para filtrar usuarios por el rol `ROLE_DOCENTE`.
+- **UsuarioService**: Lógica para filtrar usuarios por el rol `ROLE_DOCENTE`.
 - **UsuarioRepository**: Interface para acceder a la base de datos de usuarios.
-- **DocenteDTO**: Clase para transferir los datos del docente a la vista (evitando enviar la contraseña).
 
 ## Decisiones de diseño
 

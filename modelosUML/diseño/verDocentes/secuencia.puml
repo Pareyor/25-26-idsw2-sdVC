@@ -4,7 +4,7 @@ title Diagrama de Secuencia - Ver Docentes (Listado)
 actor "Administrador" as Actor
 participant "Frontend (React)" as FE
 participant "DocenteController" as Controller
-participant "DocenteService" as Service
+participant "UsuarioService" as Service
 participant "UsuarioRepository" as Repo
 
 Actor -> FE: Accede a "Gestión de Docentes"

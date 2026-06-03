@@ -1,59 +1,40 @@
-@startuml secuencia
-skinparam Style strictuml
-skinparam SequenceMessageAlignment center
+@startuml
+title Diagrama de Secuencia - Crear Docente
 
-skinparam sequence {
-    ParticipantBackgroundColor #white
-    ActorBackgroundColor #white
-}
+actor "Administrador" as Actor
+participant "Frontend (React)" as FE
+participant "DocenteController" as Controller
+participant "UsuarioService" as Service
+participant "UsuarioRepository" as Repo
 
-actor "Administrador" as Admin
-participant ":DocenteListView" as ListView <<Vista>> #CDEBA5
-participant ":DocenteCreateView" as CreateView <<Vista>> #CDEBA5
-participant ":DocenteController" as Controller <<Control>> #629EF9
-participant ":DocenteService" as Service <<Servicio>> #b5bd68
-participant ":DocenteRepository" as Repo <<Repositorio>> #F2AC4E
-participant "nuevoDocente:Docente" as Entity <<Entidad>> #white
+Actor -> FE: Rellena formulario y pulsa "Guardar"
+activate FE
 
-Admin -> ListView : seleccionarCrearDocente()
-activate ListView
-ListView -> CreateView : mostrarFormulario()
-deactivate ListView
-activate CreateView
-
-Admin -> CreateView : introducirDatos(nombre, apellidos, dni, email)
-Admin -> CreateView : confirmarCreacion()
-
-CreateView -> Controller : crearDocente(docenteDTO)
+FE -> Controller: POST /api/docentes\n(Header: Authorization: Bearer <token>, Body: DocenteDTO)
 activate Controller
 
-Controller -> Service : crearDocente(docenteDTO)
+Controller -> Service: crearDocente(DocenteDTO)
 activate Service
 
-Service -> Repo : findByDni(dni)
+Service -> Repo: findByDni(dni)
 activate Repo
-Repo --> Service : null
+Repo --> Service: Optional.empty()
 deactivate Repo
 
-Service -> Entity : new Docente(datos)
-activate Entity
-Entity --> Service : nuevoDocente
-deactivate Entity
-
-Service -> Repo : save(nuevoDocente)
+Service -> Repo: save(nuevoDocente)
 activate Repo
-Repo --> Service : docenteGuardado
+Repo --> Service: Usuario (persisted)
 deactivate Repo
 
-Service --> Controller : docenteCreadoDTO
+Service --> Controller: DocenteDTO (con ID)
 deactivate Service
 
-Controller --> CreateView : 201 Created (docenteCreadoDTO)
+Controller --> FE: 201 Created (JSON: DocenteDTO)
 deactivate Controller
 
-CreateView -> ListView : mostrarMensajeExito()
-deactivate CreateView
-activate ListView
-ListView -> ListView : refrescarLista()
-deactivate ListView
+FE -> FE: Mostrar notificación de éxito
+FE -> FE: Redirigir a listado (/dashboard/docentes)
+FE --> Actor: Muestra listado actualizado
+deactivate FE
+
 @enduml

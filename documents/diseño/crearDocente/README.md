@@ -30,8 +30,8 @@ Detallar la implementación técnica de la creación de docentes por parte del A
 
 - **Frontend (React)**: Componente `DocenteCreate.tsx` que gestiona el formulario de alta.
 - **DocenteController**: Endpoint `POST /api/docentes` protegido por `@PreAuthorize("hasRole('ADMIN')")`.
-- **DocenteService**: Lógica de negocio para verificar duplicidad de DNI y persistir el nuevo docente.
-- **DocenteRepository**: Interface para la persistencia en base de datos.
+- **UsuarioService**: Lógica de negocio para verificar duplicidad de DNI y persistir el nuevo usuario con rol DOCENTE.
+- **UsuarioRepository**: Interface para la persistencia en base de datos de usuarios.
 - **DocenteDTO**: Estructura de datos para la transferencia desde la vista.
 
 ## Decisiones de diseño
