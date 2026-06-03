@@ -6,7 +6,8 @@ participant "Frontend (React)" as FE
 participant "PreguntaController" as Controller
 participant "PreguntaService" as Service
 participant "PreguntaRepository" as Repo
-participant "AsignaturaRepository" as AsignaturaRepo
+participant "AsignaturaService" as AsigService
+participant "AsignaturaRepository" as AsigRepo
 
 Actor -> FE: Rellena formulario (enunciado, tema, dificultad, asignaturaId) y pulsa "Guardar"
 activate FE
@@ -17,10 +18,19 @@ activate Controller
 Controller -> Service: crearPregunta(PreguntaDTO)
 activate Service
 
-Service -> AsignaturaRepo: findById(asignaturaId)
-activate AsignaturaRepo
-AsignaturaRepo --> Service: Asignatura (con Bateria)
-deactivate AsignaturaRepo
+Service -> Repo: findByCodigo(codigo)
+activate Repo
+Repo --> Service: Optional.empty()
+deactivate Repo
+
+Service -> AsigService: validarAsignatura(asignaturaId)
+activate AsigService
+AsigService -> AsigRepo: findById(asignaturaId)
+activate AsigRepo
+AsigRepo --> AsigService: Asignatura (con Bateria)
+deactivate AsigRepo
+AsigService --> Service: Asignatura válida
+deactivate AsigService
 
 Service -> Repo: save(nuevaPregunta)
 activate Repo
