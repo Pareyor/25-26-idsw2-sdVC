@@ -1,0 +1,43 @@
+@startuml
+title Diagrama de Secuencia - Eliminar Docente
+
+actor "Administrador" as Actor
+participant "Frontend (React)" as FE
+participant "DocenteController" as Controller
+participant "UsuarioService" as Service
+participant "UsuarioRepository" as Repo
+
+Actor -> FE: Pulsa "Eliminar" en un docente
+activate FE
+
+FE -> FE: Mostrar modal de confirmación
+Actor -> FE: Confirma eliminación
+
+FE -> Controller: DELETE /api/docentes/{id}\n(Header: Authorization: Bearer <token>)
+activate Controller
+
+Controller -> Service: eliminarDocente(id)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Usuario (existente)
+deactivate Repo
+
+Service -> Repo: delete(usuario)
+activate Repo
+Repo --> Service: (success)
+deactivate Repo
+
+Service --> Controller: (void)
+deactivate Service
+
+Controller --> FE: 204 No Content
+deactivate Controller
+
+FE -> FE: Mostrar notificación de éxito
+FE -> FE: Refrescar lista de docentes
+FE --> Actor: Muestra listado actualizado
+deactivate FE
+
+@enduml
