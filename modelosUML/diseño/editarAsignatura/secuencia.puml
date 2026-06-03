@@ -1,0 +1,68 @@
+@startuml
+title Diagrama de Secuencia - Editar Asignatura
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "AsignaturaController" as Controller
+participant "AsignaturaService" as Service
+participant "AsignaturaRepository" as Repo
+participant "GradoRepository" as GradoRepo
+
+Actor -> FE: Pulsa "Editar" en una asignatura
+activate FE
+
+FE -> Controller: GET /api/asignaturas/{id}\n(Header: Authorization: Bearer <token>)
+activate Controller
+
+Controller -> Service: obtenerAsignatura(id)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Asignatura
+deactivate Repo
+
+Service --> Controller: AsignaturaDTO
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: AsignaturaDTO)
+deactivate Controller
+
+FE -> FE: Cargar datos en el formulario
+FE --> Actor: Muestra formulario de edición
+
+Actor -> FE: Modifica datos (título, curso, gradoId) y pulsa "Guardar"
+
+FE -> Controller: PUT /api/asignaturas/{id}\n(Header: Authorization: Bearer <token>, Body: AsignaturaDTO)
+activate Controller
+
+Controller -> Service: actualizarAsignatura(id, AsignaturaDTO)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Asignatura (existente)
+deactivate Repo
+
+Service -> GradoRepo: findById(gradoId)
+activate GradoRepo
+GradoRepo --> Service: Grado
+deactivate GradoRepo
+
+Service -> Repo: save(asignaturaActualizada)
+activate Repo
+Repo --> Service: Asignatura (persisted)
+deactivate Repo
+
+Service --> Controller: AsignaturaDTO (actualizado)
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: AsignaturaDTO)
+deactivate Controller
+
+FE -> FE: Mostrar notificación de éxito
+FE -> FE: Redirigir a listado (/dashboard/asignaturas)
+FE --> Actor: Muestra listado actualizado
+deactivate FE
+
+@enduml
