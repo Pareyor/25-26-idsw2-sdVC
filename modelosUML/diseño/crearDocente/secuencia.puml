@@ -1,0 +1,59 @@
+@startuml secuencia
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+skinparam sequence {
+    ParticipantBackgroundColor #white
+    ActorBackgroundColor #white
+}
+
+actor "Administrador" as Admin
+participant ":DocenteListView" as ListView <<Vista>> #CDEBA5
+participant ":DocenteCreateView" as CreateView <<Vista>> #CDEBA5
+participant ":DocenteController" as Controller <<Control>> #629EF9
+participant ":DocenteService" as Service <<Servicio>> #b5bd68
+participant ":DocenteRepository" as Repo <<Repositorio>> #F2AC4E
+participant "nuevoDocente:Docente" as Entity <<Entidad>> #white
+
+Admin -> ListView : seleccionarCrearDocente()
+activate ListView
+ListView -> CreateView : mostrarFormulario()
+deactivate ListView
+activate CreateView
+
+Admin -> CreateView : introducirDatos(nombre, apellidos, dni, email)
+Admin -> CreateView : confirmarCreacion()
+
+CreateView -> Controller : crearDocente(docenteDTO)
+activate Controller
+
+Controller -> Service : crearDocente(docenteDTO)
+activate Service
+
+Service -> Repo : findByDni(dni)
+activate Repo
+Repo --> Service : null
+deactivate Repo
+
+Service -> Entity : new Docente(datos)
+activate Entity
+Entity --> Service : nuevoDocente
+deactivate Entity
+
+Service -> Repo : save(nuevoDocente)
+activate Repo
+Repo --> Service : docenteGuardado
+deactivate Repo
+
+Service --> Controller : docenteCreadoDTO
+deactivate Service
+
+Controller --> CreateView : 201 Created (docenteCreadoDTO)
+deactivate Controller
+
+CreateView -> ListView : mostrarMensajeExito()
+deactivate CreateView
+activate ListView
+ListView -> ListView : refrescarLista()
+deactivate ListView
+@enduml
