@@ -6,6 +6,7 @@ participant "Frontend (React)" as FE
 participant "AsignaturaController" as Controller
 participant "AsignaturaService" as Service
 participant "AsignaturaRepository" as Repo
+participant "GradoService" as GradoService
 participant "GradoRepository" as GradoRepo
 
 Actor -> FE: Pulsa "Editar" en una asignatura
@@ -26,7 +27,7 @@ Service --> Controller: AsignaturaDTO
 deactivate Service
 
 Controller --> FE: 200 OK (JSON: AsignaturaDTO)
-deactivate Controller
+activate Controller
 
 FE -> FE: Cargar datos en el formulario
 FE --> Actor: Muestra formulario de edición
@@ -44,10 +45,14 @@ activate Repo
 Repo --> Service: Asignatura (existente)
 deactivate Repo
 
-Service -> GradoRepo: findById(gradoId)
+Service -> GradoService: validarGrado(gradoId)
+activate GradoService
+GradoService -> GradoRepo: findById(gradoId)
 activate GradoRepo
-GradoRepo --> Service: Grado
+GradoRepo --> GradoService: Grado
 deactivate GradoRepo
+GradoService --> Service: Grado válido
+deactivate GradoService
 
 Service -> Repo: save(asignaturaActualizada)
 activate Repo

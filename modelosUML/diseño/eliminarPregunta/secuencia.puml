@@ -1,0 +1,43 @@
+@startuml
+title Diagrama de Secuencia - Eliminar Pregunta
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "PreguntaController" as Controller
+participant "PreguntaService" as Service
+participant "PreguntaRepository" as Repo
+
+Actor -> FE: Pulsa "Eliminar" en una pregunta
+activate FE
+
+FE -> FE: Mostrar modal de confirmación
+Actor -> FE: Confirma eliminación
+
+FE -> Controller: DELETE /api/preguntas/{id}\n(Header: Authorization: Bearer <token>)
+activate Controller
+
+Controller -> Service: eliminarPregunta(id)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Pregunta (existente)
+deactivate Repo
+
+Service -> Repo: delete(pregunta)
+activate Repo
+Repo --> Service: (success)
+deactivate Repo
+
+Service --> Controller: (void)
+deactivate Service
+
+Controller --> FE: 204 No Content
+deactivate Controller
+
+FE -> FE: Mostrar notificación de éxito
+FE -> FE: Refrescar lista de preguntas
+FE --> Actor: Muestra listado actualizado
+deactivate FE
+
+@enduml
