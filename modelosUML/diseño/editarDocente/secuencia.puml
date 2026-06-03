@@ -1,0 +1,62 @@
+@startuml
+title Diagrama de Secuencia - Editar Docente
+
+actor "Administrador" as Actor
+participant "Frontend (React)" as FE
+participant "DocenteController" as Controller
+participant "UsuarioService" as Service
+participant "UsuarioRepository" as Repo
+
+Actor -> FE: Pulsa "Editar" en un docente
+activate FE
+
+FE -> Controller: GET /api/docentes/{id}\n(Header: Authorization: Bearer <token>)
+activate Controller
+
+Controller -> Service: obtenerDocente(id)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Usuario
+deactivate Repo
+
+Service --> Controller: DocenteDTO
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: DocenteDTO)
+deactivate Controller
+
+FE -> FE: Cargar datos en el formulario
+FE --> Actor: Muestra formulario de edición
+
+Actor -> FE: Modifica datos y pulsa "Guardar"
+
+FE -> Controller: PUT /api/docentes/{id}\n(Header: Authorization: Bearer <token>, Body: DocenteDTO)
+activate Controller
+
+Controller -> Service: actualizarDocente(id, DocenteDTO)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Usuario (existente)
+deactivate Repo
+
+Service -> Repo: save(usuarioActualizado)
+activate Repo
+Repo --> Service: Usuario (persisted)
+deactivate Repo
+
+Service --> Controller: DocenteDTO (actualizado)
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: DocenteDTO)
+deactivate Controller
+
+FE -> FE: Mostrar notificación de éxito
+FE -> FE: Redirigir a listado (/dashboard/docentes)
+FE --> Actor: Muestra listado actualizado
+deactivate FE
+
+@enduml
