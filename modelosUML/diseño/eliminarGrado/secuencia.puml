@@ -1,0 +1,43 @@
+@startuml
+title Diagrama de Secuencia - Eliminar Grado
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "GradoController" as Controller
+participant "GradoService" as Service
+participant "GradoRepository" as Repo
+
+Actor -> FE: Pulsa "Eliminar" en un grado
+activate FE
+
+FE -> FE: Mostrar modal de confirmación
+Actor -> FE: Confirma eliminación
+
+FE -> Controller: DELETE /api/grados/{id}\n(Header: Authorization: Bearer <token>)
+activate Controller
+
+Controller -> Service: eliminarGrado(id)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Grado (existente)
+deactivate Repo
+
+Service -> Repo: delete(grado)
+activate Repo
+Repo --> Service: (success)
+deactivate Repo
+
+Service --> Controller: (void)
+deactivate Service
+
+Controller --> FE: 204 No Content
+deactivate Controller
+
+FE -> FE: Mostrar notificación de éxito
+FE -> FE: Refrescar lista de grados
+FE --> Actor: Muestra listado actualizado
+deactivate FE
+
+@enduml
