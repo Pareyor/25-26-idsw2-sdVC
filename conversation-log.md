@@ -190,5 +190,20 @@
 
 **Decisión:** Se aceptó la implementación modular y secuencial propuesta. Se corrigió parte del código para que en el filtro de búsquedas no tuviese en cuenta las tildes mayúsculas,... Se rechazó la implementación inmediata de `verRespuestas` al ser un caso de uso contextual que requiere mayor profundidad en el CRUD de preguntas.
 
+## Sesión 15: [03/06/2026][10:15] Diseño del Módulo de Gestión de Docentes (CRUD)
+
+**Prompt:** Diseño de los casos de uso del bloque de docentes (crearDocente, editarDocente, eliminarDocente) siguiendo los estándares de documentación y diagramas de secuencia del proyecto, presentándolos uno por uno para validación.
+
+**Resultado:**
+- Generación de documentación de diseño (`README.md`) y diagramas de secuencia (`.puml`) para `crearDocente`, `editarDocente` y `eliminarDocente`.
+- Estandarización de los diagramas de secuencia siguiendo la nomenclatura de `verDocentes` (Frontend (React), DocenteController, etc.).
+- Alineación técnica: Uso de `UsuarioService` y `UsuarioRepository` en todos los diseños del bloque para reflejar la realidad del backend donde los docentes son entidades `Usuario` con `ROLE_DOCENTE`.
+- Aplicación de patrones: "El Delgado" para creación y "El Gordo" para edición integral.
+
+**Enlace:** [Sesión 15](conversations/sesion-15.md)
+
+**Decisión:** Se aceptó el cambio de nomenclatura de servicios de "DocenteService" a "UsuarioService" tras detectar que no existe una entidad Docente independiente, sino que se gestionan mediante el servicio de usuarios con roles específicos. Se actualizaron retroactivamente los diseños de `verDocentes` y `crearDocente` para mantener esta coherencia en todo el módulo. Se validó el flujo de confirmación en la interfaz para la eliminación.
+
+
 
 
