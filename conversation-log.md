@@ -241,3 +241,17 @@
 **Enlace:** [Sesión 18](conversations/sesion-18.md)
 
 **Decisión:** Se validaron los flujos de gestión de alumnos. Se clarificó la diferencia entre casos de uso de manipulación de relaciones (donde se requiere `GradoRepository` para validar integridad) y de simple eliminación (donde no es necesario consultar el grado). Se confirmó la estrategia de refresco visual en el frontend tras las operaciones CRUD.
+
+## Sesión 19: [03/06/2026][16:00] Diseño del Módulo de Gestión de Preguntas-Respuestas (CRUD)
+
+**Prompt:** Inicio de la sesión 19. Diseño de los casos de uso (crearPregunta, editarPregunta, eliminarPregunta) siguiendo la metodología de las sesiones anteriores y realizando una auditoría de consistencia arquitectónica en todo el proyecto.
+
+**Resultado:**
+- Inicialización de contexto mediante el protocolo "Inicio".
+- Generación de documentación de diseño (`README.md`) y diagramas de secuencia (`.puml`) para `crearPregunta`, `editarPregunta` y `eliminarPregunta`.
+- Auditoría arquitectónica: Se revisaron todos los diseños previos para asegurar que las dependencias entre módulos utilicen siempre la capa de Servicio (`Service`) y nunca accedan directamente al Repositorio de otro módulo (`Repository`).
+- Corrección de `crearAsignatura`, `editarAsignatura`, `crearAlumno` y `editarAlumno` para cumplir con el estándar Service-to-Service.
+
+**Enlace:** [Sesión 19](conversations/sesion-19.md)
+
+**Decisión:** Se validaron los flujos de gestión de preguntas. Se decidió reforzar la arquitectura desacoplada obligando a que cualquier interacción pase por el Servicio del módulo destino. Se acordó finalizar el diseño hoy para comenzar la implementación integral en la próxima sesión.
