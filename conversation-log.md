@@ -217,3 +217,17 @@
 **Enlace:** [Sesión 16](conversations/sesion-16.md)
 
 **Decisión:** Se validaron los flujos de creación, edición y eliminación para el Módulo Grado. Se mantuvo la estructura de controladores y servicios semánticos (`GradoController`, `GradoService`) alineados con la entidad `Grado` del modelo de dominio. Se confirmó el uso de modales de confirmación en el frontend para eliminaciones.
+
+## Sesión 17: [03/06/2026][14:30] Diseño del Módulo de Gestión de Asignaturas (CRUD)
+
+**Prompt:** empezamos ya vamos con el modulo de asignaturas. Diseño de los casos de uso (crearAsignatura, editarAsignatura, eliminarAsignatura) siguiendo la metodología de las sesiones 15 y 16.
+
+**Resultado:**
+- Inicialización de contexto mediante el protocolo "Inicio".
+- Generación de documentación de diseño (`README.md`) y diagramas de secuencia (`.puml`) para `crearAsignatura`, `editarAsignatura` y `eliminarAsignatura`.
+- Integración de validaciones de integridad referencial (vinculación con la entidad `Grado`).
+- Aplicación de patrones: "El Delgado" para creación y "El Gordo" para edición integral.
+
+**Enlace:** [Sesión 17](conversations/sesion-17.md)
+
+**Decisión:** Se validaron los flujos de gestión de asignaturas. Se decidió incluir validaciones explícitas en el servicio (`AsignaturaService`) para asegurar que el `Grado` asociado exista en la base de datos antes de permitir la persistencia. Se mantuvo el estándar de respuestas HTTP (201 para creación, 204 para eliminación).
