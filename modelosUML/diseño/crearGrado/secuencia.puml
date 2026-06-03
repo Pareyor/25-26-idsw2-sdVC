@@ -1,0 +1,40 @@
+@startuml
+title Diagrama de Secuencia - Crear Grado
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "GradoController" as Controller
+participant "GradoService" as Service
+participant "GradoRepository" as Repo
+
+Actor -> FE: Rellena formulario y pulsa "Guardar"
+activate FE
+
+FE -> Controller: POST /api/grados\n(Header: Authorization: Bearer <token>, Body: GradoDTO)
+activate Controller
+
+Controller -> Service: crearGrado(GradoDTO)
+activate Service
+
+Service -> Repo: findByCodigo(codigo)
+activate Repo
+Repo --> Service: Optional.empty()
+deactivate Repo
+
+Service -> Repo: save(nuevoGrado)
+activate Repo
+Repo --> Service: Grado (persisted)
+deactivate Repo
+
+Service --> Controller: GradoDTO (con ID)
+deactivate Service
+
+Controller --> FE: 201 Created (JSON: GradoDTO)
+deactivate Controller
+
+FE -> FE: Mostrar notificación de éxito
+FE -> FE: Redirigir a listado (/dashboard/grados)
+FE --> Actor: Muestra listado actualizado
+deactivate FE
+
+@enduml
