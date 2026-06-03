@@ -1,0 +1,62 @@
+@startuml
+title Diagrama de Secuencia - Editar Grado
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "GradoController" as Controller
+participant "GradoService" as Service
+participant "GradoRepository" as Repo
+
+Actor -> FE: Pulsa "Editar" en un grado
+activate FE
+
+FE -> Controller: GET /api/grados/{id}\n(Header: Authorization: Bearer <token>)
+activate Controller
+
+Controller -> Service: obtenerGrado(id)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Grado
+deactivate Repo
+
+Service --> Controller: GradoDTO
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: GradoDTO)
+deactivate Controller
+
+FE -> FE: Cargar datos en el formulario
+FE --> Actor: Muestra formulario de edición
+
+Actor -> FE: Modifica datos y pulsa "Guardar"
+
+FE -> Controller: PUT /api/grados/{id}\n(Header: Authorization: Bearer <token>, Body: GradoDTO)
+activate Controller
+
+Controller -> Service: actualizarGrado(id, GradoDTO)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Grado (existente)
+deactivate Repo
+
+Service -> Repo: save(gradoActualizado)
+activate Repo
+Repo --> Service: Grado (persisted)
+deactivate Repo
+
+Service --> Controller: GradoDTO (actualizado)
+deactivate Service
+
+Controller --> FE: 200 OK (JSON: GradoDTO)
+deactivate Controller
+
+FE -> FE: Mostrar notificación de éxito
+FE -> FE: Redirigir a listado (/dashboard/grados)
+FE --> Actor: Muestra listado actualizado
+deactivate FE
+
+@enduml
