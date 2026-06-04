@@ -5,6 +5,7 @@ import DocenteList from './components/DocenteList';
 import DocenteCreate from './components/DocenteCreate';
 import DocenteEdit from './components/DocenteEdit';
 import GradoList from './components/GradoList';
+import GradoCreate from './components/GradoCreate';
 import AsignaturaList from './components/AsignaturaList';
 import AlumnoList from './components/AlumnoList';
 import PreguntaList from './components/PreguntaList';
