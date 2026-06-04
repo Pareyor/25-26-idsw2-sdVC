@@ -6,6 +6,7 @@ import DocenteCreate from './components/DocenteCreate';
 import DocenteEdit from './components/DocenteEdit';
 import GradoList from './components/GradoList';
 import GradoCreate from './components/GradoCreate';
+import GradoEdit from './components/GradoEdit';
 import AsignaturaList from './components/AsignaturaList';
 import AlumnoList from './components/AlumnoList';
 import PreguntaList from './components/PreguntaList';
@@ -66,6 +67,14 @@ function App() {
           element={
             <PrivateRoute>
               <GradoCreate />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/grados/editar/:id" 
+          element={
+            <PrivateRoute>
+              <GradoEdit />
             </PrivateRoute>
           } 
         />

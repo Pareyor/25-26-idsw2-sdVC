@@ -23,11 +23,28 @@ public class GradoService {
                 .collect(Collectors.toList());
     }
 
+    public GradoDTO obtenerGrado(Long id) {
+        Grado g = gradoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Grado no encontrado"));
+        return new GradoDTO(g.getId(), g.getCodigo(), g.getTitulo());
+    }
+
     public GradoDTO crearGrado(GradoDTO dto) {
         if (gradoRepository.findByCodigo(dto.getCodigo()).isPresent()) {
             throw new RuntimeException("El código de grado ya existe");
         }
         Grado grado = new Grado(dto.getCodigo(), dto.getTitulo());
+        Grado guardado = gradoRepository.save(grado);
+        return new GradoDTO(guardado.getId(), guardado.getCodigo(), guardado.getTitulo());
+    }
+
+    public GradoDTO actualizarGrado(Long id, GradoDTO dto) {
+        Grado grado = gradoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Grado no encontrado"));
+        
+        grado.setCodigo(dto.getCodigo());
+        grado.setTitulo(dto.getTitulo());
+        
         Grado guardado = gradoRepository.save(grado);
         return new GradoDTO(guardado.getId(), guardado.getCodigo(), guardado.getTitulo());
     }

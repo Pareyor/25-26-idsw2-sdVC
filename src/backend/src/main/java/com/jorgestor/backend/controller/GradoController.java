@@ -24,10 +24,22 @@ public class GradoController {
         return gradoService.listarGrados();
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCENTE')")
+    public GradoDTO getGrado(@PathVariable Long id) {
+        return gradoService.obtenerGrado(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('DOCENTE')")
     public GradoDTO createGrado(@RequestBody GradoDTO gradoDTO) {
         return gradoService.crearGrado(gradoDTO);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('DOCENTE')")
+    public GradoDTO updateGrado(@PathVariable Long id, @RequestBody GradoDTO gradoDTO) {
+        return gradoService.actualizarGrado(id, gradoDTO);
     }
 }

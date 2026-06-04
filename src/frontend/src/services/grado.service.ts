@@ -20,8 +20,20 @@ export const getGrados = () => {
   });
 };
 
+export const getGrado = (id: number) => {
+  return axios.get<Grado>(`${API_URL}/${id}`, {
+    headers: getAuthHeader()
+  });
+};
+
 export const createGrado = (grado: Omit<Grado, 'id'>) => {
   return axios.post<Grado>(API_URL, grado, {
+    headers: getAuthHeader()
+  });
+};
+
+export const updateGrado = (id: number, grado: Grado) => {
+  return axios.put<Grado>(`${API_URL}/${id}`, grado, {
     headers: getAuthHeader()
   });
 };
