@@ -27,4 +27,10 @@ public class AsignaturaController {
     public ResponseEntity<List<AsignaturaDTO>> getAllAsignaturas() {
         return ResponseEntity.ok(asignaturaService.getAllAsignaturas());
     }
+
+    @PostMapping
+    @PreAuthorize("hasRole('DOCENTE')")
+    public ResponseEntity<AsignaturaDTO> createAsignatura(@RequestBody AsignaturaDTO asignaturaDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(asignaturaService.crearAsignatura(asignaturaDTO));
+    }
 }

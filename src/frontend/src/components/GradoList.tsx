@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getGrados } from '../services/grado.service';
+import { getGrados, deleteGrado } from '../services/grado.service';
 import type { Grado } from '../services/grado.service';
 import { Search, Plus, Edit, Trash2, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +24,17 @@ const GradoList: React.FC = () => {
     } catch (err) {
       setError('Error al cargar los grados');
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar este grado? Esta acción no se puede deshacer.')) {
+      try {
+        await deleteGrado(id);
+        setGrados(grados.filter(g => g.id !== id));
+      } catch (err) {
+        alert('Error al eliminar el grado. Es posible que tenga asignaturas vinculadas.');
+      }
     }
   };
 
@@ -110,20 +121,6 @@ const GradoList: React.FC = () => {
                   <tr>
                     <td colSpan={3} className="px-6 py-8 text-center text-gray-500">
                       No se encontraron grados que coincidan con la búsqueda.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default GradoList;
- se encontraron grados que coincidan con la búsqueda.
                     </td>
                   </tr>
                 )}

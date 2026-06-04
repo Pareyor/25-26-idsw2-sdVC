@@ -55,4 +55,9 @@ public class GradoService {
         }
         gradoRepository.deleteById(id);
     }
+
+    public Grado findEntityById(Long id) {
+        return gradoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Grado no encontrado"));
+    }
 }

@@ -9,12 +9,20 @@ export interface Asignatura {
   cursoAcademico: string;
 }
 
-export const getAsignaturas = () => {
+const getAuthHeader = () => {
   const userStr = localStorage.getItem('user');
   const token = userStr ? JSON.parse(userStr).token : null;
+  return { Authorization: `Bearer ${token}` };
+};
+
+export const getAsignaturas = () => {
   return axios.get<Asignatura[]>(API_URL, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+    headers: getAuthHeader()
+  });
+};
+
+export const createAsignatura = (asignatura: Omit<Asignatura, 'id'> & { gradoId: number }) => {
+  return axios.post<Asignatura>(API_URL, asignatura, {
+    headers: getAuthHeader()
   });
 };

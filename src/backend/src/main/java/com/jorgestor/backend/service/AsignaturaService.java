@@ -2,6 +2,7 @@ package com.jorgestor.backend.service;
 
 import com.jorgestor.backend.dto.AsignaturaDTO;
 import com.jorgestor.backend.model.Asignatura;
+import com.jorgestor.backend.model.Grado;
 import com.jorgestor.backend.repository.AsignaturaRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,11 @@ import java.util.stream.Collectors;
 public class AsignaturaService {
 
     private final AsignaturaRepository asignaturaRepository;
+    private final GradoService gradoService;
 
-    public AsignaturaService(AsignaturaRepository asignaturaRepository) {
+    public AsignaturaService(AsignaturaRepository asignaturaRepository, GradoService gradoService) {
         this.asignaturaRepository = asignaturaRepository;
+        this.gradoService = gradoService;
     }
 
     public List<AsignaturaDTO> getAllAsignaturas() {
@@ -23,12 +26,31 @@ public class AsignaturaService {
                 .collect(Collectors.toList());
     }
 
+    public AsignaturaDTO crearAsignatura(AsignaturaDTO dto) {
+        if (asignaturaRepository.findByCodigo(dto.getCodigo()).isPresent()) {
+            throw new RuntimeException("El código de asignatura ya existe");
+        }
+
+        Grado grado = gradoService.findEntityById(dto.getGradoId());
+        
+        Asignatura asignatura = new Asignatura(
+                dto.getCodigo(),
+                dto.getTitulo(),
+                dto.getCursoAcademico(),
+                grado
+        );
+
+        Asignatura guardada = asignaturaRepository.save(asignatura);
+        return convertToDTO(guardada);
+    }
+
     private AsignaturaDTO convertToDTO(Asignatura asignatura) {
         return new AsignaturaDTO(
                 asignatura.getId(),
                 asignatura.getCodigo(),
                 asignatura.getTitulo(),
-                asignatura.getCursoAcademico()
+                asignatura.getCursoAcademico(),
+                asignatura.getGrado().getId()
         );
     }
 }

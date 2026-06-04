@@ -87,6 +87,14 @@ function App() {
           } 
         />
         <Route 
+          path="/asignaturas/nuevo" 
+          element={
+            <PrivateRoute>
+              <AsignaturaCreate />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
           path="/alumnos" 
           element={
             <PrivateRoute>
