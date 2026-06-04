@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAsignaturas } from '../services/asignatura.service';
+import { getAsignaturas, deleteAsignatura } from '../services/asignatura.service';
 import type { Asignatura } from '../services/asignatura.service';
 import { Search, Plus, Edit, Trash2, ArrowLeft, BookOpen } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +24,17 @@ const AsignaturaList: React.FC = () => {
     } catch (err) {
       setError('Error al cargar las asignaturas');
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta asignatura? Esta acción no se puede deshacer.')) {
+      try {
+        await deleteAsignatura(id);
+        setAsignaturas(asignaturas.filter(a => a.id !== id));
+      } catch (err) {
+        alert('Error al eliminar la asignatura. Es posible que tenga alumnos o preguntas vinculadas.');
+      }
     }
   };
 
@@ -100,7 +111,11 @@ const AsignaturaList: React.FC = () => {
                         >
                           <Edit size={18} />
                         </button>
-                        <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Eliminar">
+                        <button 
+                          onClick={() => handleDelete(asignatura.id)}
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" 
+                          title="Eliminar"
+                        >
                           <Trash2 size={18} />
                         </button>
                       </div>

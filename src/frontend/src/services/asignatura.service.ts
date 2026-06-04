@@ -38,3 +38,9 @@ export const updateAsignatura = (id: number, asignatura: Asignatura & { gradoId:
     headers: getAuthHeader()
   });
 };
+
+export const deleteAsignatura = (id: number) => {
+  return axios.delete(`${API_URL}/${id}`, {
+    headers: getAuthHeader()
+  });
+};

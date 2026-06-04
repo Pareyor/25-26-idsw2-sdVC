@@ -42,4 +42,11 @@ public class AsignaturaController {
     public ResponseEntity<AsignaturaDTO> updateAsignatura(@PathVariable Long id, @RequestBody AsignaturaDTO asignaturaDTO) {
         return ResponseEntity.ok(asignaturaService.actualizarAsignatura(id, asignaturaDTO));
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public void deleteAsignatura(@PathVariable Long id) {
+        asignaturaService.eliminarAsignatura(id);
+    }
 }

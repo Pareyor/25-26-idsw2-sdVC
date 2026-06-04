@@ -67,6 +67,13 @@ public class AsignaturaService {
         return convertToDTO(guardada);
     }
 
+    public void eliminarAsignatura(Long id) {
+        if (!asignaturaRepository.existsById(id)) {
+            throw new RuntimeException("Asignatura no encontrada");
+        }
+        asignaturaRepository.deleteById(id);
+    }
+
     private AsignaturaDTO convertToDTO(Asignatura asignatura) {
         return new AsignaturaDTO(
                 asignatura.getId(),
