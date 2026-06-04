@@ -8,12 +8,20 @@ export interface Grado {
   titulo: string;
 }
 
-export const getGrados = () => {
+const getAuthHeader = () => {
   const userStr = localStorage.getItem('user');
   const token = userStr ? JSON.parse(userStr).token : null;
+  return { Authorization: `Bearer ${token}` };
+};
+
+export const getGrados = () => {
   return axios.get<Grado[]>(API_URL, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+    headers: getAuthHeader()
+  });
+};
+
+export const createGrado = (grado: Omit<Grado, 'id'>) => {
+  return axios.post<Grado>(API_URL, grado, {
+    headers: getAuthHeader()
   });
 };

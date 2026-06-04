@@ -61,6 +61,14 @@ function App() {
           } 
         />
         <Route 
+          path="/grados/nuevo" 
+          element={
+            <PrivateRoute>
+              <GradoCreate />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
           path="/asignaturas" 
           element={
             <PrivateRoute>

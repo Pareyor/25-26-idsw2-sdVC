@@ -1,6 +1,7 @@
 package com.jorgestor.backend.service;
 
 import com.jorgestor.backend.dto.GradoDTO;
+import com.jorgestor.backend.model.Grado;
 import com.jorgestor.backend.repository.GradoRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +21,14 @@ public class GradoService {
         return gradoRepository.findAll().stream()
                 .map(g -> new GradoDTO(g.getId(), g.getCodigo(), g.getTitulo()))
                 .collect(Collectors.toList());
+    }
+
+    public GradoDTO crearGrado(GradoDTO dto) {
+        if (gradoRepository.findByCodigo(dto.getCodigo()).isPresent()) {
+            throw new RuntimeException("El código de grado ya existe");
+        }
+        Grado grado = new Grado(dto.getCodigo(), dto.getTitulo());
+        Grado guardado = gradoRepository.save(grado);
+        return new GradoDTO(guardado.getId(), guardado.getCodigo(), guardado.getTitulo());
     }
 }
