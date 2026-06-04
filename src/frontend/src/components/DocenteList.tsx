@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getDocentes } from '../services/docente.service';
+import { getDocentes, deleteDocente } from '../services/docente.service';
 import type { Docente } from '../services/docente.service';
 import { Search, UserPlus, Edit, Trash2, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +24,17 @@ const DocenteList: React.FC = () => {
     } catch (err) {
       setError('Error al cargar los docentes');
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar este docente? Esta acción no se puede deshacer.')) {
+      try {
+        await deleteDocente(id);
+        setDocentes(docentes.filter(d => d.id !== id));
+      } catch (err) {
+        alert('Error al eliminar el docente');
+      }
     }
   };
 
@@ -98,7 +109,11 @@ const DocenteList: React.FC = () => {
                         >
                           <Edit size={18} />
                         </button>
-                        <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Eliminar">
+                        <button 
+                          onClick={() => handleDelete(docente.id)}
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" 
+                          title="Eliminar"
+                        >
                           <Trash2 size={18} />
                         </button>
                       </div>

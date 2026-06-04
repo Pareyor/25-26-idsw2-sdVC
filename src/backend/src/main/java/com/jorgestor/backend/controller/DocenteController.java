@@ -42,4 +42,11 @@ public class DocenteController {
     public DocenteDTO updateDocente(@PathVariable Long id, @RequestBody DocenteDTO docenteDTO) {
         return usuarioService.actualizarDocente(id, docenteDTO);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteDocente(@PathVariable Long id) {
+        usuarioService.eliminarDocente(id);
+    }
 }

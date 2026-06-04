@@ -83,4 +83,11 @@ public class UsuarioService {
                 guardado.getApellidos()
         );
     }
+
+    public void eliminarDocente(Long id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new RuntimeException("Docente no encontrado");
+        }
+        usuarioRepository.deleteById(id);
+    }
 }

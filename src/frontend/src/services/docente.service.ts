@@ -39,3 +39,9 @@ export const updateDocente = (id: number, docente: Docente) => {
     headers: getAuthHeader()
   });
 };
+
+export const deleteDocente = (id: number) => {
+  return axios.delete(`${API_URL}/${id}`, {
+    headers: getAuthHeader()
+  });
+};
