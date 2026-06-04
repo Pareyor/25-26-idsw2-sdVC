@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import DocenteList from './components/DocenteList';
+import DocenteCreate from './components/DocenteCreate';
 import GradoList from './components/GradoList';
 import AsignaturaList from './components/AsignaturaList';
 import AlumnoList from './components/AlumnoList';
@@ -31,6 +32,14 @@ function App() {
           element={
             <PrivateRoute>
               <DocenteList />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/docentes/nuevo" 
+          element={
+            <PrivateRoute>
+              <DocenteCreate />
             </PrivateRoute>
           } 
         />

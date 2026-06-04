@@ -1,11 +1,10 @@
 package com.jorgestor.backend.controller;
 
 import com.jorgestor.backend.dto.DocenteDTO;
-import com.jorgestor.backend.service.DocenteService;
+import com.jorgestor.backend.service.UsuarioService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,15 +12,22 @@ import java.util.List;
 @RequestMapping("/api/docentes")
 public class DocenteController {
 
-    private final DocenteService docenteService;
+    private final UsuarioService usuarioService;
 
-    public DocenteController(DocenteService docenteService) {
-        this.docenteService = docenteService;
+    public DocenteController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public List<DocenteDTO> getDocentes() {
-        return docenteService.listarDocentes();
+        return usuarioService.listarDocentes();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
+    public DocenteDTO createDocente(@RequestBody DocenteDTO docenteDTO) {
+        return usuarioService.crearDocente(docenteDTO);
     }
 }
