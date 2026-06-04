@@ -255,3 +255,17 @@
 **Enlace:** [Sesión 19](conversations/sesion-19.md)
 
 **Decisión:** Se validaron los flujos de gestión de preguntas. Se decidió reforzar la arquitectura desacoplada obligando a que cualquier interacción pase por el Servicio del módulo destino. Se acordó finalizar el diseño hoy para comenzar la implementación integral en la próxima sesión.
+
+## Sesión 20: [04/06/2026][17:00] Implementación CRUD Módulo Asignaturas
+
+**Prompt:** Implementación modular del CRUD de asignaturas (crear, editar, eliminar) incluyendo la vinculación con Grado y la corrección de errores de seguridad y compilación.
+
+**Resultado:**
+- **Backend**: Implementación de `crearAsignatura`, `obtenerAsignatura`, `actualizarAsignatura` y `eliminarAsignatura` en `AsignaturaService`. 
+- **Controller**: Endpoint `POST`, `GET`, `PUT`, `DELETE` en `AsignaturaController` con seguridad `ROLE_DOCENTE`.
+- **Frontend**: Creación de `AsignaturaCreate.tsx` y `AsignaturaEdit.tsx`. Actualización de `AsignaturaList.tsx` para incluir navegación y borrado con confirmación.
+- **Correcciones**: Corrección de errores de compilación (`DataInitializer`, `AsignaturaRepository`) y de seguridad (403 Forbidden). Resolución de errores de sintaxis en `App.tsx` y `AsignaturaList.tsx`.
+
+**Enlace:** [Sesión 20](conversations/sesion-20.md)
+
+**Decisión:** Se ha implementado el CRUD completo de asignaturas con validaciones de integridad referencial. Se ajustaron los permisos al rol `ROLE_DOCENTE`, el agente IA confundía la asignacion de permisos y se los asignaba a `DOCENTE`, rol que no existe. Se tuvieron que hacer varias correcciones porque la IA no agregaba el import de los metodos correspondentes y de vez en cuando duplicaba código.
