@@ -44,6 +44,29 @@ public class AsignaturaService {
         return convertToDTO(guardada);
     }
 
+    public AsignaturaDTO obtenerAsignatura(Long id) {
+        Asignatura a = asignaturaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Asignatura no encontrada"));
+        return convertToDTO(a);
+    }
+
+    public AsignaturaDTO actualizarAsignatura(Long id, AsignaturaDTO dto) {
+        Asignatura asignatura = asignaturaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Asignatura no encontrada"));
+
+        asignatura.setTitulo(dto.getTitulo());
+        asignatura.setCodigo(dto.getCodigo());
+        asignatura.setCursoAcademico(dto.getCursoAcademico());
+
+        if (dto.getGradoId() != null) {
+            Grado grado = gradoService.findEntityById(dto.getGradoId());
+            asignatura.setGrado(grado);
+        }
+
+        Asignatura guardada = asignaturaRepository.save(asignatura);
+        return convertToDTO(guardada);
+    }
+
     private AsignaturaDTO convertToDTO(Asignatura asignatura) {
         return new AsignaturaDTO(
                 asignatura.getId(),

@@ -9,6 +9,7 @@ import GradoCreate from './components/GradoCreate';
 import GradoEdit from './components/GradoEdit';
 import AsignaturaList from './components/AsignaturaList';
 import AsignaturaCreate from './components/AsignaturaCreate';
+import AsignaturaEdit from './components/AsignaturaEdit';
 import AlumnoList from './components/AlumnoList';
 import PreguntaList from './components/PreguntaList';
 import { getCurrentUser } from './services/auth.service';
@@ -92,6 +93,14 @@ function App() {
           element={
             <PrivateRoute>
               <AsignaturaCreate />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/asignaturas/editar/:id" 
+          element={
+            <PrivateRoute>
+              <AsignaturaEdit />
             </PrivateRoute>
           } 
         />
