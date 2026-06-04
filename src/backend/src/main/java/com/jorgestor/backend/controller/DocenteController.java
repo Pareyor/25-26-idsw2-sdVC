@@ -30,4 +30,16 @@ public class DocenteController {
     public DocenteDTO createDocente(@RequestBody DocenteDTO docenteDTO) {
         return usuarioService.crearDocente(docenteDTO);
     }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public DocenteDTO getDocente(@PathVariable Long id) {
+        return usuarioService.obtenerDocente(id);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public DocenteDTO updateDocente(@PathVariable Long id, @RequestBody DocenteDTO docenteDTO) {
+        return usuarioService.actualizarDocente(id, docenteDTO);
+    }
 }

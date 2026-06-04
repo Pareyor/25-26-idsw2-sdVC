@@ -3,6 +3,7 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import DocenteList from './components/DocenteList';
 import DocenteCreate from './components/DocenteCreate';
+import DocenteEdit from './components/DocenteEdit';
 import GradoList from './components/GradoList';
 import AsignaturaList from './components/AsignaturaList';
 import AlumnoList from './components/AlumnoList';
@@ -75,6 +76,14 @@ function App() {
             </PrivateRoute>
           } 
         />
+        <Route path="/" element={<Navigate to="/dashboard" />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+     />
         <Route path="/" element={<Navigate to="/dashboard" />} />
       </Routes>
     </Router>

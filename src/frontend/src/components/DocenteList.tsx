@@ -91,7 +91,11 @@ const DocenteList: React.FC = () => {
                     <td className="px-6 py-4 text-gray-700">{docente.apellidos}</td>
                     <td className="px-6 py-4">
                       <div className="flex justify-center gap-3">
-                        <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Editar">
+                        <button 
+                          onClick={() => navigate(`/docentes/editar/${docente.id}`)}
+                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" 
+                          title="Editar"
+                        >
                           <Edit size={18} />
                         </button>
                         <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Eliminar">

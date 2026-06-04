@@ -52,4 +52,35 @@ public class UsuarioService {
         dto.setId(guardado.getId());
         return dto;
     }
+
+    public DocenteDTO obtenerDocente(Long id) {
+        Usuario u = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Docente no encontrado"));
+        
+        return new DocenteDTO(
+                u.getId(),
+                u.getUsername(),
+                u.getEmail(),
+                u.getNombre(),
+                u.getApellidos()
+        );
+    }
+
+    public DocenteDTO actualizarDocente(Long id, DocenteDTO dto) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Docente no encontrado"));
+
+        usuario.setEmail(dto.getEmail());
+        usuario.setNombre(dto.getNombre());
+        usuario.setApellidos(dto.getApellidos());
+
+        Usuario guardado = usuarioRepository.save(usuario);
+        return new DocenteDTO(
+                guardado.getId(),
+                guardado.getUsername(),
+                guardado.getEmail(),
+                guardado.getNombre(),
+                guardado.getApellidos()
+        );
+    }
 }

@@ -27,3 +27,15 @@ export const createDocente = (docente: Omit<Docente, 'id'>) => {
     headers: getAuthHeader()
   });
 };
+
+export const getDocente = (id: number) => {
+  return axios.get<Docente>(`${API_URL}/${id}`, {
+    headers: getAuthHeader()
+  });
+};
+
+export const updateDocente = (id: number, docente: Docente) => {
+  return axios.put<Docente>(`${API_URL}/${id}`, docente, {
+    headers: getAuthHeader()
+  });
+};
