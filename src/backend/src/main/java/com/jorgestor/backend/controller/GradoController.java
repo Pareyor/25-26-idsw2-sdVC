@@ -42,4 +42,11 @@ public class GradoController {
     public GradoDTO updateGrado(@PathVariable Long id, @RequestBody GradoDTO gradoDTO) {
         return gradoService.actualizarGrado(id, gradoDTO);
     }
-}
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('DOCENTE')")
+    public void deleteGrado(@PathVariable Long id) {
+        gradoService.eliminarGrado(id);
+    }
+    }

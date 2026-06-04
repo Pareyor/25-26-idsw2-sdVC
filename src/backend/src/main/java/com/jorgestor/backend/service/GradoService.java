@@ -48,4 +48,11 @@ public class GradoService {
         Grado guardado = gradoRepository.save(grado);
         return new GradoDTO(guardado.getId(), guardado.getCodigo(), guardado.getTitulo());
     }
+
+    public void eliminarGrado(Long id) {
+        if (!gradoRepository.existsById(id)) {
+            throw new RuntimeException("Grado no encontrado");
+        }
+        gradoRepository.deleteById(id);
+    }
 }
