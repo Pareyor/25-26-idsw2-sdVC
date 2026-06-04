@@ -32,16 +32,19 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        Grado infoGrado = null;
         if (gradoRepository.count() == 0) {
-            gradoRepository.save(new Grado("GII", "Grado en Ingeniería Informática"));
+            infoGrado = gradoRepository.save(new Grado("GII", "Grado en Ingeniería Informática"));
             gradoRepository.save(new Grado("GIM", "Grado en Ingeniería Mecánica"));
             System.out.println("Grados de prueba creados.");
+        } else {
+            infoGrado = gradoRepository.findByCodigo("GII").orElse(null);
         }
 
-        if (asignaturaRepository.count() == 0) {
-            asignaturaRepository.save(new Asignatura("IS1", "Ingeniería de Software I", "2025-2026"));
-            asignaturaRepository.save(new Asignatura("IS2", "Ingeniería de Software II", "2025-2026"));
-            asignaturaRepository.save(new Asignatura("SI", "Sistemas Inteligentes", "2025-2026"));
+        if (asignaturaRepository.count() == 0 && infoGrado != null) {
+            asignaturaRepository.save(new Asignatura("IS1", "Ingeniería de Software I", "2025-2026", infoGrado));
+            asignaturaRepository.save(new Asignatura("IS2", "Ingeniería de Software II", "2025-2026", infoGrado));
+            asignaturaRepository.save(new Asignatura("SI", "Sistemas Inteligentes", "2025-2026", infoGrado));
             System.out.println("Asignaturas de prueba creadas.");
         }
 

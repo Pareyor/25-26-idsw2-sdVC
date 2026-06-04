@@ -8,6 +8,7 @@ import GradoList from './components/GradoList';
 import GradoCreate from './components/GradoCreate';
 import GradoEdit from './components/GradoEdit';
 import AsignaturaList from './components/AsignaturaList';
+import AsignaturaCreate from './components/AsignaturaCreate';
 import AlumnoList from './components/AlumnoList';
 import PreguntaList from './components/PreguntaList';
 import { getCurrentUser } from './services/auth.service';

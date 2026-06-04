@@ -19,7 +19,7 @@ public class Asignatura {
     private String cursoAcademico;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "grado_id", nullable = false)
+    @JoinColumn(name = "grado_id", nullable = true)
     private Grado grado;
 
     public Asignatura() {}

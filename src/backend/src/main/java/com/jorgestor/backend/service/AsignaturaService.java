@@ -50,7 +50,7 @@ public class AsignaturaService {
                 asignatura.getCodigo(),
                 asignatura.getTitulo(),
                 asignatura.getCursoAcademico(),
-                asignatura.getGrado().getId()
+                asignatura.getGrado() != null ? asignatura.getGrado().getId() : null
         );
     }
 }
