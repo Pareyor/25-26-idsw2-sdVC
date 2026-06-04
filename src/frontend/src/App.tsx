@@ -45,6 +45,14 @@ function App() {
           } 
         />
         <Route 
+          path="/docentes/editar/:id" 
+          element={
+            <PrivateRoute>
+              <DocenteEdit />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
           path="/grados" 
           element={
             <PrivateRoute>
@@ -76,14 +84,6 @@ function App() {
             </PrivateRoute>
           } 
         />
-        <Route path="/" element={<Navigate to="/dashboard" />} />
-      </Routes>
-    </Router>
-  );
-}
-
-export default App;
-     />
         <Route path="/" element={<Navigate to="/dashboard" />} />
       </Routes>
     </Router>
