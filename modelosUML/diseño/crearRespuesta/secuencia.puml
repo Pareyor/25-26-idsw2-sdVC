@@ -1,0 +1,41 @@
+@startuml
+title Diagrama de Secuencia - Crear Respuesta
+
+actor "Docente" as Actor
+participant "Frontend (React)" as FE
+participant "RespuestaController" as Controller
+participant "RespuestaService" as Service
+participant "PreguntaService" as PreguntaService
+participant "RespuestaRepository" as Repo
+
+Actor -> FE: Introduce respuesta y pulsa "Guardar"
+activate FE
+
+FE -> Controller: POST /api/respuestas\n(Header: Authorization: Bearer <token>, Body: RespuestaDTO)
+activate Controller
+
+Controller -> Service: crearRespuesta(RespuestaDTO, docenteId)
+activate Service
+
+Service -> PreguntaService: obtenerPreguntaPorId(preguntaId, docenteId)
+activate PreguntaService
+PreguntaService --> Service: Pregunta
+deactivate PreguntaService
+
+alt Pregunta No Existe o No Pertenece al Docente
+    Service --> Controller: throw UnauthorizedException()
+    Controller --> FE: 403 Forbidden
+    FE --> Actor: Mostrar mensaje de error
+else Pregunta Existe y Pertenece al Docente
+    Service -> Repo: save(nuevaRespuesta)
+    activate Repo
+    Repo --> Service: Respuesta (persisted)
+    deactivate Repo
+    Service --> Controller: RespuestaDTO
+    Controller --> FE: 201 Created (JSON: RespuestaDTO)
+    deactivate Controller
+    FE --> Actor: Mostrar mensaje de éxito
+end
+
+deactivate FE
+@enduml
