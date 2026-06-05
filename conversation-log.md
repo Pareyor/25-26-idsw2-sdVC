@@ -228,6 +228,8 @@
 - Integración de validaciones de integridad referencial (vinculación con la entidad `Grado`).
 - Aplicación de patrones: "El Delgado" para creación y "El Gordo" para edición integral.
 
+**Enlace:** [Sesión 17](conversations/sesion-17.md)
+
 ## Sesión 18: [03/06/2026][15:15] Diseño del Módulo de Gestión de Alumnos (CRUD)
 
 **Prompt:** Inicio de la sesión 18. Diseño de los casos de uso del bloque de alumnos (crearAlumno, editarAlumno, eliminarAlumno) siguiendo los estándares de diseño del proyecto y la metodología de las sesiones anteriores.
