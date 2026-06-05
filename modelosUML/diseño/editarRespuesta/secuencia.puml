@@ -1,0 +1,46 @@
+@startuml
+title Diagrama de Secuencia - Editar Respuesta
+
+actor "Docente" as Actor
+participant "Frontend (React)\nRespuestaEditComponent" as FE
+participant "RespuestaController" as Controller
+participant "RespuestaService" as Service
+participant "PreguntaService" as PreguntaService
+participant "RespuestaRepository" as Repo
+
+Actor -> FE: Edita campos y pulsa "Guardar"
+activate FE
+
+FE -> Controller: PUT /api/respuestas/{id}\n(Header: Authorization: Bearer <token>, Body: RespuestaDTO)
+activate Controller
+
+Controller -> Service: actualizarRespuesta(id, RespuestaDTO, docenteId)
+activate Service
+
+Service -> Repo: findById(id)
+activate Repo
+Repo --> Service: Optional<Respuesta>
+deactivate Repo
+
+Service -> PreguntaService: obtenerPreguntaPorId(pregunta.id, docenteId)
+activate PreguntaService
+PreguntaService --> Service: Pregunta
+deactivate PreguntaService
+
+alt Respuesta No Existe o Pregunta No Pertenece al Docente
+    Service --> Controller: throw UnauthorizedException()
+    Controller --> FE: 403 Forbidden
+    FE --> Actor: Mostrar mensaje de error
+else Respuesta Existe y Pertenencia Validada
+    Service -> Repo: save(respuestaActualizada)
+    activate Repo
+    Repo --> Service: Respuesta
+    deactivate Repo
+    Service --> Controller: RespuestaDTO
+    Controller --> FE: 200 OK (JSON: RespuestaDTO)
+    deactivate Controller
+    FE --> Actor: Mostrar mensaje de éxito
+end
+
+deactivate FE
+@enduml
