@@ -27,4 +27,10 @@ public class AlumnoController {
     public ResponseEntity<List<AlumnoDTO>> getAllAlumnos() {
         return ResponseEntity.ok(alumnoService.getAllAlumnos());
     }
+
+    @PostMapping
+    @PreAuthorize("hasRole('DOCENTE')")
+    public ResponseEntity<AlumnoDTO> createAlumno(@RequestBody AlumnoDTO alumnoDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(alumnoService.crearAlumno(alumnoDTO));
+    }
 }

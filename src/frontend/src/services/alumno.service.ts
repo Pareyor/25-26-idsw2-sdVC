@@ -9,12 +9,20 @@ export interface Alumno {
   apellidos: string;
 }
 
-export const getAlumnos = () => {
+const getAuthHeader = () => {
   const userStr = localStorage.getItem('user');
   const token = userStr ? JSON.parse(userStr).token : null;
+  return { Authorization: `Bearer ${token}` };
+};
+
+export const getAlumnos = () => {
   return axios.get<Alumno[]>(API_URL, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+    headers: getAuthHeader()
+  });
+};
+
+export const createAlumno = (alumno: Omit<Alumno, 'id'> & { gradoId: number }) => {
+  return axios.post<Alumno>(API_URL, alumno, {
+    headers: getAuthHeader()
   });
 };

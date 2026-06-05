@@ -113,6 +113,14 @@ function App() {
           } 
         />
         <Route 
+          path="/alumnos/nuevo" 
+          element={
+            <PrivateRoute>
+              <AlumnoCreate />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
           path="/preguntas" 
           element={
             <PrivateRoute>
