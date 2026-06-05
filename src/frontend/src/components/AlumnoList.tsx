@@ -68,7 +68,7 @@ const AlumnoList: React.FC = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
               <input
                 type="text"
-                placeholder="Buscar por NIU, nombre o apellidos..."
+                placeholder="Buscar por DNI, nombre o apellidos..."
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -80,7 +80,7 @@ const AlumnoList: React.FC = () => {
             <table className="w-full text-left">
               <thead className="bg-gray-50 text-gray-600 uppercase text-sm">
                 <tr>
-                  <th className="px-6 py-4 font-semibold">NIU</th>
+                  <th className="px-6 py-4 font-semibold">DNI</th>
                   <th className="px-6 py-4 font-semibold">Nombre</th>
                   <th className="px-6 py-4 font-semibold">Apellidos</th>
                   <th className="px-6 py-4 font-semibold text-center">Acciones</th>
@@ -89,7 +89,7 @@ const AlumnoList: React.FC = () => {
               <tbody className="divide-y divide-gray-200">
                 {filteredAlumnos.map((alumno) => (
                   <tr key={alumno.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-gray-900">{alumno.niu}</td>
+                    <td className="px-6 py-4 font-medium text-gray-900">{alumno.dni}</td>
                     <td className="px-6 py-4 text-gray-700">{alumno.nombre}</td>
                     <td className="px-6 py-4 text-gray-700">{alumno.apellidos}</td>
                     <td className="px-6 py-4">

@@ -10,7 +10,7 @@ public class Alumno {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String niu;
+    private String dni;
 
     @Column(nullable = false)
     private String nombre;
@@ -24,8 +24,8 @@ public class Alumno {
 
     public Alumno() {}
 
-    public Alumno(String niu, String nombre, String apellidos, Grado grado) {
-        this.niu = niu;
+    public Alumno(String dni, String nombre, String apellidos, Grado grado) {
+        this.dni = dni;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.grado = grado;
@@ -34,8 +34,8 @@ public class Alumno {
     // Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public String getNiu() { return niu; }
-    public void setNiu(String niu) { this.niu = niu; }
+    public String getDni() { return dni; }
+    public void setDni(String dni) { this.dni = dni; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getApellidos() { return apellidos; }

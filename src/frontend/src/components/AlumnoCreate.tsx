@@ -89,15 +89,17 @@ const AlumnoCreate: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">NIU</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">DNI</label>
                 <input
                   type="text"
-                  name="niu"
+                  name="dni"
                   required
+                  pattern="^([XYZxyz]\d{7}[A-Za-z]|\d{8}[A-Za-z])$"
+                  title="Formato inválido: 8 dígitos y 1 letra (DNI) o X,Y,Z seguido de 7 dígitos y 1 letra (NIE)"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                  value={alumno.niu}
+                  value={alumno.dni}
                   onChange={handleChange}
-                  placeholder="Ej: 1234567"
+                  placeholder="Ej: 12345678X o X1234567A"
                 />
               </div>
 

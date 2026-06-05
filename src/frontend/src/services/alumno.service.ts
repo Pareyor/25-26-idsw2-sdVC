@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:8080/api/alumnos';
 
 export interface Alumno {
   id: number;
-  niu: string;
+  dni: string;
   nombre: string;
   apellidos: string;
 }

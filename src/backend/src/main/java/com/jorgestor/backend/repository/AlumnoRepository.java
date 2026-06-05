@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
-    Optional<Alumno> findByNiu(String niu);
+    Optional<Alumno> findByDni(String dni);
 }
