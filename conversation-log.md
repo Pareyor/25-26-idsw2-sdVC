@@ -272,7 +272,7 @@
 
 **Decisión:** Se ha implementado el CRUD completo de asignaturas con validaciones de integridad referencial. Se ajustaron los permisos al rol `ROLE_DOCENTE`, el agente IA confundía la asignacion de permisos y se los asignaba a `DOCENTE`, rol que no existe. Se tuvieron que hacer varias correcciones porque la IA no agregaba el import de los metodos correspondentes y de vez en cuando duplicaba código.
 
-## [17:15] Implementación CRUD Módulo Alumnos y Refactor DNI
+## Sesión 21: [05/06/2026][12:30] Implementación CRUD Módulo Alumnos y Refactor DNI
 
 **Prompt:** Implementación del CRUD de alumnos (crear, editar, eliminar) incluyendo la refactorización de 'niu' a 'dni' según el diagrama de dominio.
 
