@@ -29,9 +29,9 @@ const AlumnoList: React.FC = () => {
 
   const filteredAlumnos = alumnos.filter(alumno => {
     const term = normalizeString(searchTerm);
-    return normalizeString(alumno.nombre).includes(term) ||
-           normalizeString(alumno.apellidos).includes(term) ||
-           normalizeString(alumno.niu).includes(term);
+    return normalizeString(alumno.nombre || '').includes(term) ||
+           normalizeString(alumno.apellidos || '').includes(term) ||
+           normalizeString(alumno.dni || '').includes(term);
   });
 
   if (loading) return <div className="p-8 text-center">Cargando alumnos...</div>;
