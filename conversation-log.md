@@ -285,3 +285,16 @@
 **Enlace:** [Sesión 21](conversations/sesion-21.md)
 
 **Decisión:** Se corrigió el formato de identificación de alumno de 'niu' a 'dni' o 'nie' para mantener consistencia con el diagrama de dominio. Se validó el formato de DNI/NIE tanto en backend como en frontend. Se completó el CRUD de alumnos con validación de unicidad de DNI.
+
+## Sesión 22: [05/06/2026][15:23] Diseño del Módulo de Gestión de Preguntas y Respuestas (CRUD)
+
+**Prompt:** Diseño de los casos de uso para la gestión de preguntas y respuestas (crear, editar, eliminar, ver), siguiendo la metodología de diseño estándar y alineando con los diagramas de secuencia del proyecto.
+
+**Resultado:**
+- **Diseño**: Creación de documentación (README.md) y diagramas de secuencia (.puml) para verRespuestas, crearRespuesta, editarRespuesta y eliminarRespuesta.
+- **Arquitectura**: Estandarización de patrones MVC, aplicación del patrón 'El Gordo' para ediciones y 'El Delgado' para creaciones. Se estableció el estándar Service-to-Service para validación de autoría.
+- **Documentación**: Ajuste de los diagramas para cumplir con los estándares de participantes y estilo del proyecto.
+
+**Enlace:** [Sesión 22](conversations/sesion-22.md)
+
+**Decisión:** Se aceptó el diseño completo para el CRUD del módulo de respuestas, garantizando la seguridad mediante validación de pertenencia en la capa de servicio y asegurando la integridad referencial en todas las operaciones.
