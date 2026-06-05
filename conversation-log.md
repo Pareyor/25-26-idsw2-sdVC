@@ -298,3 +298,17 @@
 **Enlace:** [Sesión 22](conversations/sesion-22.md)
 
 **Decisión:** Se aceptó el diseño completo para el CRUD del módulo de respuestas, garantizando la seguridad mediante validación de pertenencia en la capa de servicio y asegurando la integridad referencial en todas las operaciones.
+
+## [18:15] Implementación CRUD Módulo Preguntas y Gestión Dual de Respuestas
+
+**Prompt:** Implementación del CRUD de preguntas (crear, editar, eliminar) y sistema de gestión de respuestas (integral y granular).
+
+**Resultado:**
+- **Backend**: Implementación de PreguntaService, PreguntaController, RespuestaService y RespuestaController. Soporte para composición automática (orphanRemoval) y endpoints granulares.
+- **Frontend**: Creación de PreguntaCreate.tsx, PreguntaEdit.tsx y RespuestaEdit.tsx. Integración de navegación contextual entre preguntas y sus respuestas.
+- **Arquitectura**: Se ha aplicado el patrón 'El Gordo' para la gestión de la pregunta completa y se ha habilitado un flujo secundario para la edición individual de opciones.
+- **Correcciones**: Resolución de errores de compilación en DataInitializer (vinculación con Asignatura) y limpieza de avisos de React en formularios.
+
+**Enlace:** [Sesión 23](conversations/sesion-23.md)
+
+**Decisión:** Se ha completado el módulo de Preguntas y Respuestas. Se decidió mantener ambos enfoques de gestión: Integral (dentro de la pregunta para mayor rapidez) y Granular (vista independiente para ediciones específicas), garantizando la flexibilidad del docente y la integridad de los datos en PostgreSQL.
