@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getPreguntas } from '../services/pregunta.service';
+import { getPreguntas, deletePregunta } from '../services/pregunta.service';
 import type { Pregunta } from '../types/pregunta';
 import { Search, Plus, Edit, Trash2, ArrowLeft, HelpCircle, Filter } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -27,11 +27,22 @@ const PreguntaList: React.FC = () => {
     }
   };
 
+  const handleDelete = async (id: number) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta pregunta? Esto eliminará también todas sus respuestas asociadas.')) {
+      try {
+        await deletePregunta(id);
+        setPreguntas(preguntas.filter(p => p.id !== id));
+      } catch (err) {
+        alert('Error al eliminar la pregunta.');
+      }
+    }
+  };
+
   const filteredPreguntas = preguntas.filter(pregunta => {
     const term = normalizeString(searchTerm);
-    return normalizeString(pregunta.enunciado).includes(term) ||
-           normalizeString(pregunta.tema).includes(term) ||
-           normalizeString(pregunta.dificultad).includes(term);
+    return normalizeString(pregunta.enunciado || '').includes(term) ||
+           normalizeString(pregunta.tema || '').includes(term) ||
+           normalizeString(pregunta.dificultad || '').includes(term);
   });
 
   const getDificultadColor = (dificultad: string) => {
@@ -139,20 +150,6 @@ const PreguntaList: React.FC = () => {
                   <tr>
                     <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
                       No se encontraron preguntas que coincidan con la búsqueda.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default PreguntaList;
-n preguntas que coincidan con la búsqueda.
                     </td>
                   </tr>
                 )}
