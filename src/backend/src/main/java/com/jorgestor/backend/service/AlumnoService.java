@@ -43,6 +43,35 @@ public class AlumnoService {
         return dni != null && dni.matches("^([XYZ]\\d{7}[A-Za-z]|\\d{8}[A-Za-z])$");
     }
 
+    public AlumnoDTO obtenerAlumno(Long id) {
+        Alumno a = alumnoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
+        return convertToDTO(a);
+    }
+
+    public AlumnoDTO actualizarAlumno(Long id, AlumnoDTO dto) {
+        Alumno alumno = alumnoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
+
+        if (!alumno.getDni().equals(dto.getDni())) {
+            if (alumnoRepository.findByDni(dto.getDni()).isPresent()) {
+                throw new RuntimeException("El DNI ya está registrado para otro alumno");
+            }
+            alumno.setDni(dto.getDni());
+        }
+
+        alumno.setNombre(dto.getNombre());
+        alumno.setApellidos(dto.getApellidos());
+
+        if (dto.getGradoId() != null) {
+            Grado grado = gradoService.findEntityById(dto.getGradoId());
+            alumno.setGrado(grado);
+        }
+
+        Alumno guardado = alumnoRepository.save(alumno);
+        return convertToDTO(guardado);
+    }
+
     private AlumnoDTO convertToDTO(Alumno alumno) {
         return new AlumnoDTO(
                 alumno.getId(),

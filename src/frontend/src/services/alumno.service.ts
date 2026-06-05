@@ -21,8 +21,20 @@ export const getAlumnos = () => {
   });
 };
 
+export const getAlumno = (id: number) => {
+  return axios.get<Alumno & { gradoId: number }>(`${API_URL}/${id}`, {
+    headers: getAuthHeader()
+  });
+};
+
 export const createAlumno = (alumno: Omit<Alumno, 'id'> & { gradoId: number }) => {
   return axios.post<Alumno>(API_URL, alumno, {
+    headers: getAuthHeader()
+  });
+};
+
+export const updateAlumno = (id: number, alumno: Alumno & { gradoId: number }) => {
+  return axios.put<Alumno>(`${API_URL}/${id}`, alumno, {
     headers: getAuthHeader()
   });
 };
