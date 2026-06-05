@@ -2,6 +2,7 @@ package com.jorgestor.backend.controller;
 
 import com.jorgestor.backend.dto.RespuestaDTO;
 import com.jorgestor.backend.service.RespuestaService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -28,5 +29,13 @@ public class RespuestaController {
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<RespuestaDTO> updateRespuesta(@PathVariable Long id, @RequestBody RespuestaDTO respuestaDTO) {
         return ResponseEntity.ok(respuestaService.actualizarRespuesta(id, respuestaDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<Void> deleteRespuesta(@PathVariable Long id) {
+        System.out.println("Eliminando respuesta con ID: " + id);
+        respuestaService.eliminarRespuesta(id);
+        return ResponseEntity.noContent().build();
     }
 }

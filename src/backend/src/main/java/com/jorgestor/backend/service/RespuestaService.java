@@ -38,6 +38,13 @@ public class RespuestaService {
         return convertToDTO(guardada);
     }
 
+    public void eliminarRespuesta(Long id) {
+        if (!respuestaRepository.existsById(id)) {
+            throw new RuntimeException("Respuesta no encontrada");
+        }
+        respuestaRepository.deleteById(id);
+    }
+
     private RespuestaDTO convertToDTO(Respuesta respuesta) {
         return new RespuestaDTO(
                 respuesta.getId(),

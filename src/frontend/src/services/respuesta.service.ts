@@ -20,3 +20,9 @@ export const updateRespuesta = (id: number, respuesta: Respuesta) => {
     headers: getAuthHeader()
   });
 };
+
+export const deleteRespuesta = (id: number) => {
+  return axios.delete(`${API_URL}/${id}`, {
+    headers: getAuthHeader()
+  });
+};
