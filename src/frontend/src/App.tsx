@@ -11,6 +11,7 @@ import AsignaturaList from './components/AsignaturaList';
 import AsignaturaCreate from './components/AsignaturaCreate';
 import AsignaturaEdit from './components/AsignaturaEdit';
 import AlumnoList from './components/AlumnoList';
+import AlumnoCreate from './components/AlumnoCreate';
 import PreguntaList from './components/PreguntaList';
 import { getCurrentUser } from './services/auth.service';
 

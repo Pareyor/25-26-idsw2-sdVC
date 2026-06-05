@@ -43,7 +43,17 @@ public class SecurityConfig {
             );
         
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        
+        http.addFilterAfter((request, response, chain) -> {
+         org.springframework.security.core.Authentication auth =
+      org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+         if (auth != null) {
+             System.out.println(">>> Usuario autenticado: " + auth.getName());
+             System.out.println(">>> Autoridades: " + auth.getAuthorities());
+         } else {
+             System.out.println(">>> Usuario NO autenticado");
+       }
+        chain.doFilter(request, response);
+   }, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

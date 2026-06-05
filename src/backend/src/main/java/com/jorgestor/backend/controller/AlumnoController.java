@@ -2,18 +2,15 @@ package com.jorgestor.backend.controller;
 
 import com.jorgestor.backend.dto.AlumnoDTO;
 import com.jorgestor.backend.service.AlumnoService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/alumnos")
-@CrossOrigin(origins = "*")
 public class AlumnoController {
 
     private final AlumnoService alumnoService;
@@ -23,14 +20,16 @@ public class AlumnoController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<List<AlumnoDTO>> getAllAlumnos() {
+        System.out.println("Accediendo a listar alumnos...");
         return ResponseEntity.ok(alumnoService.getAllAlumnos());
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<AlumnoDTO> createAlumno(@RequestBody AlumnoDTO alumnoDTO) {
+        System.out.println("Creando alumno...");
         return ResponseEntity.status(HttpStatus.CREATED).body(alumnoService.crearAlumno(alumnoDTO));
     }
 }

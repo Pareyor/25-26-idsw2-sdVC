@@ -48,10 +48,10 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("Asignaturas de prueba creadas.");
         }
 
-        if (alumnoRepository.count() == 0) {
-            alumnoRepository.save(new Alumno("100456789", "Juan", "Pérez García"));
-            alumnoRepository.save(new Alumno("100456790", "María", "López Rodríguez"));
-            alumnoRepository.save(new Alumno("100456791", "Carlos", "Sánchez Martínez"));
+        if (alumnoRepository.count() == 0 && infoGrado != null) {
+            alumnoRepository.save(new Alumno("100456789", "Juan", "Pérez García", infoGrado));
+            alumnoRepository.save(new Alumno("100456790", "María", "López Rodríguez", infoGrado));
+            alumnoRepository.save(new Alumno("100456791", "Carlos", "Sánchez Martínez", infoGrado));
             System.out.println("Alumnos de prueba creados.");
         }
 

@@ -29,7 +29,14 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
                 String role = jwtUtils.getRoleFromJwtToken(jwt);
                 
-                SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
+                logger.info(">>> Usuario: " + username + ", Rol extraído del JWT: " + role);
+                
+                // Asegurar que el rol tenga el formato esperado por Spring Security (ROLE_ prefix)
+                String formattedRole = role.startsWith("ROLE_") ? role : "ROLE_" + role;
+                
+                logger.info(">>> Autoridad configurada: " + formattedRole);
+                
+                SimpleGrantedAuthority authority = new SimpleGrantedAuthority(formattedRole);
                 
                 UsernamePasswordAuthenticationToken authentication = 
                     new UsernamePasswordAuthenticationToken(username, null, Collections.singletonList(authority));
@@ -45,6 +52,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
+        
+        if (headerAuth == null) {
+            logger.info(">>> Cabecera Authorization ausente");
+        } else if (!headerAuth.startsWith("Bearer ")) {
+            logger.info(">>> Cabecera Authorization no comienza con Bearer");
+        }
+
         if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7);
         }
