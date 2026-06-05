@@ -271,3 +271,17 @@
 **Enlace:** [Sesión 20](conversations/sesion-20.md)
 
 **Decisión:** Se ha implementado el CRUD completo de asignaturas con validaciones de integridad referencial. Se ajustaron los permisos al rol `ROLE_DOCENTE`, el agente IA confundía la asignacion de permisos y se los asignaba a `DOCENTE`, rol que no existe. Se tuvieron que hacer varias correcciones porque la IA no agregaba el import de los metodos correspondentes y de vez en cuando duplicaba código.
+
+## [17:15] Implementación CRUD Módulo Alumnos y Refactor DNI
+
+**Prompt:** Implementación del CRUD de alumnos (crear, editar, eliminar) incluyendo la refactorización de 'niu' a 'dni' según el diagrama de dominio.
+
+**Resultado:**
+- **Backend**: Implementación de crearAlumno, obtenerAlumno, actualizarAlumno y eliminarAlumno en AlumnoService. Endpoint POST, GET, PUT, DELETE en AlumnoController.
+- **Frontend**: Creación de AlumnoCreate.tsx y AlumnoEdit.tsx. Actualización de AlumnoList.tsx con navegación y borrado con confirmación.
+- **Refactorización**: Cambio de 'niu' a 'dni' en Entidad, DTO, Servicios y Frontend.
+- **Correcciones**: Resolución de problemas de migración de base de datos (grado_id NOT NULL) y depuración de errores 403.
+
+**Enlace:** [Sesión 21](conversations/sesion-21.md)
+
+**Decisión:** Se corrigió el formato de identificación de alumno de 'niu' a 'dni' o 'nie' para mantener consistencia con el diagrama de dominio. Se validó el formato de DNI/NIE tanto en backend como en frontend. Se completó el CRUD de alumnos con validación de unicidad de DNI.
