@@ -16,6 +16,7 @@ import AlumnoEdit from './components/AlumnoEdit';
 import PreguntaList from './components/PreguntaList';
 import PreguntaCreate from './components/PreguntaCreate';
 import PreguntaEdit from './components/PreguntaEdit';
+import RespuestaEdit from './components/RespuestaEdit';
 import { getCurrentUser } from './services/auth.service';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -153,6 +154,14 @@ function App() {
           element={
             <PrivateRoute>
               <PreguntaEdit />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/respuestas/editar/:id/:preguntaId" 
+          element={
+            <PrivateRoute>
+              <RespuestaEdit />
             </PrivateRoute>
           } 
         />

@@ -5,7 +5,7 @@ import { getAsignaturas } from '../services/asignatura.service';
 import type { Asignatura } from '../services/asignatura.service';
 import { Tema, Dificultad } from '../types/pregunta';
 import type { Respuesta } from '../types/pregunta';
-import { ArrowLeft, Save, PlusCircle, Trash2, HelpCircle } from 'lucide-react';
+import { ArrowLeft, Save, PlusCircle, Trash2, HelpCircle, Edit } from 'lucide-react';
 
 const PreguntaEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -165,14 +165,14 @@ const PreguntaEdit: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Respuestas (Gestión Integral)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Respuestas (Gestión Granular)</label>
               <div className="flex gap-2 mb-4">
                 <input
                   type="text"
                   className="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                   value={nuevaRespuesta}
                   onChange={(e) => setNuevaRespuesta(e.target.value)}
-                  placeholder="Escriba una opción..."
+                  placeholder="Escriba una nueva opción..."
                   onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddRespuesta())}
                 />
                 <button type="button" onClick={handleAddRespuesta} className="bg-gray-200 p-2 rounded-lg hover:bg-gray-300 transition-colors">
@@ -181,20 +181,31 @@ const PreguntaEdit: React.FC = () => {
               </div>
               <div className="space-y-2">
                 {pregunta.respuestas.map((r, i) => (
-                  <div key={i} className="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 transition-colors group">
+                  <div key={r.id || i} className="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 transition-colors group">
                     <input 
                       type="checkbox" 
                       className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
                       checked={r.esCorrecta} 
                       onChange={() => handleToggleCorrecta(i)} 
-                      title="Marcar como correcta"
                     />
                     <span className={`flex-grow ${r.esCorrecta ? 'font-bold text-green-700' : 'text-gray-700'}`}>
                       {r.opcion}
                     </span>
-                    <button type="button" onClick={() => handleRemoveRespuesta(i)} className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Trash2 size={18}/>
-                    </button>
+                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      {r.id && (
+                        <button 
+                          type="button"
+                          onClick={() => navigate(`/respuestas/editar/${r.id}/${id}`)}
+                          className="p-1 text-blue-600 hover:bg-blue-100 rounded"
+                          title="Edición Granular"
+                        >
+                          <Edit size={16} />
+                        </button>
+                      )}
+                      <button type="button" onClick={() => handleRemoveRespuesta(i)} className="p-1 text-red-500 hover:bg-red-100 rounded">
+                        <Trash2 size={16}/>
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
