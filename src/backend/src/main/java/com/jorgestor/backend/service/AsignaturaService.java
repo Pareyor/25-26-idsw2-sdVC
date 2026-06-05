@@ -74,6 +74,11 @@ public class AsignaturaService {
         asignaturaRepository.deleteById(id);
     }
 
+    public Asignatura findEntityById(Long id) {
+        return asignaturaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Asignatura no encontrada"));
+    }
+
     private AsignaturaDTO convertToDTO(Asignatura asignatura) {
         return new AsignaturaDTO(
                 asignatura.getId(),

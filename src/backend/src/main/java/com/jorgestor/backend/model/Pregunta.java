@@ -1,6 +1,8 @@
 package com.jorgestor.backend.model;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "preguntas")
@@ -20,12 +22,20 @@ public class Pregunta {
     @Column(nullable = false)
     private DificultadPregunta dificultad;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "asignatura_id", nullable = true)
+    private Asignatura asignatura;
+
+    @OneToMany(mappedBy = "pregunta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Respuesta> respuestas = new ArrayList<>();
+
     public Pregunta() {}
 
-    public Pregunta(String enunciado, Tema tema, DificultadPregunta dificultad) {
+    public Pregunta(String enunciado, Tema tema, DificultadPregunta dificultad, Asignatura asignatura) {
         this.enunciado = enunciado;
         this.tema = tema;
         this.dificultad = dificultad;
+        this.asignatura = asignatura;
     }
 
     // Getters y Setters
@@ -37,4 +47,8 @@ public class Pregunta {
     public void setTema(Tema tema) { this.tema = tema; }
     public DificultadPregunta getDificultad() { return dificultad; }
     public void setDificultad(DificultadPregunta dificultad) { this.dificultad = dificultad; }
+    public Asignatura getAsignatura() { return asignatura; }
+    public void setAsignatura(Asignatura asignatura) { this.asignatura = asignatura; }
+    public List<Respuesta> getRespuestas() { return respuestas; }
+    public void setRespuestas(List<Respuesta> respuestas) { this.respuestas = respuestas; }
 }
