@@ -1,0 +1,50 @@
+@startuml
+title Diagrama de Secuencia - Eliminar Respuesta
+
+actor "Docente" as Actor
+participant "Frontend (React)\nRespuestaListComponent" as FE
+participant "RespuestaController" as Controller
+participant "RespuestaService" as Service
+participant "PreguntaService" as PreguntaService
+participant "RespuestaRepository" as Repo
+
+Actor -> FE: Pulsa eliminar respuesta
+activate FE
+FE -> FE: Mostrar confirmación
+
+alt Confirmación aceptada
+    FE -> Controller: DELETE /api/respuestas/{id}\n(Header: Authorization: Bearer <token>)
+    activate Controller
+    
+    Controller -> Service: eliminarRespuesta(id, docenteId)
+    activate Service
+    
+    Service -> Repo: findById(id)
+    activate Repo
+    Repo --> Service: Optional<Respuesta>
+    deactivate Repo
+    
+    Service -> PreguntaService: obtenerPreguntaPorId(respuesta.pregunta.id, docenteId)
+    activate PreguntaService
+    PreguntaService --> Service: Pregunta
+    deactivate PreguntaService
+    
+    alt Respuesta No Existe o Pregunta No Pertenece al Docente
+        Service --> Controller: throw UnauthorizedException()
+        Controller --> FE: 403 Forbidden
+        FE --> Actor: Mostrar mensaje de error
+    else Respuesta Existe y Pertenencia Validada
+        Service -> Repo: deleteById(id)
+        activate Repo
+        Repo --> Service: void
+        deactivate Repo
+        Service --> Controller: 204 No Content
+        deactivate Service
+        Controller --> FE: 204 No Content
+        deactivate Controller
+        FE --> Actor: Mostrar mensaje de éxito y refrescar lista
+    end
+end
+deactivate FE
+
+@enduml
