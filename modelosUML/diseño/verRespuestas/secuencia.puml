@@ -1,54 +1,42 @@
 @startuml
-title Diagrama de Secuencia - Ver Respuestas (Spring Boot + React)
+title Diagrama de Secuencia - Ver Respuestas
 
-actor "Docente" as Teacher
+actor "Docente" as Actor
 participant "Frontend (React)\nRespuestasListComponent" as FE
 participant "RespuestaController" as Controller
 participant "RespuestaService" as Service
 participant "PreguntaService" as PreguntaService
-participant "PreguntaRepository" as PreguntaRepo
-participant "RespuestaRepository" as RespuestaRepo
-database "Base de Datos (PostgreSQL)" as DB
+participant "RespuestaRepository" as Repo
 
-Teacher -> FE: Accede a ver respuestas
+Actor -> FE: Accede al detalle de una pregunta
 activate FE
+
 FE -> Controller: GET /api/respuestas/pregunta/{preguntaId}\n(Header: Authorization: Bearer <token>)
 activate Controller
-Controller -> Controller: extraer docenteId del JWT
-Controller -> Service: obtenerRespuestasPorPregunta(preguntaId, docenteId)
+
+Controller -> Service: listarRespuestasPorPregunta(preguntaId, docenteId)
 activate Service
+
 Service -> PreguntaService: obtenerPreguntaPorId(preguntaId, docenteId)
 activate PreguntaService
-PreguntaService -> PreguntaRepo: findById(preguntaId)
-activate PreguntaRepo
-PreguntaRepo -> DB: SELECT * FROM preguntas WHERE id = ?
-activate DB
-DB --> PreguntaRepo: Optional<Pregunta>
-deactivate DB
-PreguntaRepo --> PreguntaService: Optional<Pregunta>
-deactivate PreguntaRepo
-PreguntaService -> PreguntaService: Verificar pertenencia de pregunta\na docente autenticado (docenteId)
 PreguntaService --> Service: Pregunta
 deactivate PreguntaService
+
 alt Pregunta No Existe o No Pertenece al Docente
     Service --> Controller: throw UnauthorizedException()
     Controller --> FE: 403 Forbidden
-    FE --> Teacher: Mostrar mensaje de error
+    FE --> Actor: Mostrar mensaje de error
 else Pregunta Existe y Pertenece al Docente
-    Service -> RespuestaRepo: findByPreguntaId(preguntaId)
-    activate RespuestaRepo
-    RespuestaRepo -> DB: SELECT * FROM respuestas WHERE pregunta_id = ? ORDER BY id
-    activate DB
-    DB --> RespuestaRepo: List<Respuesta>
-    deactivate DB
-    RespuestaRepo --> Service: List<Respuesta>
-    deactivate RespuestaRepo
+    Service -> Repo: findByPreguntaId(preguntaId)
+    activate Repo
+    Repo --> Service: List<Respuesta>
+    deactivate Repo
     Service --> Controller: List<RespuestaDTO>
+    deactivate Service
     Controller --> FE: 200 OK (List<RespuestaDTO> JSON)
     deactivate Controller
-    FE --> Teacher: Mostrar lista de respuestas\n(contenido, esCorrecta)
+    FE --> Actor: Mostrar lista de respuestas\n(contenido, esCorrecta)
 end
 
 deactivate FE
-
 @enduml
