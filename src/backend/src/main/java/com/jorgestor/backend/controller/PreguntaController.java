@@ -30,4 +30,16 @@ public class PreguntaController {
     public ResponseEntity<PreguntaDTO> createPregunta(@RequestBody PreguntaDTO preguntaDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(preguntaService.crearPregunta(preguntaDTO));
     }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<PreguntaDTO> getPregunta(@PathVariable Long id) {
+        return ResponseEntity.ok(preguntaService.obtenerPregunta(id));
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<PreguntaDTO> updatePregunta(@PathVariable Long id, @RequestBody PreguntaDTO preguntaDTO) {
+        return ResponseEntity.ok(preguntaService.actualizarPregunta(id, preguntaDTO));
+    }
 }

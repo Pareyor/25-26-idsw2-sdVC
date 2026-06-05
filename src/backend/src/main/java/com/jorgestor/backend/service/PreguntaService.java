@@ -28,6 +28,12 @@ public class PreguntaService {
                 .collect(Collectors.toList());
     }
 
+    public PreguntaDTO obtenerPregunta(Long id) {
+        Pregunta p = preguntaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pregunta no encontrada"));
+        return convertToDTO(p);
+    }
+
     public PreguntaDTO crearPregunta(PreguntaDTO dto) {
         Asignatura asignatura = asignaturaService.findEntityById(dto.getAsignaturaId());
         
@@ -43,6 +49,32 @@ public class PreguntaService {
                     .map(r -> new Respuesta(r.getOpcion(), r.isEsCorrecta(), pregunta))
                     .collect(Collectors.toList());
             pregunta.setRespuestas(respuestas);
+        }
+
+        Pregunta guardada = preguntaRepository.save(pregunta);
+        return convertToDTO(guardada);
+    }
+
+    public PreguntaDTO actualizarPregunta(Long id, PreguntaDTO dto) {
+        Pregunta pregunta = preguntaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pregunta no encontrada"));
+
+        pregunta.setEnunciado(dto.getEnunciado());
+        pregunta.setTema(dto.getTema());
+        pregunta.setDificultad(dto.getDificultad());
+
+        if (dto.getAsignaturaId() != null) {
+            Asignatura asignatura = asignaturaService.findEntityById(dto.getAsignaturaId());
+            pregunta.setAsignatura(asignatura);
+        }
+
+        // Actualización de respuestas (composición)
+        if (dto.getRespuestas() != null) {
+            pregunta.getRespuestas().clear();
+            List<Respuesta> nuevasRespuestas = dto.getRespuestas().stream()
+                    .map(r -> new Respuesta(r.getOpcion(), r.isEsCorrecta(), pregunta))
+                    .collect(Collectors.toList());
+            pregunta.getRespuestas().addAll(nuevasRespuestas);
         }
 
         Pregunta guardada = preguntaRepository.save(pregunta);
