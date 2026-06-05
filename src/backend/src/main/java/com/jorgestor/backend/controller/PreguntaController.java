@@ -42,4 +42,11 @@ public class PreguntaController {
     public ResponseEntity<PreguntaDTO> updatePregunta(@PathVariable Long id, @RequestBody PreguntaDTO preguntaDTO) {
         return ResponseEntity.ok(preguntaService.actualizarPregunta(id, preguntaDTO));
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public void deletePregunta(@PathVariable Long id) {
+        preguntaService.eliminarPregunta(id);
+    }
 }

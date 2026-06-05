@@ -124,7 +124,11 @@ const PreguntaList: React.FC = () => {
                         >
                           <Edit size={18} />
                         </button>
-                        <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Eliminar">
+                        <button 
+                          onClick={() => handleDelete(pregunta.id)}
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" 
+                          title="Eliminar"
+                        >
                           <Trash2 size={18} />
                         </button>
                       </div>
@@ -135,6 +139,20 @@ const PreguntaList: React.FC = () => {
                   <tr>
                     <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
                       No se encontraron preguntas que coincidan con la búsqueda.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PreguntaList;
+n preguntas que coincidan con la búsqueda.
                     </td>
                   </tr>
                 )}

@@ -32,3 +32,9 @@ export const updatePregunta = (id: number, pregunta: Pregunta) => {
     headers: getAuthHeader()
   });
 };
+
+export const deletePregunta = (id: number) => {
+  return axios.delete(`${API_URL}/${id}`, {
+    headers: getAuthHeader()
+  });
+};

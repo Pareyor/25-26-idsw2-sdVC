@@ -81,6 +81,13 @@ public class PreguntaService {
         return convertToDTO(guardada);
     }
 
+    public void eliminarPregunta(Long id) {
+        if (!preguntaRepository.existsById(id)) {
+            throw new RuntimeException("Pregunta no encontrada");
+        }
+        preguntaRepository.deleteById(id);
+    }
+
     private PreguntaDTO convertToDTO(Pregunta pregunta) {
         List<RespuestaDTO> respuestasDTO = pregunta.getRespuestas().stream()
                 .map(r -> new RespuestaDTO(r.getId(), r.getOpcion(), r.isEsCorrecta()))
