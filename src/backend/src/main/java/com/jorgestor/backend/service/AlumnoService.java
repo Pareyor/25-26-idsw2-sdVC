@@ -72,6 +72,13 @@ public class AlumnoService {
         return convertToDTO(guardado);
     }
 
+    public void eliminarAlumno(Long id) {
+        if (!alumnoRepository.existsById(id)) {
+            throw new RuntimeException("Alumno no encontrado");
+        }
+        alumnoRepository.deleteById(id);
+    }
+
     private AlumnoDTO convertToDTO(Alumno alumno) {
         return new AlumnoDTO(
                 alumno.getId(),

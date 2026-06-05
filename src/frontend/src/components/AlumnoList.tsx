@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAlumnos } from '../services/alumno.service';
+import { getAlumnos, deleteAlumno } from '../services/alumno.service';
 import type { Alumno } from '../services/alumno.service';
 import { Search, Plus, Edit, Trash2, ArrowLeft, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +24,17 @@ const AlumnoList: React.FC = () => {
     } catch (err) {
       setError('Error al cargar los alumnos');
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar este alumno? Esta acción no se puede deshacer.')) {
+      try {
+        await deleteAlumno(id);
+        setAlumnos(alumnos.filter(a => a.id !== id));
+      } catch (err) {
+        alert('Error al eliminar el alumno.');
+      }
     }
   };
 
@@ -101,7 +112,11 @@ const AlumnoList: React.FC = () => {
                         >
                           <Edit size={18} />
                         </button>
-                        <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Eliminar">
+                        <button 
+                          onClick={() => handleDelete(alumno.id)}
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" 
+                          title="Eliminar"
+                        >
                           <Trash2 size={18} />
                         </button>
                       </div>

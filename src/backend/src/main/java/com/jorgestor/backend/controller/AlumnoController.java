@@ -44,4 +44,11 @@ public class AlumnoController {
     public ResponseEntity<AlumnoDTO> updateAlumno(@PathVariable Long id, @RequestBody AlumnoDTO alumnoDTO) {
         return ResponseEntity.ok(alumnoService.actualizarAlumno(id, alumnoDTO));
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public void deleteAlumno(@PathVariable Long id) {
+        alumnoService.eliminarAlumno(id);
+    }
 }
