@@ -1,0 +1,35 @@
+@startuml
+title Diagrama de Secuencia - Importar Grados (Diseño) - Jorgestor
+
+actor "Docente" as Teacher
+participant "Frontend (React)" as FE
+participant "GradoController" as Controller
+participant "GradoService" as Service
+participant "ImportadorService" as Importador
+participant "Repository" as Repository
+
+Teacher -> FE: Sube archivo (CSV/JSON)
+activate FE
+
+FE -> Controller: POST /api/grados/importar\n(Archivo)
+activate Controller
+
+Controller -> Importador: procesarArchivo(archivo)
+activate Importador
+Importador --> Controller: List<GradoDTO> extraidos
+deactivate Importador
+
+Controller -> Service: crearGrados(listaGrados)
+activate Service
+
+loop Para cada GradoDTO
+    Service -> Repository: save(grado)
+end
+Repository --> Service: void
+deactivate Service
+
+Controller --> FE: 200 OK
+deactivate Controller
+deactivate FE
+
+@enduml
