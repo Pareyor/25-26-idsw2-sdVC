@@ -20,6 +20,12 @@ public class AlumnoService {
         this.gradoService = gradoService;
     }
 
+    public List<AlumnoDTO> obtenerAlumnosPorGrado(Long gradoId) {
+        return alumnoRepository.findByGradoId(gradoId).stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
     public List<AlumnoDTO> getAllAlumnos() {
         return alumnoRepository.findAll().stream()
                 .map(this::convertToDTO)
@@ -34,7 +40,7 @@ public class AlumnoService {
             throw new RuntimeException("El DNI ya está registrado");
         }
         Grado grado = gradoService.findEntityById(dto.getGradoId());
-        Alumno alumno = new Alumno(dto.getDni(), dto.getNombre(), dto.getApellidos(), grado);
+        Alumno alumno = new Alumno(dto.getDni(), dto.getNombre(), dto.getApellidos(), grado, dto.getCurso());
         Alumno guardado = alumnoRepository.save(alumno);
         return convertToDTO(guardado);
     }
@@ -62,6 +68,7 @@ public class AlumnoService {
 
         alumno.setNombre(dto.getNombre());
         alumno.setApellidos(dto.getApellidos());
+        alumno.setCurso(dto.getCurso());
 
         if (dto.getGradoId() != null) {
             Grado grado = gradoService.findEntityById(dto.getGradoId());
@@ -85,7 +92,8 @@ public class AlumnoService {
                 alumno.getDni(),
                 alumno.getNombre(),
                 alumno.getApellidos(),
-                alumno.getGrado() != null ? alumno.getGrado().getId() : null
+                alumno.getGrado() != null ? alumno.getGrado().getId() : null,
+                alumno.getCurso()
         );
     }
 }

@@ -8,6 +8,7 @@ export interface Docente {
   email: string;
   nombre: string;
   apellidos: string;
+  password?: string;
 }
 
 const getAuthHeader = () => {

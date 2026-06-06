@@ -6,15 +6,17 @@ public class AlumnoDTO {
     private String nombre;
     private String apellidos;
     private Long gradoId;
+    private String curso;
 
     public AlumnoDTO() {}
 
-    public AlumnoDTO(Long id, String dni, String nombre, String apellidos, Long gradoId) {
+    public AlumnoDTO(Long id, String dni, String nombre, String apellidos, Long gradoId, String curso) {
         this.id = id;
         this.dni = dni;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.gradoId = gradoId;
+        this.curso = curso;
     }
 
     // Getters y Setters
@@ -28,4 +30,6 @@ public class AlumnoDTO {
     public void setApellidos(String apellidos) { this.apellidos = apellidos; }
     public Long getGradoId() { return gradoId; }
     public void setGradoId(Long gradoId) { this.gradoId = gradoId; }
+    public String getCurso() { return curso; }
+    public void setCurso(String curso) { this.curso = curso; }
 }

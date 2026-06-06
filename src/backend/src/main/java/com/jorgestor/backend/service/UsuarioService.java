@@ -28,29 +28,10 @@ public class UsuarioService {
                         u.getUsername(),
                         u.getEmail(),
                         u.getNombre(),
-                        u.getApellidos()
+                        u.getApellidos(),
+                        null
                 ))
                 .collect(Collectors.toList());
-    }
-
-    public DocenteDTO crearDocente(DocenteDTO dto) {
-        if (usuarioRepository.findByUsername(dto.getUsername()).isPresent()) {
-            throw new RuntimeException("El DNI ya está registrado");
-        }
-
-        Usuario usuario = new Usuario();
-        usuario.setUsername(dto.getUsername());
-        usuario.setEmail(dto.getEmail());
-        usuario.setNombre(dto.getNombre());
-        usuario.setApellidos(dto.getApellidos());
-        usuario.setRole(Role.ROLE_DOCENTE);
-        
-        // Password por defecto: el mismo username (DNI)
-        usuario.setPassword(passwordEncoder.encode(dto.getUsername()));
-
-        Usuario guardado = usuarioRepository.save(usuario);
-        dto.setId(guardado.getId());
-        return dto;
     }
 
     public DocenteDTO obtenerDocente(Long id) {
@@ -62,17 +43,44 @@ public class UsuarioService {
                 u.getUsername(),
                 u.getEmail(),
                 u.getNombre(),
-                u.getApellidos()
+                u.getApellidos(),
+                null
         );
     }
+
+    public DocenteDTO crearDocente(DocenteDTO dto) {
+        if (usuarioRepository.findByUsername(dto.getUsername()).isPresent()) {
+            throw new RuntimeException("El DNI/Usuario ya está registrado");
+        }
+
+        Usuario usuario = new Usuario();
+        usuario.setUsername(dto.getUsername());
+        usuario.setEmail(dto.getEmail());
+        usuario.setNombre(dto.getNombre());
+        usuario.setApellidos(dto.getApellidos());
+        usuario.setRole(Role.ROLE_DOCENTE);
+
+        usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        Usuario guardado = usuarioRepository.save(usuario);
+        dto.setId(guardado.getId());
+        dto.setPassword(null); // No devolver contraseña
+        return dto;
+        }
+
 
     public DocenteDTO actualizarDocente(Long id, DocenteDTO dto) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Docente no encontrado"));
 
+        usuario.setUsername(dto.getUsername());
         usuario.setEmail(dto.getEmail());
         usuario.setNombre(dto.getNombre());
         usuario.setApellidos(dto.getApellidos());
+
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
 
         Usuario guardado = usuarioRepository.save(usuario);
         return new DocenteDTO(
@@ -80,9 +88,11 @@ public class UsuarioService {
                 guardado.getUsername(),
                 guardado.getEmail(),
                 guardado.getNombre(),
-                guardado.getApellidos()
+                guardado.getApellidos(),
+                null
         );
     }
+
 
     public void eliminarDocente(Long id) {
         if (!usuarioRepository.existsById(id)) {

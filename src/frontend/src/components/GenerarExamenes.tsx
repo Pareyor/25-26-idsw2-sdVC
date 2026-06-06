@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as asignaturaService from '../services/asignatura.service';
 import * as gradoService from '../services/grado.service';
+import * as preguntaService from '../services/pregunta.service';
 import examenService from '../services/examen.service';
 import './GenerarExamenes.css';
 
@@ -9,12 +10,13 @@ const GenerarExamenes: React.FC = () => {
   const navigate = useNavigate();
   const [asignaturas, setAsignaturas] = useState<any[]>([]);
   const [grados, setGrados] = useState<any[]>([]);
+  const [temasDisponibles, setTemasDisponibles] = useState<string[]>([]);
+  const [selectedAsignatura, setSelectedAsignatura] = useState<any>(null);
   
   const [config, setConfig] = useState<any>({
     asignaturaId: '',
     tipoExamen: 'PARCIAL_1',
-    temas: ['TEORIA'],
-    numPreguntas: 10,
+    temas: [],
     configuracionesGrado: []
   });
 
@@ -23,9 +25,29 @@ const GenerarExamenes: React.FC = () => {
     gradoService.getGrados().then(res => setGrados(res.data));
   }, []);
 
-  const handleAsignaturaChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleAsignaturaChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const asignaturaId = e.target.value;
-    setConfig({ ...config, asignaturaId, configuracionesGrado: [] });
+    const selected = asignaturas.find(a => a.id.toString() === asignaturaId);
+    setSelectedAsignatura(selected || null);
+    
+    setConfig({ ...config, asignaturaId, configuracionesGrado: [], temas: [] });
+    if (asignaturaId) {
+      const res = await preguntaService.getTemasByAsignatura(parseInt(asignaturaId));
+      setTemasDisponibles(res.data);
+    } else {
+      setTemasDisponibles([]);
+    }
+  };
+
+  const handleTemaToggle = (tema: string) => {
+    const currentTemas = [...config.temas];
+    const index = currentTemas.indexOf(tema);
+    if (index > -1) {
+      currentTemas.splice(index, 1);
+    } else {
+      currentTemas.push(tema);
+    }
+    setConfig({ ...config, temas: currentTemas });
   };
 
   const addGradoConfig = (gradoId: string) => {
@@ -89,6 +111,16 @@ const GenerarExamenes: React.FC = () => {
             <option value="">Seleccione una asignatura</option>
             {asignaturas.map(a => <option key={a.id} value={a.id}>{a.titulo}</option>)}
           </select>
+          {selectedAsignatura && selectedAsignatura.alumnosPorGrado && (
+            <div style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+              <p>Alumnos matriculados:</p>
+              <ul>
+                {Object.entries(selectedAsignatura.alumnosPorGrado).map(([gradoId, count]) => (
+                  <li key={gradoId}>Grado {gradoId}: {count as number} alumnos</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         <div className="form-group">
@@ -102,12 +134,43 @@ const GenerarExamenes: React.FC = () => {
           </select>
         </div>
 
+        {temasDisponibles.length > 0 && (
+          <div className="form-group">
+            <label>Seleccionar Temas:</label>
+            <div className="temas-grid" style={{display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '10px'}}>
+              {temasDisponibles.map(tema => (
+                <label key={tema} className={`tema-chip ${config.temas.includes(tema) ? 'active' : ''}`} style={{
+                  padding: '8px 16px',
+                  borderRadius: '20px',
+                  border: '1px solid var(--glass-border)',
+                  background: config.temas.includes(tema) ? 'var(--neon-cyan)' : 'var(--card-bg)',
+                  color: config.temas.includes(tema) ? '#050505' : 'var(--text-main)',
+                  cursor: 'pointer',
+                  fontSize: '0.85rem',
+                  fontWeight: '600'
+                }}>
+                  <input 
+                    type="checkbox" 
+                    hidden 
+                    checked={config.temas.includes(tema)} 
+                    onChange={() => handleTemaToggle(tema)} 
+                  />
+                  {tema}
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
+
         {config.asignaturaId && (
           <div className="form-group">
             <label>Añadir Grado a la configuración:</label>
             <select onChange={(e) => addGradoConfig(e.target.value)} value="">
               <option value="">Seleccione un grado</option>
-              {grados.map(g => <option key={g.id} value={g.id}>{g.titulo}</option>)}
+              {grados
+                .filter(g => selectedAsignatura?.gradoIds?.includes(g.id))
+                .map(g => <option key={g.id} value={g.id}>{g.titulo}</option>)
+              }
             </select>
           </div>
         )}

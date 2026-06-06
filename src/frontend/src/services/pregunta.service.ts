@@ -1,7 +1,15 @@
 import axios from 'axios';
-import type { Pregunta } from '../types/pregunta';
 
 const API_URL = 'http://localhost:8080/api/preguntas';
+
+export interface PreguntaDTO {
+  id?: number;
+  enunciado: string;
+  tipo: string;
+  tema: string;
+  dificultad: string;
+  asignaturaId?: number;
+}
 
 const getAuthHeader = () => {
   const userStr = localStorage.getItem('user');
@@ -10,25 +18,31 @@ const getAuthHeader = () => {
 };
 
 export const getPreguntas = () => {
-  return axios.get<Pregunta[]>(API_URL, {
+  return axios.get<PreguntaDTO[]>(API_URL, {
     headers: getAuthHeader()
   });
 };
 
 export const getPregunta = (id: number) => {
-  return axios.get<Pregunta>(`${API_URL}/${id}`, {
+  return axios.get<PreguntaDTO>(`${API_URL}/${id}`, { 
+    headers: getAuthHeader() 
+  });
+};
+
+export const getTemasByAsignatura = (asignaturaId: number) => {
+  return axios.get<string[]>(`${API_URL}/asignatura/${asignaturaId}/temas`, { 
+    headers: getAuthHeader() 
+  });
+};
+
+export const createPregunta = (pregunta: PreguntaDTO) => {
+  return axios.post<PreguntaDTO>(API_URL, pregunta, {
     headers: getAuthHeader()
   });
 };
 
-export const createPregunta = (pregunta: Omit<Pregunta, 'id'>) => {
-  return axios.post<Pregunta>(API_URL, pregunta, {
-    headers: getAuthHeader()
-  });
-};
-
-export const updatePregunta = (id: number, pregunta: Pregunta) => {
-  return axios.put<Pregunta>(`${API_URL}/${id}`, pregunta, {
+export const updatePregunta = (id: number, pregunta: PreguntaDTO) => {
+  return axios.put<PreguntaDTO>(`${API_URL}/${id}`, pregunta, {
     headers: getAuthHeader()
   });
 };

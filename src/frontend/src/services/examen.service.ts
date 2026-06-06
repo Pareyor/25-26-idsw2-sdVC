@@ -11,8 +11,8 @@ const getBorradores = () => {
   return axios.get(API_URL + 'generar/borradores', { headers: authHeader() });
 };
 
-const asignarExamenes = () => {
-  return axios.post(API_URL + 'asignar', {}, { headers: authHeader() });
+const asignarExamenes = (alumnoIds: number[]) => {
+  return axios.post(API_URL + 'asignar', { alumnoIds }, { headers: authHeader() });
 };
 
 const cancelarGeneracion = () => {

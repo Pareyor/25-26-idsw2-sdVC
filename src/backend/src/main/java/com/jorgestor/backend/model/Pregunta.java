@@ -16,7 +16,10 @@ public class Pregunta {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Tema tema;
+    private TipoPregunta tipo;
+
+    @Column(nullable = false)
+    private String tema;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -31,8 +34,9 @@ public class Pregunta {
 
     public Pregunta() {}
 
-    public Pregunta(String enunciado, Tema tema, DificultadPregunta dificultad, Asignatura asignatura) {
+    public Pregunta(String enunciado, TipoPregunta tipo, String tema, DificultadPregunta dificultad, Asignatura asignatura) {
         this.enunciado = enunciado;
+        this.tipo = tipo;
         this.tema = tema;
         this.dificultad = dificultad;
         this.asignatura = asignatura;
@@ -43,8 +47,10 @@ public class Pregunta {
     public void setId(Long id) { this.id = id; }
     public String getEnunciado() { return enunciado; }
     public void setEnunciado(String enunciado) { this.enunciado = enunciado; }
-    public Tema getTema() { return tema; }
-    public void setTema(Tema tema) { this.tema = tema; }
+    public TipoPregunta getTipo() { return tipo; }
+    public void setTipo(TipoPregunta tipo) { this.tipo = tipo; }
+    public String getTema() { return tema; }
+    public void setTema(String tema) { this.tema = tema; }
     public DificultadPregunta getDificultad() { return dificultad; }
     public void setDificultad(DificultadPregunta dificultad) { this.dificultad = dificultad; }
     public Asignatura getAsignatura() { return asignatura; }

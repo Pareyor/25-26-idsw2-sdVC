@@ -7,7 +7,7 @@ import './Formularios.css';
 
 const DocenteEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [docente, setDocente] = useState<Docente | null>(null);
+  const [docente, setDocente] = useState<(Docente & { password?: string }) | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -22,7 +22,7 @@ const DocenteEdit: React.FC = () => {
   const fetchDocente = async (docenteId: number) => {
     try {
       const response = await getDocente(docenteId);
-      setDocente(response.data);
+      setDocente({ ...response.data, password: '' });
       setLoading(false);
     } catch (err: any) {
       setError('Error al cargar los datos del docente.');
@@ -78,12 +78,24 @@ const DocenteEdit: React.FC = () => {
           )}
 
           <div className="form-group">
-            <label>DNI / Usuario (No editable)</label>
+            <label>DNI / Usuario</label>
             <input
               type="text"
-              disabled
+              name="username"
+              required
               value={docente.username}
-              className="disabled-input"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Nueva Contraseña (dejar en blanco para no cambiar)</label>
+            <input
+              type="password"
+              name="password"
+              value={docente.password || ''}
+              onChange={handleChange}
+              placeholder="********"
             />
           </div>
 

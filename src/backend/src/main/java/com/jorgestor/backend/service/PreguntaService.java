@@ -5,7 +5,7 @@ import com.jorgestor.backend.dto.RespuestaDTO;
 import com.jorgestor.backend.model.Asignatura;
 import com.jorgestor.backend.model.Pregunta;
 import com.jorgestor.backend.model.Respuesta;
-import com.jorgestor.backend.model.Tema;
+import com.jorgestor.backend.model.TipoPregunta;
 import com.jorgestor.backend.repository.PreguntaRepository;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +40,7 @@ public class PreguntaService {
         
         Pregunta pregunta = new Pregunta(
                 dto.getEnunciado(),
+                dto.getTipo(),
                 dto.getTema(),
                 dto.getDificultad(),
                 asignatura
@@ -61,6 +62,7 @@ public class PreguntaService {
                 .orElseThrow(() -> new RuntimeException("Pregunta no encontrada"));
 
         pregunta.setEnunciado(dto.getEnunciado());
+        pregunta.setTipo(dto.getTipo());
         pregunta.setTema(dto.getTema());
         pregunta.setDificultad(dto.getDificultad());
 
@@ -69,7 +71,6 @@ public class PreguntaService {
             pregunta.setAsignatura(asignatura);
         }
 
-        // Actualización de respuestas (composición)
         if (dto.getRespuestas() != null) {
             pregunta.getRespuestas().clear();
             List<Respuesta> nuevasRespuestas = dto.getRespuestas().stream()
@@ -89,10 +90,14 @@ public class PreguntaService {
         preguntaRepository.deleteById(id);
     }
 
-    public List<PreguntaDTO> obtenerBancoPreguntas(Long asignaturaId, List<Tema> temas) {
+    public List<PreguntaDTO> obtenerBancoPreguntas(Long asignaturaId, List<String> temas) {
         return preguntaRepository.findByAsignaturaIdAndTemaIn(asignaturaId, temas).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
+    }
+
+    public List<String> obtenerTemasPorAsignatura(Long asignaturaId) {
+        return preguntaRepository.findDistinctTemasByAsignaturaId(asignaturaId);
     }
 
     private PreguntaDTO convertToDTO(Pregunta pregunta) {
@@ -103,6 +108,7 @@ public class PreguntaService {
         return new PreguntaDTO(
                 pregunta.getId(),
                 pregunta.getEnunciado(),
+                pregunta.getTipo(),
                 pregunta.getTema(),
                 pregunta.getDificultad(),
                 pregunta.getAsignatura() != null ? pregunta.getAsignatura().getId() : null,

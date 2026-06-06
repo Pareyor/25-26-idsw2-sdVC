@@ -1,9 +1,9 @@
 package com.jorgestor.backend.model;
 
-public enum Tema {
-    GENERAL,
+public enum TipoPregunta {
     TEORIA,
     PRACTICA,
+    GENERAL,
     DISENO,
     IMPLEMENTACION
 }

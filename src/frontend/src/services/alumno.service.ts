@@ -7,6 +7,7 @@ export interface Alumno {
   dni: string;
   nombre: string;
   apellidos: string;
+  curso: string;
 }
 
 const getAuthHeader = () => {
@@ -17,6 +18,12 @@ const getAuthHeader = () => {
 
 export const getAlumnos = () => {
   return axios.get<Alumno[]>(API_URL, {
+    headers: getAuthHeader()
+  });
+};
+
+export const getAlumnosByGrado = (gradoId: number) => {
+  return axios.get<Alumno[]>(`${API_URL}/grado/${gradoId}`, {
     headers: getAuthHeader()
   });
 };

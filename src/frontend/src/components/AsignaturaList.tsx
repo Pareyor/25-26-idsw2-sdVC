@@ -65,17 +65,11 @@ const AsignaturaList: React.FC = () => {
         </div>
         <button 
           onClick={() => navigate('/asignaturas/nuevo')}
-          className="btn"
+          className="btn btn-primary"
           style={{ 
             display: 'flex', 
             alignItems: 'center', 
-            gap: '0.5rem', 
-            padding: '0.75rem 1.5rem', 
-            borderRadius: '12px', 
-            backgroundColor: 'var(--primary)', 
-            color: 'white', 
-            border: 'none', 
-            cursor: 'pointer' 
+            gap: '0.5rem'
           }}
         >
           <Plus size={20} />

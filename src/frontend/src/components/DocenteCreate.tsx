@@ -10,6 +10,7 @@ const DocenteCreate: React.FC = () => {
     nombre: '',
     apellidos: '',
     email: '',
+    password: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -72,6 +73,18 @@ const DocenteCreate: React.FC = () => {
         </div>
 
         <div className="form-group">
+          <label>Contraseña</label>
+          <input
+            type="password"
+            name="password"
+            required
+            value={docente.password}
+            onChange={handleChange}
+            placeholder="********"
+          />
+        </div>
+
+        <div className="form-group">
           <label>Email</label>
           <input
             type="email"
@@ -116,7 +129,6 @@ const DocenteCreate: React.FC = () => {
               gap: '0.5rem', 
               padding: '0.75rem 1.5rem', 
               borderRadius: '12px', 
-              backgroundColor: 'var(--primary)', 
               color: 'white', 
               border: 'none', 
               cursor: 'pointer' 

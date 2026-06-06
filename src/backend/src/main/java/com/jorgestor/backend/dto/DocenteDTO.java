@@ -6,15 +6,17 @@ public class DocenteDTO {
     private String email;
     private String nombre;
     private String apellidos;
+    private String password;
 
     public DocenteDTO() {}
 
-    public DocenteDTO(Long id, String username, String email, String nombre, String apellidos) {
+    public DocenteDTO(Long id, String username, String email, String nombre, String apellidos, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.nombre = nombre;
         this.apellidos = apellidos;
+        this.password = password;
     }
 
     public Long getId() { return id; }
@@ -27,4 +29,6 @@ public class DocenteDTO {
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getApellidos() { return apellidos; }
     public void setApellidos(String apellidos) { this.apellidos = apellidos; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 }

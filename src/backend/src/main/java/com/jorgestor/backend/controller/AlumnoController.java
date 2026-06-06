@@ -20,34 +20,40 @@ public class AlumnoController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<List<AlumnoDTO>> getAllAlumnos() {
         System.out.println("Accediendo a listar alumnos...");
         return ResponseEntity.ok(alumnoService.getAllAlumnos());
     }
 
+    @GetMapping("/grado/{gradoId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<List<AlumnoDTO>> getAlumnosByGrado(@PathVariable Long gradoId) {
+        return ResponseEntity.ok(alumnoService.obtenerAlumnosPorGrado(gradoId));
+    }
+
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<AlumnoDTO> createAlumno(@RequestBody AlumnoDTO alumnoDTO) {
         System.out.println("Creando alumno...");
         return ResponseEntity.status(HttpStatus.CREATED).body(alumnoService.crearAlumno(alumnoDTO));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<AlumnoDTO> getAlumno(@PathVariable Long id) {
         return ResponseEntity.ok(alumnoService.obtenerAlumno(id));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<AlumnoDTO> updateAlumno(@PathVariable Long id, @RequestBody AlumnoDTO alumnoDTO) {
         return ResponseEntity.ok(alumnoService.actualizarAlumno(id, alumnoDTO));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
     public void deleteAlumno(@PathVariable Long id) {
         alumnoService.eliminarAlumno(id);
     }

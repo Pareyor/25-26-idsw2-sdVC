@@ -1,6 +1,8 @@
 package com.jorgestor.backend.model;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "asignaturas")
@@ -18,9 +20,13 @@ public class Asignatura {
     @Column(name = "curso_academico", nullable = false)
     private String cursoAcademico;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "grado_id", nullable = true)
-    private Grado grado;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "asignatura_grado",
+        joinColumns = @JoinColumn(name = "asignatura_id"),
+        inverseJoinColumns = @JoinColumn(name = "grado_id")
+    )
+    private List<Grado> grados = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profesor_id", nullable = true)
@@ -28,19 +34,11 @@ public class Asignatura {
 
     public Asignatura() {}
 
-    public Asignatura(String codigo, String titulo, String cursoAcademico, Grado grado) {
+    public Asignatura(String codigo, String titulo, String cursoAcademico, List<Grado> grados) {
         this.codigo = codigo;
         this.titulo = titulo;
         this.cursoAcademico = cursoAcademico;
-        this.grado = grado;
-    }
-
-    public Asignatura(String codigo, String titulo, String cursoAcademico, Grado grado, Usuario profesor) {
-        this.codigo = codigo;
-        this.titulo = titulo;
-        this.cursoAcademico = cursoAcademico;
-        this.grado = grado;
-        this.profesor = profesor;
+        this.grados = grados;
     }
 
     // Getters y Setters
@@ -52,8 +50,8 @@ public class Asignatura {
     public void setTitulo(String titulo) { this.titulo = titulo; }
     public String getCursoAcademico() { return cursoAcademico; }
     public void setCursoAcademico(String cursoAcademico) { this.cursoAcademico = cursoAcademico; }
-    public Grado getGrado() { return grado; }
-    public void setGrado(Grado grado) { this.grado = grado; }
+    public List<Grado> getGrados() { return grados; }
+    public void setGrados(List<Grado> grados) { this.grados = grados; }
     public Usuario getProfesor() { return profesor; }
     public void setProfesor(Usuario profesor) { this.profesor = profesor; }
 }

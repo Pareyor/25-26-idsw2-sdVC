@@ -1,30 +1,27 @@
 package com.jorgestor.backend.dto;
 
+import java.util.List;
+import java.util.Map;
+
 public class AsignaturaDTO {
     private Long id;
     private String codigo;
     private String titulo;
     private String cursoAcademico;
-    private Long gradoId;
+    private List<Long> gradoIds;
     private Long profesorId;
+    private Map<Long, Integer> alumnosPorGrado;
 
     public AsignaturaDTO() {}
 
-    public AsignaturaDTO(Long id, String codigo, String titulo, String cursoAcademico, Long gradoId) {
+    public AsignaturaDTO(Long id, String codigo, String titulo, String cursoAcademico, List<Long> gradoIds, Long profesorId, Map<Long, Integer> alumnosPorGrado) {
         this.id = id;
         this.codigo = codigo;
         this.titulo = titulo;
         this.cursoAcademico = cursoAcademico;
-        this.gradoId = gradoId;
-    }
-
-    public AsignaturaDTO(Long id, String codigo, String titulo, String cursoAcademico, Long gradoId, Long profesorId) {
-        this.id = id;
-        this.codigo = codigo;
-        this.titulo = titulo;
-        this.cursoAcademico = cursoAcademico;
-        this.gradoId = gradoId;
+        this.gradoIds = gradoIds;
         this.profesorId = profesorId;
+        this.alumnosPorGrado = alumnosPorGrado;
     }
 
     // Getters y Setters
@@ -36,8 +33,10 @@ public class AsignaturaDTO {
     public void setTitulo(String titulo) { this.titulo = titulo; }
     public String getCursoAcademico() { return cursoAcademico; }
     public void setCursoAcademico(String cursoAcademico) { this.cursoAcademico = cursoAcademico; }
-    public Long getGradoId() { return gradoId; }
-    public void setGradoId(Long gradoId) { this.gradoId = gradoId; }
+    public List<Long> getGradoIds() { return gradoIds; }
+    public void setGradoIds(List<Long> gradoIds) { this.gradoIds = gradoIds; }
     public Long getProfesorId() { return profesorId; }
     public void setProfesorId(Long profesorId) { this.profesorId = profesorId; }
+    public Map<Long, Integer> getAlumnosPorGrado() { return alumnosPorGrado; }
+    public void setAlumnosPorGrado(Map<Long, Integer> alumnosPorGrado) { this.alumnosPorGrado = alumnosPorGrado; }
 }
