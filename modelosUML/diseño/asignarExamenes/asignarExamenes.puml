@@ -1,0 +1,47 @@
+@startuml
+title Diagrama de Secuencia - Asignar Exámenes (Diseño) - Jorgestor
+
+actor "Docente" as Teacher
+participant "Frontend (React)" as FE
+participant "ExamenController" as Controller
+participant "ExamenService" as Service
+participant "ExamenSessionService" as SessionService
+participant "AlumnoService" as AlumnoService
+database "Base de Datos (PostgreSQL)" as DB
+
+Teacher -> FE: Confirmar Asignación
+activate FE
+
+FE -> Controller: POST /api/examenes/asignar
+activate Controller
+
+Controller -> SessionService: obtenerBorradores()
+activate SessionService
+SessionService --> Controller: List<PlantillaExamenDTO>
+deactivate SessionService
+
+alt No hay borradores
+    Controller --> FE: 400 Bad Request
+end
+
+Controller -> AlumnoService: obtenerAlumnosPorAsignatura(asignaturaId)
+activate AlumnoService
+AlumnoService --> Controller: List<AlumnoDTO>
+deactivate AlumnoService
+
+Controller -> Service: persistirAsignaciones(plantillas, alumnos)
+activate Service
+Service -> DB: INSERT INTO examenes (grado_id, alumno_id, ...)
+DB --> Service: void
+deactivate Service
+
+Controller -> SessionService: limpiarBorradores()
+activate SessionService
+SessionService --> Controller: void
+deactivate SessionService
+
+Controller --> FE: 200 OK
+deactivate Controller
+deactivate FE
+
+@enduml
