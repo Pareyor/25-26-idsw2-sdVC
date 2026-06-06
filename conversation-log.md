@@ -326,3 +326,17 @@
 **Enlace:** [Sesión 24](conversations/sesion-24.md)
 
 **Decisión:** Se corrigió el diseño de generarExamenes para que siguiera la lógica propuesta en el proyecto de IdSw1 y que siga las prioridades proporcionadas para `JORGESTOR`. Se cambiaron los valores necesarios para la creación de exámenes, antes se creaba un examen con preguntas aleatorias, se corrigió para que las preguntas fuesen aleatorias pero dependan del grado y la dificultad asignados.
+
+## Sesión 25: [06/06/2026][13:30] Implementación de Generación y Cancelación de Exámenes
+
+**Prompt:** Implementación de la lógica de negocio y UI para `generarExamenes` (incluyendo configuración multi-grado) y `cancelarGeneracion`.
+
+**Resultado:**
+- **Backend**: Implementación de `ExamenService` con algoritmo de selección estratificado por dificultad y `ExamenSessionService` para gestión efímera de borradores.
+- **Frontend**: Formulario dinámico en `GenerarExamenes.tsx` con configuración configurable por grado y validación de integridad.
+- **Integración**: Corrección de errores de seguridad (CORS/Auth) y lógica de selección de preguntas robustecida contra casos de stock insuficiente.
+- **Cancelación**: Endpoint de borrado de sesión (`/api/examenes/generar/cancelar`) integrado en la UI.
+
+**Enlace:** [Sesión 25](conversations/sesion-25.md)
+
+**Decisión:** Se ha finalizado la implementación de la funcionalidad central de generación de exámenes, respetando los principios de diseño de JORGESTOR y asegurando la consistencia entre el diseño de la fase de análisis y la implementación técnica final.
