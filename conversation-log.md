@@ -299,7 +299,7 @@
 
 **Decisión:** Se aceptó el diseño completo para el CRUD del módulo de respuestas, garantizando la seguridad mediante validación de pertenencia en la capa de servicio y asegurando la integridad referencial en todas las operaciones.
 
-## [18:15] Implementación CRUD Módulo Preguntas y Gestión Dual de Respuestas
+## Sesión 23: [05/06/2026][18:15] Implementación CRUD Módulo Preguntas y Gestión Dual de Respuestas
 
 **Prompt:** Implementación del CRUD de preguntas (crear, editar, eliminar) y sistema de gestión de respuestas (integral y granular).
 
@@ -312,3 +312,17 @@
 **Enlace:** [Sesión 23](conversations/sesion-23.md)
 
 **Decisión:** Se ha completado el módulo de Preguntas y Respuestas. Se decidió mantener ambos enfoques de gestión: Integral (dentro de la pregunta para mayor rapidez) y Granular (vista independiente para ediciones específicas), garantizando la flexibilidad del docente y la integridad de los datos en PostgreSQL.
+
+## Sesión 24: [06/06/2026][10:32] Diseño Detallado de Generar Exámenes y Cancelar Generación
+
+**Prompt:** Diseño de los casos de uso `generarExamenes` (considerando la complejidad de múltiples grados y tipos heredada de IdSw1) y `cancelarGeneracion`.
+
+**Resultado:**
+- **Diseño**: Generación de documentación (`README.md`) y diagramas de secuencia (`.puml`) detallados para ambos casos de uso.
+- **Arquitectura Efímera**: Implementación de un sistema de borradores basado en `HttpSession` para evitar la persistencia prematura en la base de datos.
+- **Complejidad IdSw1**: El diseño de generación ahora soporta configuraciones específicas por grado (diferentes tipos, número de exámenes y proporciones de dificultad) dentro de una misma asignatura.
+- **Flujo de Salida**: Diseño de un endpoint de cancelación que limpia los borradores de la sesión de forma atómica.
+
+**Enlace:** [Sesión 24](conversations/sesion-24.md)
+
+**Decisión:** Se corrigió el diseño de generarExamenes para que siguiera la lógica propuesta en el proyecto de IdSw1 y que siga las prioridades proporcionadas para `JORGESTOR`. Se cambiaron los valores necesarios para la creación de exámenes, antes se creaba un examen con preguntas aleatorias, se corrigió para que las preguntas fuesen aleatorias pero dependan del grado y la dificultad asignados.
