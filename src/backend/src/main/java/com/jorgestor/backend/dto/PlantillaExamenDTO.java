@@ -1,5 +1,6 @@
 package com.jorgestor.backend.dto;
 
+import com.jorgestor.backend.model.TipoExamen;
 import java.util.List;
 import java.util.UUID;
 
@@ -7,7 +8,7 @@ public class PlantillaExamenDTO {
     private String id;
     private Long gradoId;
     private Long asignaturaId;
-    private String evaluacion;
+    private TipoExamen tipoExamen;
     private List<PreguntaDTO> preguntas;
     private String clave;
 
@@ -21,8 +22,8 @@ public class PlantillaExamenDTO {
     public void setGradoId(Long gradoId) { this.gradoId = gradoId; }
     public Long getAsignaturaId() { return asignaturaId; }
     public void setAsignaturaId(Long asignaturaId) { this.asignaturaId = asignaturaId; }
-    public String getEvaluacion() { return evaluacion; }
-    public void setEvaluacion(String evaluacion) { this.evaluacion = evaluacion; }
+    public TipoExamen getTipoExamen() { return tipoExamen; }
+    public void setTipoExamen(TipoExamen tipoExamen) { this.tipoExamen = tipoExamen; }
     public List<PreguntaDTO> getPreguntas() { return preguntas; }
     public void setPreguntas(List<PreguntaDTO> preguntas) { this.preguntas = preguntas; }
     public String getClave() { return clave; }

@@ -12,7 +12,7 @@ const GenerarExamenes: React.FC = () => {
   
   const [config, setConfig] = useState<any>({
     asignaturaId: '',
-    evaluacion: 'PARCIAL_1',
+    tipoExamen: 'PARCIAL_1',
     temas: ['TEORIA'],
     numPreguntas: 10,
     configuracionesGrado: []
@@ -39,7 +39,7 @@ const GenerarExamenes: React.FC = () => {
     const newConfig = {
       gradoId: parseInt(gradoId),
       numExamenes: '',
-      numTipos: '',
+      numPreguntas: '',
       proporcionFacil: '',
       proporcionMedia: '',
       proporcionDificil: ''
@@ -47,9 +47,9 @@ const GenerarExamenes: React.FC = () => {
     setConfig({ ...config, configuracionesGrado: [...config.configuracionesGrado, newConfig] });
   };
 
-  const updateGradoConfig = (index: number, field: string, value: number) => {
+  const updateGradoConfig = (index: number, field: string, value: string) => {
     const newConfigs = [...config.configuracionesGrado];
-    newConfigs[index][field] = value;
+    newConfigs[index][field] = value === '' ? '' : parseInt(value);
     setConfig({ ...config, configuracionesGrado: newConfigs });
   };
 
@@ -72,8 +72,7 @@ const GenerarExamenes: React.FC = () => {
     e.preventDefault();
     try {
       await examenService.generarExamenes(config);
-      alert('Exámenes generados con éxito');
-      navigate('/dashboard');
+      navigate('/examenes/confirmar');
     } catch (error) {
       console.error(error);
       alert('Error al generar exámenes: ' + (error as any).response?.data?.message || 'Error desconocido');
@@ -89,6 +88,17 @@ const GenerarExamenes: React.FC = () => {
           <select onChange={handleAsignaturaChange} value={config.asignaturaId}>
             <option value="">Seleccione una asignatura</option>
             {asignaturas.map(a => <option key={a.id} value={a.id}>{a.titulo}</option>)}
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label>Tipo de Examen:</label>
+          <select value={config.tipoExamen} onChange={(e) => setConfig({...config, tipoExamen: e.target.value})}>
+            <option value="PARCIAL_1">Parcial 1</option>
+            <option value="PARCIAL_2">Parcial 2</option>
+            <option value="PARCIAL_3">Parcial 3</option>
+            <option value="FINAL">Final</option>
+            <option value="EXTRAORDINARIO">Extraordinario</option>
           </select>
         </div>
 
@@ -109,11 +119,11 @@ const GenerarExamenes: React.FC = () => {
               <div>
                 <h3>Grado: {grado ? grado.titulo : cfg.gradoId}</h3>
                 <div className="form-group" style={{display: 'flex', gap: '10px'}}>
-                  <input type="number" placeholder="Núm Examenes" value={cfg.numExamenes} onChange={(e) => updateGradoConfig(index, 'numExamenes', parseInt(e.target.value))} />
-                  <input type="number" placeholder="Núm Tipos" value={cfg.numTipos} onChange={(e) => updateGradoConfig(index, 'numTipos', parseInt(e.target.value))} />
-                  <input type="number" placeholder="% Fácil" value={cfg.proporcionFacil} onChange={(e) => updateGradoConfig(index, 'proporcionFacil', parseInt(e.target.value))} />
-                  <input type="number" placeholder="% Media" value={cfg.proporcionMedia} onChange={(e) => updateGradoConfig(index, 'proporcionMedia', parseInt(e.target.value))} />
-                  <input type="number" placeholder="% Difícil" value={cfg.proporcionDificil} onChange={(e) => updateGradoConfig(index, 'proporcionDificil', parseInt(e.target.value))} />
+                  <input type="number" placeholder="Núm Examenes" value={cfg.numExamenes} onChange={(e) => updateGradoConfig(index, 'numExamenes', e.target.value)} />
+                  <input type="number" placeholder="Núm Preguntas" value={cfg.numPreguntas} onChange={(e) => updateGradoConfig(index, 'numPreguntas', e.target.value)} />
+                  <input type="number" placeholder="% Fácil" value={cfg.proporcionFacil} onChange={(e) => updateGradoConfig(index, 'proporcionFacil', e.target.value)} />
+                  <input type="number" placeholder="% Media" value={cfg.proporcionMedia} onChange={(e) => updateGradoConfig(index, 'proporcionMedia', e.target.value)} />
+                  <input type="number" placeholder="% Difícil" value={cfg.proporcionDificil} onChange={(e) => updateGradoConfig(index, 'proporcionDificil', e.target.value)} />
                 </div>
               </div>
               <button type="button" onClick={() => removeGradoConfig(index)} className="btn btn-danger">Eliminar</button>

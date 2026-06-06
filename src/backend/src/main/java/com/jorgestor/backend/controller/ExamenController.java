@@ -3,6 +3,7 @@ package com.jorgestor.backend.controller;
 import com.jorgestor.backend.dto.GenerarExamenesDTO;
 import com.jorgestor.backend.dto.GeneracionExitoDTO;
 import com.jorgestor.backend.dto.PlantillaExamenDTO;
+import com.jorgestor.backend.dto.AsignarExamenesDTO;
 import com.jorgestor.backend.model.Usuario;
 import com.jorgestor.backend.repository.UsuarioRepository;
 import com.jorgestor.backend.service.ExamenService;
@@ -30,33 +31,36 @@ public class ExamenController {
     }
 
     @PostMapping("/generar")
-    @PreAuthorize("hasRole('DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<GeneracionExitoDTO> generarExamenes(@RequestBody GenerarExamenesDTO dto) {
         Long docenteId = getCurrentUserId();
         return ResponseEntity.ok(examenService.generarExamenes(dto, docenteId));
     }
 
+    @GetMapping("/generar/borradores")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<List<PlantillaExamenDTO>> obtenerBorradores() {
+        return ResponseEntity.ok(sessionService.obtenerBorradores());
+    }
+
     @DeleteMapping("/generar/cancelar")
-    @PreAuthorize("hasRole('DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<Void> cancelarGeneracion() {
         sessionService.limpiarBorradores();
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/asignar")
-    @PreAuthorize("hasRole('DOCENTE')")
-    public ResponseEntity<Void> asignarExamenes() {
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<Void> asignarExamenes(@RequestBody AsignarExamenesDTO dto) {
         List<PlantillaExamenDTO> plantillas = sessionService.obtenerBorradores();
         if (plantillas == null || plantillas.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-
-        // Obtener alumnos desde AlumnoService (necesitarás inyectar este servicio)
-        // List<AlumnoDTO> alumnos = alumnoService.obtenerAlumnosPorAsignatura(...);
-
-        // examenService.persistirAsignaciones(plantillas, alumnos);
+        
+        examenService.persistirAsignaciones(plantillas, dto.getAlumnoIds());
         sessionService.limpiarBorradores();
-
+        
         return ResponseEntity.ok().build();
     }
 

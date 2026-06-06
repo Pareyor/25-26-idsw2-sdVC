@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class DataInitializer implements CommandLineRunner {
 
@@ -55,28 +57,24 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("Alumnos de prueba creados.");
         }
 
-        if (preguntaRepository.count() == 0) {
-            Asignatura infoAsignatura = asignaturaRepository.findByCodigo("IS1").orElse(null);
-            if (infoAsignatura != null) {
-                Pregunta p1 = new Pregunta("¿Qué es el patrón MVC?", Tema.TEORIA, DificultadPregunta.MEDIO, infoAsignatura);
-                p1.getRespuestas().add(new Respuesta("Modelo Vista Controlador", true, p1));
-                p1.getRespuestas().add(new Respuesta("Mucho Valor Cierto", false, p1));
-                preguntaRepository.save(p1);
+        if (preguntaRepository.count() < 100) {
+            List<Asignatura> asignaturas = asignaturaRepository.findAll();
+            DificultadPregunta[] dificultades = DificultadPregunta.values();
+            Tema[] temas = Tema.values();
 
-                Pregunta p2 = new Pregunta("Explique la diferencia entre agregación y composición.", Tema.TEORIA, DificultadPregunta.DIFICIL, infoAsignatura);
-                p2.getRespuestas().add(new Respuesta("La composición es más fuerte", true, p2));
-                p2.getRespuestas().add(new Respuesta("No hay diferencia", false, p2));
-                preguntaRepository.save(p2);
+            for (Asignatura asignatura : asignaturas) {
+                for (int i = 0; i < 100; i++) {
+                    DificultadPregunta dif = dificultades[i % dificultades.length];
+                    Tema tema = temas[i % temas.length];
 
-                Pregunta p3 = new Pregunta("¿Para qué sirve un diagrama de clases?", Tema.DISENO, DificultadPregunta.FACIL, infoAsignatura);
-                p3.getRespuestas().add(new Respuesta("Para modelar la estructura estática", true, p3));
-                p3.getRespuestas().add(new Respuesta("Para colorear", false, p3));
-                preguntaRepository.save(p3);
-                
-                System.out.println("Preguntas de prueba creadas con sus respuestas.");
+                    Pregunta p = new Pregunta("Pregunta " + (i + 1) + " de " + asignatura.getTitulo() + " [" + tema + " - " + dif + "]", tema, dif, asignatura);
+                    p.getRespuestas().add(new Respuesta("Respuesta correcta", true, p));
+                    p.getRespuestas().add(new Respuesta("Respuesta falsa", false, p));
+                    preguntaRepository.save(p);
+                }
             }
+            System.out.println("Batería de preguntas ampliada a 100 por asignatura.");
         }
-
         if (usuarioRepository.count() == 0) {
             // Crear Administrador
             Usuario admin = new Usuario(

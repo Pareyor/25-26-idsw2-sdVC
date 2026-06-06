@@ -1,9 +1,9 @@
 package com.jorgestor.backend.service;
 
 import com.jorgestor.backend.dto.*;
-import com.jorgestor.backend.model.Asignatura;
-import com.jorgestor.backend.model.DificultadPregunta;
-import com.jorgestor.backend.model.Tema;
+import com.jorgestor.backend.model.*;
+import com.jorgestor.backend.repository.ExamenRepository;
+import com.jorgestor.backend.repository.AlumnoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -15,11 +15,15 @@ public class ExamenService {
     private final AsignaturaService asignaturaService;
     private final PreguntaService preguntaService;
     private final ExamenSessionService sessionService;
+    private final ExamenRepository examenRepository;
+    private final AlumnoRepository alumnoRepository;
 
-    public ExamenService(AsignaturaService asignaturaService, PreguntaService preguntaService, ExamenSessionService sessionService) {
+    public ExamenService(AsignaturaService asignaturaService, PreguntaService preguntaService, ExamenSessionService sessionService, ExamenRepository examenRepository, AlumnoRepository alumnoRepository) {
         this.asignaturaService = asignaturaService;
         this.preguntaService = preguntaService;
         this.sessionService = sessionService;
+        this.examenRepository = examenRepository;
+        this.alumnoRepository = alumnoRepository;
     }
 
     public GeneracionExitoDTO generarExamenes(GenerarExamenesDTO dto, Long docenteId) {
@@ -47,17 +51,17 @@ public class ExamenService {
         for (ConfigGradoDTO config : dto.getConfiguracionesGrado()) {
             List<PlantillaExamenDTO> plantillasGrado = new ArrayList<>();
             
-            for (int i = 0; i < config.getNumTipos(); i++) {
+            for (int i = 0; i < config.getNumExamenes(); i++) {
                 List<PreguntaDTO> seleccionadas = seleccionarPreguntas(
                         config, 
-                        dto.getNumPreguntas(), 
+                        config.getNumPreguntas(), 
                         bancoPorDificultad
                 );
                 
                 PlantillaExamenDTO plantilla = new PlantillaExamenDTO();
                 plantilla.setGradoId(config.getGradoId());
                 plantilla.setAsignaturaId(asignatura.getId());
-                plantilla.setEvaluacion(dto.getEvaluacion());
+                plantilla.setTipoExamen(dto.getTipoExamen());
                 plantilla.setPreguntas(seleccionadas);
                 plantilla.setClave(generarClaveAleatoria());
                 
@@ -90,24 +94,24 @@ public class ExamenService {
         int numMedia = (int) Math.round(totalPreguntas * (media / 100.0));
         int numDificil = totalPreguntas - numFacil - numMedia;
 
-        // Intentamos obtener preguntas por dificultad
+        // Validar stock estricto
+        validarStock(banco.getOrDefault(DificultadPregunta.FACIL, new ArrayList<>()), numFacil, "Fácil");
+        validarStock(banco.getOrDefault(DificultadPregunta.MEDIO, new ArrayList<>()), numMedia, "Media");
+        validarStock(banco.getOrDefault(DificultadPregunta.DIFICIL, new ArrayList<>()), numDificil, "Difícil");
+
+        // Seleccionar
         seleccion.addAll(obtenerDisponibles(banco.getOrDefault(DificultadPregunta.FACIL, new ArrayList<>()), numFacil));
         seleccion.addAll(obtenerDisponibles(banco.getOrDefault(DificultadPregunta.MEDIO, new ArrayList<>()), numMedia));
         seleccion.addAll(obtenerDisponibles(banco.getOrDefault(DificultadPregunta.DIFICIL, new ArrayList<>()), numDificil));
 
-        // Si faltan preguntas por falta de stock en alguna dificultad, rellenamos con lo que haya
-        if (seleccion.size() < totalPreguntas) {
-            List<PreguntaDTO> todasRestantes = banco.values().stream()
-                    .flatMap(List::stream)
-                    .filter(p -> !seleccion.contains(p))
-                    .collect(Collectors.toList());
-            
-            int faltantes = totalPreguntas - seleccion.size();
-            seleccion.addAll(obtenerDisponibles(todasRestantes, faltantes));
-        }
-
         Collections.shuffle(seleccion);
         return seleccion;
+    }
+
+    private void validarStock(List<PreguntaDTO> banco, int solicitado, String dificultad) {
+        if (banco.size() < solicitado) {
+            throw new RuntimeException("No hay suficientes preguntas de dificultad " + dificultad + ". Solicitadas: " + solicitado + ", Disponibles: " + banco.size());
+        }
     }
 
     private List<PreguntaDTO> obtenerDisponibles(List<PreguntaDTO> lista, int cantidad) {
@@ -119,21 +123,31 @@ public class ExamenService {
 
     // ... métodos anteriores
 
-    public void persistirAsignaciones(List<PlantillaExamenDTO> plantillas, List<AlumnoDTO> alumnos) {
-        // Lógica de persistencia: 
-        // 1. Iterar sobre las plantillas.
-        // 2. Asociar plantillas a alumnos según el grado.
-        // 3. Guardar en repositorio.
-        // Nota: Implementación simplificada para el ejemplo.
-        for (PlantillaExamenDTO plantilla : plantillas) {
-            List<AlumnoDTO> alumnosGrado = alumnos.stream()
-                .filter(a -> a.getGradoId().equals(plantilla.getGradoId()))
-                .collect(Collectors.toList());
+    public void persistirAsignaciones(List<PlantillaExamenDTO> plantillas, List<Long> alumnoIds) {
+        // 1. Agrupar plantillas por grado
+        Map<Long, List<PlantillaExamenDTO>> plantillasPorGrado = plantillas.stream()
+                .collect(Collectors.groupingBy(PlantillaExamenDTO::getGradoId));
+
+        // 2. Procesar cada grado
+        for (Map.Entry<Long, List<PlantillaExamenDTO>> entry : plantillasPorGrado.entrySet()) {
+            Long gradoId = entry.getKey();
+            List<PlantillaExamenDTO> plantillasGrado = entry.getValue();
             
-            for (AlumnoDTO alumno : alumnosGrado) {
-                // Crear entidad Examen e insertar en base de datos
-                // examenRepository.save(new Examen(plantilla, alumno));
-                System.out.println("Persistiendo examen para alumno: " + alumno.getDni());
+            // 3. Filtrar alumnos seleccionados que pertenecen a este grado
+            List<Alumno> alumnosGrado = alumnoRepository.findByGradoId(gradoId).stream()
+                    .filter(a -> alumnoIds.contains(a.getId()))
+                    .collect(Collectors.toList());
+
+            // 4. Distribuir plantillas entre alumnos (forma simple: round-robin)
+            int indexPlantilla = 0;
+            for (Alumno alumno : alumnosGrado) {
+                PlantillaExamenDTO plantilla = plantillasGrado.get(indexPlantilla % plantillasGrado.size());
+                Asignatura asignatura = asignaturaService.findEntityById(plantilla.getAsignaturaId());
+                
+                Examen examen = new Examen(alumno, asignatura, plantilla.getTipoExamen(), plantilla.getClave());
+                examenRepository.save(examen);
+                
+                indexPlantilla++;
             }
         }
     }

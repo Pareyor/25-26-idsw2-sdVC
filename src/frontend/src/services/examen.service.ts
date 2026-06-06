@@ -7,11 +7,21 @@ const generarExamenes = (data: any) => {
   return axios.post(API_URL + 'generar', data, { headers: authHeader() });
 };
 
+const getBorradores = () => {
+  return axios.get(API_URL + 'generar/borradores', { headers: authHeader() });
+};
+
+const asignarExamenes = () => {
+  return axios.post(API_URL + 'asignar', {}, { headers: authHeader() });
+};
+
 const cancelarGeneracion = () => {
   return axios.delete(API_URL + 'generar/cancelar', { headers: authHeader() });
 };
 
 export default {
   generarExamenes,
+  getBorradores,
+  asignarExamenes,
   cancelarGeneracion,
 };
