@@ -5,6 +5,7 @@ import com.jorgestor.backend.dto.RespuestaDTO;
 import com.jorgestor.backend.model.Asignatura;
 import com.jorgestor.backend.model.Pregunta;
 import com.jorgestor.backend.model.Respuesta;
+import com.jorgestor.backend.model.Tema;
 import com.jorgestor.backend.repository.PreguntaRepository;
 import org.springframework.stereotype.Service;
 
@@ -86,6 +87,12 @@ public class PreguntaService {
             throw new RuntimeException("Pregunta no encontrada");
         }
         preguntaRepository.deleteById(id);
+    }
+
+    public List<PreguntaDTO> obtenerBancoPreguntas(Long asignaturaId, List<Tema> temas) {
+        return preguntaRepository.findByAsignaturaIdAndTemaIn(asignaturaId, temas).stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     private PreguntaDTO convertToDTO(Pregunta pregunta) {

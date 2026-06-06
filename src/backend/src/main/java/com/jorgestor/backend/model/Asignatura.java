@@ -22,6 +22,10 @@ public class Asignatura {
     @JoinColumn(name = "grado_id", nullable = true)
     private Grado grado;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profesor_id", nullable = true)
+    private Usuario profesor;
+
     public Asignatura() {}
 
     public Asignatura(String codigo, String titulo, String cursoAcademico, Grado grado) {
@@ -29,6 +33,14 @@ public class Asignatura {
         this.titulo = titulo;
         this.cursoAcademico = cursoAcademico;
         this.grado = grado;
+    }
+
+    public Asignatura(String codigo, String titulo, String cursoAcademico, Grado grado, Usuario profesor) {
+        this.codigo = codigo;
+        this.titulo = titulo;
+        this.cursoAcademico = cursoAcademico;
+        this.grado = grado;
+        this.profesor = profesor;
     }
 
     // Getters y Setters
@@ -42,4 +54,6 @@ public class Asignatura {
     public void setCursoAcademico(String cursoAcademico) { this.cursoAcademico = cursoAcademico; }
     public Grado getGrado() { return grado; }
     public void setGrado(Grado grado) { this.grado = grado; }
+    public Usuario getProfesor() { return profesor; }
+    public void setProfesor(Usuario profesor) { this.profesor = profesor; }
 }

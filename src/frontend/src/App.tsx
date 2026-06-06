@@ -17,6 +17,7 @@ import PreguntaList from './components/PreguntaList';
 import PreguntaCreate from './components/PreguntaCreate';
 import PreguntaEdit from './components/PreguntaEdit';
 import RespuestaEdit from './components/RespuestaEdit';
+import GenerarExamenes from './components/GenerarExamenes';
 import { getCurrentUser } from './services/auth.service';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -162,6 +163,14 @@ function App() {
           element={
             <PrivateRoute>
               <RespuestaEdit />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/examenes/generar" 
+          element={
+            <PrivateRoute>
+              <GenerarExamenes />
             </PrivateRoute>
           } 
         />

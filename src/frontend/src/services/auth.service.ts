@@ -39,3 +39,12 @@ export const getCurrentUser = () => {
   }
   return null;
 };
+
+export const authHeader = () => {
+  const user = getCurrentUser();
+  if (user && user.token) {
+    return { Authorization: 'Bearer ' + user.token };
+  } else {
+    return {};
+  }
+};
