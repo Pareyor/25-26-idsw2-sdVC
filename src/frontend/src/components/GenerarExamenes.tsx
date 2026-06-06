@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import * as asignaturaService from '../services/asignatura.service';
 import * as gradoService from '../services/grado.service';
 import examenService from '../services/examen.service';
+import './GenerarExamenes.css';
 
 const GenerarExamenes: React.FC = () => {
   const navigate = useNavigate();
@@ -30,7 +31,6 @@ const GenerarExamenes: React.FC = () => {
   const addGradoConfig = (gradoId: string) => {
     if (!gradoId) return;
     
-    // Evitar duplicados
     if (config.configuracionesGrado.find((c: any) => c.gradoId === parseInt(gradoId))) {
       alert("Este grado ya ha sido añadido.");
       return;
@@ -81,21 +81,21 @@ const GenerarExamenes: React.FC = () => {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Generar Exámenes</h1>
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="block mb-2">Asignatura:</label>
-          <select onChange={handleAsignaturaChange} className="border p-2 w-full">
+    <div className="examen-container">
+      <h1>Generar Exámenes</h1>
+      <form onSubmit={handleSubmit} className="examen-form">
+        <div className="form-group">
+          <label>Asignatura:</label>
+          <select onChange={handleAsignaturaChange} value={config.asignaturaId}>
             <option value="">Seleccione una asignatura</option>
             {asignaturas.map(a => <option key={a.id} value={a.id}>{a.titulo}</option>)}
           </select>
         </div>
 
         {config.asignaturaId && (
-          <div>
-            <label className="block mb-2">Añadir Grado a la configuración:</label>
-            <select onChange={(e) => addGradoConfig(e.target.value)} className="border p-2 w-full">
+          <div className="form-group">
+            <label>Añadir Grado a la configuración:</label>
+            <select onChange={(e) => addGradoConfig(e.target.value)} value="">
               <option value="">Seleccione un grado</option>
               {grados.map(g => <option key={g.id} value={g.id}>{g.titulo}</option>)}
             </select>
@@ -105,26 +105,25 @@ const GenerarExamenes: React.FC = () => {
         {config.configuracionesGrado.map((cfg: any, index: number) => {
           const grado = grados.find(g => g.id === cfg.gradoId);
           return (
-            <div key={index} className="border p-4 mt-4 bg-gray-50 flex items-center justify-between">
+            <div key={index} className="grado-config">
               <div>
-                <h3 className="font-bold mb-2">Grado: {grado ? grado.titulo : cfg.gradoId}</h3>
-                <div className="flex gap-2 items-center">
-                  <input type="number" placeholder="Núm Examenes" value={cfg.numExamenes} onChange={(e) => updateGradoConfig(index, 'numExamenes', parseInt(e.target.value))} className="border p-1 w-24" />
-                  <input type="number" placeholder="Núm Tipos" value={cfg.numTipos} onChange={(e) => updateGradoConfig(index, 'numTipos', parseInt(e.target.value))} className="border p-1 w-24" />
-                  <input type="number" placeholder="% Fácil" value={cfg.proporcionFacil} onChange={(e) => updateGradoConfig(index, 'proporcionFacil', parseInt(e.target.value))} className="border p-1 w-20" />
-                  <input type="number" placeholder="% Media" value={cfg.proporcionMedia} onChange={(e) => updateGradoConfig(index, 'proporcionMedia', parseInt(e.target.value))} className="border p-1 w-20" />
-                  <input type="number" placeholder="% Difícil" value={cfg.proporcionDificil} onChange={(e) => updateGradoConfig(index, 'proporcionDificil', parseInt(e.target.value))} className="border p-1 w-20" />
+                <h3>Grado: {grado ? grado.titulo : cfg.gradoId}</h3>
+                <div className="form-group" style={{display: 'flex', gap: '10px'}}>
+                  <input type="number" placeholder="Núm Examenes" value={cfg.numExamenes} onChange={(e) => updateGradoConfig(index, 'numExamenes', parseInt(e.target.value))} />
+                  <input type="number" placeholder="Núm Tipos" value={cfg.numTipos} onChange={(e) => updateGradoConfig(index, 'numTipos', parseInt(e.target.value))} />
+                  <input type="number" placeholder="% Fácil" value={cfg.proporcionFacil} onChange={(e) => updateGradoConfig(index, 'proporcionFacil', parseInt(e.target.value))} />
+                  <input type="number" placeholder="% Media" value={cfg.proporcionMedia} onChange={(e) => updateGradoConfig(index, 'proporcionMedia', parseInt(e.target.value))} />
+                  <input type="number" placeholder="% Difícil" value={cfg.proporcionDificil} onChange={(e) => updateGradoConfig(index, 'proporcionDificil', parseInt(e.target.value))} />
                 </div>
               </div>
-              <button type="button" onClick={() => removeGradoConfig(index)} className="bg-red-500 text-white p-2 rounded hover:bg-red-600">Eliminar</button>
+              <button type="button" onClick={() => removeGradoConfig(index)} className="btn btn-danger">Eliminar</button>
             </div>
-
           );
         })}
 
-        <div className="pt-4">
-          <button type="submit" className="bg-blue-600 text-white p-3 rounded">Generar Exámenes</button>
-          <button type="button" onClick={handleCancel} className="bg-gray-500 text-white p-3 rounded ml-2">Cancelar</button>
+        <div className="form-actions">
+          <button type="submit" className="btn btn-primary">Generar Exámenes</button>
+          <button type="button" onClick={handleCancel} className="btn" style={{marginLeft: '10px'}}>Cancelar</button>
         </div>
       </form>
     </div>

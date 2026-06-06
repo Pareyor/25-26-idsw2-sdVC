@@ -117,6 +117,27 @@ public class ExamenService {
         return copia.subList(0, Math.min(copia.size(), cantidad));
     }
 
+    // ... métodos anteriores
+
+    public void persistirAsignaciones(List<PlantillaExamenDTO> plantillas, List<AlumnoDTO> alumnos) {
+        // Lógica de persistencia: 
+        // 1. Iterar sobre las plantillas.
+        // 2. Asociar plantillas a alumnos según el grado.
+        // 3. Guardar en repositorio.
+        // Nota: Implementación simplificada para el ejemplo.
+        for (PlantillaExamenDTO plantilla : plantillas) {
+            List<AlumnoDTO> alumnosGrado = alumnos.stream()
+                .filter(a -> a.getGradoId().equals(plantilla.getGradoId()))
+                .collect(Collectors.toList());
+            
+            for (AlumnoDTO alumno : alumnosGrado) {
+                // Crear entidad Examen e insertar en base de datos
+                // examenRepository.save(new Examen(plantilla, alumno));
+                System.out.println("Persistiendo examen para alumno: " + alumno.getDni());
+            }
+        }
+    }
+
     private String generarClaveAleatoria() {
         return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }

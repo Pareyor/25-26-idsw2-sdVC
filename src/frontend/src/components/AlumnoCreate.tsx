@@ -4,10 +4,11 @@ import { createAlumno } from '../services/alumno.service';
 import { getGrados } from '../services/grado.service';
 import type { Grado } from '../services/grado.service';
 import { ArrowLeft, Save, User } from 'lucide-react';
+import './Formularios.css';
 
 const AlumnoCreate: React.FC = () => {
   const [alumno, setAlumno] = useState({
-    niu: '',
+    dni: '',
     nombre: '',
     apellidos: '',
     gradoId: 0,
@@ -55,112 +56,113 @@ const AlumnoCreate: React.FC = () => {
       await createAlumno(alumno);
       navigate('/alumnos');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Error al crear el alumno. Verifique el NIU.');
+      setError(err.response?.data?.message || 'Error al crear el alumno. Verifique el DNI.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
-      <div className="max-w-2xl mx-auto">
-        <div className="flex items-center gap-4 mb-8">
-          <button 
-            onClick={() => navigate('/alumnos')}
-            className="p-2 hover:bg-gray-200 rounded-full transition-colors"
-          >
-            <ArrowLeft size={24} />
-          </button>
-          <h1 className="text-3xl font-bold text-gray-800">Añadir Nuevo Alumno</h1>
-        </div>
-
-        <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
-          <div className="p-6 bg-blue-600 text-white flex items-center gap-3">
-            <User size={24} />
-            <h2 className="text-xl font-semibold">Datos del Alumno</h2>
-          </div>
-
-          <form onSubmit={handleSubmit} className="p-6 space-y-6">
-            {error && (
-              <div className="bg-red-50 text-red-600 p-4 rounded-lg border border-red-100 text-sm">
-                {error}
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">DNI</label>
-                <input
-                  type="text"
-                  name="dni"
-                  required
-                  pattern="^([XYZxyz]\d{7}[A-Za-z]|\d{8}[A-Za-z])$"
-                  title="Formato inválido: 8 dígitos y 1 letra (DNI) o X,Y,Z seguido de 7 dígitos y 1 letra (NIE)"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                  value={alumno.dni}
-                  onChange={handleChange}
-                  placeholder="Ej: 12345678X o X1234567A"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
-                <input
-                  type="text"
-                  name="nombre"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                  value={alumno.nombre}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Apellidos</label>
-                <input
-                  type="text"
-                  name="apellidos"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                  value={alumno.apellidos}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Grado</label>
-                <select
-                  name="gradoId"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white"
-                  value={alumno.gradoId}
-                  onChange={handleChange}
-                  disabled={loadingGrados}
-                >
-                  <option value={0}>Seleccione un grado...</option>
-                  {grados.map(grado => (
-                    <option key={grado.id} value={grado.id}>
-                      [{grado.codigo}] {grado.titulo}
-                    </option>
-                  ))}
-                </select>
-                {loadingGrados && <p className="text-xs text-gray-500 mt-1">Cargando grados...</p>}
-              </div>
-            </div>
-
-            <div className="flex justify-end pt-4">
-              <button
-                type="submit"
-                disabled={loading || loadingGrados}
-                className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-md disabled:bg-blue-400"
-              >
-                <Save size={20} />
-                <span>{loading ? 'Guardando...' : 'Guardar Alumno'}</span>
-              </button>
-            </div>
-          </form>
-        </div>
+    <div className="form-container">
+      <div className="form-header" style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
+        <button 
+          onClick={() => navigate('/alumnos')}
+          className="btn-icon"
+        >
+          <ArrowLeft size={24} />
+        </button>
+        <h1>Añadir Nuevo Alumno</h1>
       </div>
+
+      <form onSubmit={handleSubmit} className="standard-form">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+          <User size={24} color="var(--primary)" />
+          <h2 style={{ margin: 0, textAlign: 'left', fontSize: '1.5rem' }}>Datos del Alumno</h2>
+        </div>
+
+        {error && (
+          <div className="error-message" style={{ backgroundColor: 'rgba(244, 63, 94, 0.1)', color: 'var(--accent)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--accent)', marginBottom: '1rem' }}>
+            {error}
+          </div>
+        )}
+
+        <div className="form-group">
+          <label>DNI</label>
+          <input
+            type="text"
+            name="dni"
+            required
+            pattern="^([XYZxyz]\d{7}[A-Za-z]|\d{8}[A-Za-z])$"
+            title="Formato inválido: 8 dígitos y 1 letra (DNI) o X,Y,Z seguido de 7 dígitos y 1 letra (NIE)"
+            value={alumno.dni}
+            onChange={handleChange}
+            placeholder="Ej: 12345678X o X1234567A"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Nombre</label>
+          <input
+            type="text"
+            name="nombre"
+            required
+            value={alumno.nombre}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Apellidos</label>
+          <input
+            type="text"
+            name="apellidos"
+            required
+            value={alumno.apellidos}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Grado</label>
+          <select
+            name="gradoId"
+            required
+            value={alumno.gradoId}
+            onChange={handleChange}
+            disabled={loadingGrados}
+          >
+            <option value={0}>Seleccione un grado...</option>
+            {grados.map(grado => (
+              <option key={grado.id} value={grado.id}>
+                [{grado.codigo}] {grado.titulo}
+              </option>
+            ))}
+          </select>
+          {loadingGrados && <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>Cargando grados...</p>}
+        </div>
+
+        <div className="form-actions">
+          <button
+            type="submit"
+            disabled={loading || loadingGrados}
+            className="btn btn-primary"
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.5rem', 
+              padding: '0.75rem 1.5rem', 
+              borderRadius: '12px', 
+              backgroundColor: 'var(--primary)', 
+              color: 'white', 
+              border: 'none', 
+              cursor: 'pointer' 
+            }}
+          >
+            <Save size={20} />
+            <span>{loading ? 'Guardando...' : 'Guardar Alumno'}</span>
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

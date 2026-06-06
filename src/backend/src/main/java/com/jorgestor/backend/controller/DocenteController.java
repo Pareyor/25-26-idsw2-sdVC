@@ -19,7 +19,7 @@ public class DocenteController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCENTE')")
     public List<DocenteDTO> getDocentes() {
         return usuarioService.listarDocentes();
     }

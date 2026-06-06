@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createDocente } from '../services/docente.service';
 import { ArrowLeft, Save, User } from 'lucide-react';
+import './Formularios.css';
 
 const DocenteCreate: React.FC = () => {
   const [docente, setDocente] = useState({
@@ -35,96 +36,97 @@ const DocenteCreate: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
-      <div className="max-w-2xl mx-auto">
-        <div className="flex items-center gap-4 mb-8">
-          <button 
-            onClick={() => navigate('/docentes')}
-            className="p-2 hover:bg-gray-200 rounded-full transition-colors"
-          >
-            <ArrowLeft size={24} />
-          </button>
-          <h1 className="text-3xl font-bold text-gray-800">Añadir Nuevo Docente</h1>
-        </div>
-
-        <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
-          <div className="p-6 bg-blue-600 text-white flex items-center gap-3">
-            <User size={24} />
-            <h2 className="text-xl font-semibold">Datos del Docente</h2>
-          </div>
-
-          <form onSubmit={handleSubmit} className="p-6 space-y-6">
-            {error && (
-              <div className="bg-red-50 text-red-600 p-4 rounded-lg border border-red-100 text-sm">
-                {error}
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">DNI / Usuario</label>
-                <input
-                  type="text"
-                  name="username"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                  value={docente.username}
-                  onChange={handleChange}
-                  placeholder="Ej: 12345678X"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                  value={docente.email}
-                  onChange={handleChange}
-                  placeholder="ejemplo@correo.com"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
-                <input
-                  type="text"
-                  name="nombre"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                  value={docente.nombre}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Apellidos</label>
-                <input
-                  type="text"
-                  name="apellidos"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                  value={docente.apellidos}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-end pt-4">
-              <button
-                type="submit"
-                disabled={loading}
-                className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-md disabled:bg-blue-400"
-              >
-                <Save size={20} />
-                <span>{loading ? 'Guardando...' : 'Guardar Docente'}</span>
-              </button>
-            </div>
-          </form>
-        </div>
+    <div className="form-container">
+      <div className="form-header" style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
+        <button 
+          onClick={() => navigate('/docentes')}
+          className="btn-icon"
+        >
+          <ArrowLeft size={24} />
+        </button>
+        <h1>Añadir Nuevo Docente</h1>
       </div>
+
+      <form onSubmit={handleSubmit} className="standard-form">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+          <User size={24} color="var(--primary)" />
+          <h2 style={{ margin: 0, textAlign: 'left', fontSize: '1.5rem' }}>Datos del Docente</h2>
+        </div>
+
+        {error && (
+          <div className="error-message" style={{ backgroundColor: 'rgba(244, 63, 94, 0.1)', color: 'var(--accent)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--accent)', marginBottom: '1rem' }}>
+            {error}
+          </div>
+        )}
+
+        <div className="form-group">
+          <label>DNI / Usuario</label>
+          <input
+            type="text"
+            name="username"
+            required
+            value={docente.username}
+            onChange={handleChange}
+            placeholder="Ej: 12345678X"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            required
+            value={docente.email}
+            onChange={handleChange}
+            placeholder="ejemplo@correo.com"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Nombre</label>
+          <input
+            type="text"
+            name="nombre"
+            required
+            value={docente.nombre}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Apellidos</label>
+          <input
+            type="text"
+            name="apellidos"
+            required
+            value={docente.apellidos}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-actions">
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn btn-primary"
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.5rem', 
+              padding: '0.75rem 1.5rem', 
+              borderRadius: '12px', 
+              backgroundColor: 'var(--primary)', 
+              color: 'white', 
+              border: 'none', 
+              cursor: 'pointer' 
+            }}
+          >
+            <Save size={20} />
+            <span>{loading ? 'Guardando...' : 'Guardar Docente'}</span>
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

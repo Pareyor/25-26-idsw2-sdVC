@@ -4,6 +4,7 @@ import { getAsignatura, updateAsignatura } from '../services/asignatura.service'
 import { getGrados } from '../services/grado.service';
 import type { Grado } from '../services/grado.service';
 import { ArrowLeft, Save, BookOpen } from 'lucide-react';
+import './Formularios.css';
 
 const AsignaturaEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -68,103 +69,104 @@ const AsignaturaEdit: React.FC = () => {
     }
   };
 
-  if (loading) return <div className="p-8 text-center">Cargando datos de la asignatura...</div>;
+  if (loading) return <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-main)' }}>Cargando datos de la asignatura...</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
-      <div className="max-w-2xl mx-auto">
-        <div className="flex items-center gap-4 mb-8">
-          <button 
-            onClick={() => navigate('/asignaturas')}
-            className="p-2 hover:bg-gray-200 rounded-full transition-colors"
-          >
-            <ArrowLeft size={24} />
-          </button>
-          <h1 className="text-3xl font-bold text-gray-800">Editar Asignatura</h1>
-        </div>
-
-        <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
-          <div className="p-6 bg-blue-600 text-white flex items-center gap-3">
-            <BookOpen size={24} />
-            <h2 className="text-xl font-semibold">Datos de: {asignatura.titulo}</h2>
-          </div>
-
-          <form onSubmit={handleSubmit} className="p-6 space-y-6">
-            {error && (
-              <div className="bg-red-50 text-red-600 p-4 rounded-lg border border-red-100 text-sm">
-                {error}
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Código</label>
-                <input
-                  type="text"
-                  name="codigo"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                  value={asignatura.codigo}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Curso Académico</label>
-                <input
-                  type="text"
-                  name="cursoAcademico"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                  value={asignatura.cursoAcademico}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Título</label>
-                <input
-                  type="text"
-                  name="titulo"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                  value={asignatura.titulo}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Grado</label>
-                <select
-                  name="gradoId"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white"
-                  value={asignatura.gradoId || 0}
-                  onChange={handleChange}
-                >
-                  <option value={0}>Seleccione un grado...</option>
-                  {grados.map(grado => (
-                    <option key={grado.id} value={grado.id}>
-                      [{grado.codigo}] {grado.titulo}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="flex justify-end pt-4">
-              <button
-                type="submit"
-                disabled={saving}
-                className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-md disabled:bg-blue-400"
-              >
-                <Save size={20} />
-                <span>{saving ? 'Guardando...' : 'Actualizar Asignatura'}</span>
-              </button>
-            </div>
-          </form>
-        </div>
+    <div className="form-container">
+      <div className="form-header" style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
+        <button 
+          onClick={() => navigate('/asignaturas')}
+          className="btn-icon"
+        >
+          <ArrowLeft size={24} />
+        </button>
+        <h1>Editar Asignatura</h1>
       </div>
+
+      <form onSubmit={handleSubmit} className="standard-form">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+          <BookOpen size={24} color="var(--primary)" />
+          <h2 style={{ margin: 0, textAlign: 'left', fontSize: '1.5rem' }}>Datos de: {asignatura.titulo}</h2>
+        </div>
+
+        {error && (
+          <div className="error-message" style={{ backgroundColor: 'rgba(244, 63, 94, 0.1)', color: 'var(--accent)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--accent)', marginBottom: '1rem' }}>
+            {error}
+          </div>
+        )}
+
+        <div className="form-group">
+          <label>Código</label>
+          <input
+            type="text"
+            name="codigo"
+            required
+            value={asignatura.codigo}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Curso Académico</label>
+          <input
+            type="text"
+            name="cursoAcademico"
+            required
+            value={asignatura.cursoAcademico}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Título</label>
+          <input
+            type="text"
+            name="titulo"
+            required
+            value={asignatura.titulo}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Grado</label>
+          <select
+            name="gradoId"
+            required
+            value={asignatura.gradoId || 0}
+            onChange={handleChange}
+          >
+            <option value={0}>Seleccione un grado...</option>
+            {grados.map(grado => (
+              <option key={grado.id} value={grado.id}>
+                [{grado.codigo}] {grado.titulo}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-actions">
+          <button
+            type="submit"
+            disabled={saving}
+            className="btn btn-primary"
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.5rem', 
+              padding: '0.75rem 1.5rem', 
+              borderRadius: '12px', 
+              backgroundColor: 'var(--primary)', 
+              color: 'white', 
+              border: 'none', 
+              cursor: 'pointer' 
+            }}
+          >
+            <Save size={20} />
+            <span>{saving ? 'Guardando...' : 'Actualizar Asignatura'}</span>
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

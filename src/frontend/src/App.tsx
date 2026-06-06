@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import Layout from './components/Layout';
 import DocenteList from './components/DocenteList';
 import DocenteCreate from './components/DocenteCreate';
 import DocenteEdit from './components/DocenteEdit';
@@ -25,6 +26,16 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   return user ? children : <Navigate to="/login" />;
 };
 
+const RoleRoute = ({ children, allowedRoles }: { children: JSX.Element, allowedRoles: string[] }) => {
+  const user = getCurrentUser();
+  if (!user) return <Navigate to="/login" />;
+  
+  // Corregido: comparar string 'user.role' con el array 'allowedRoles'
+  const hasAccess = user.role && allowedRoles.includes(user.role);
+  
+  return hasAccess ? children : <Navigate to="/dashboard" />;
+};
+
 function App() {
   return (
     <Router>
@@ -34,144 +45,148 @@ function App() {
           path="/dashboard" 
           element={
             <PrivateRoute>
-              <Dashboard />
+              <Layout><Dashboard /></Layout>
             </PrivateRoute>
           } 
         />
+        
+        {/* Rutas ADMIN */}
         <Route 
           path="/docentes" 
           element={
-            <PrivateRoute>
-              <DocenteList />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_ADMIN']}>
+              <Layout><DocenteList /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/docentes/nuevo" 
           element={
-            <PrivateRoute>
-              <DocenteCreate />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_ADMIN']}>
+              <Layout><DocenteCreate /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/docentes/editar/:id" 
           element={
-            <PrivateRoute>
-              <DocenteEdit />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_ADMIN']}>
+              <Layout><DocenteEdit /></Layout>
+            </RoleRoute>
           } 
         />
+
+        {/* Rutas DOCENTE */}
         <Route 
           path="/grados" 
           element={
-            <PrivateRoute>
-              <GradoList />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><GradoList /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/grados/nuevo" 
           element={
-            <PrivateRoute>
-              <GradoCreate />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><GradoCreate /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/grados/editar/:id" 
           element={
-            <PrivateRoute>
-              <GradoEdit />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><GradoEdit /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/asignaturas" 
           element={
-            <PrivateRoute>
-              <AsignaturaList />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><AsignaturaList /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/asignaturas/nuevo" 
           element={
-            <PrivateRoute>
-              <AsignaturaCreate />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><AsignaturaCreate /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/asignaturas/editar/:id" 
           element={
-            <PrivateRoute>
-              <AsignaturaEdit />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><AsignaturaEdit /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/alumnos" 
           element={
-            <PrivateRoute>
-              <AlumnoList />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><AlumnoList /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/alumnos/nuevo" 
           element={
-            <PrivateRoute>
-              <AlumnoCreate />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><AlumnoCreate /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/alumnos/editar/:id" 
           element={
-            <PrivateRoute>
-              <AlumnoEdit />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><AlumnoEdit /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/preguntas" 
           element={
-            <PrivateRoute>
-              <PreguntaList />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><PreguntaList /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/preguntas/nuevo" 
           element={
-            <PrivateRoute>
-              <PreguntaCreate />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><PreguntaCreate /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/preguntas/editar/:id" 
           element={
-            <PrivateRoute>
-              <PreguntaEdit />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><PreguntaEdit /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/respuestas/editar/:id/:preguntaId" 
           element={
-            <PrivateRoute>
-              <RespuestaEdit />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><RespuestaEdit /></Layout>
+            </RoleRoute>
           } 
         />
         <Route 
           path="/examenes/generar" 
           element={
-            <PrivateRoute>
-              <GenerarExamenes />
-            </PrivateRoute>
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><GenerarExamenes /></Layout>
+            </RoleRoute>
           } 
         />
         <Route path="/" element={<Navigate to="/dashboard" />} />
