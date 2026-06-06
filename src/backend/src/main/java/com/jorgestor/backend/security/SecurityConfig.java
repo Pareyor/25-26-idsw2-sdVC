@@ -43,23 +43,7 @@ public class SecurityConfig {
             );
         
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.addFilterAfter((request, response, chain) -> {
-         org.springframework.security.core.Authentication auth =
-      org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
-         if (auth != null) {
-             System.out.println(">>> Usuario autenticado: " + auth.getName());
-             System.out.println(">>> Autoridades: " + auth.getAuthorities());
-         } else {
-             System.out.println(">>> Usuario NO autenticado");
-       }
-        chain.doFilter(request, response);
-   }, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
         return http.build();
-    }
-
-    @Bean
-    public CorsFilter corsFilter() {
-        return new CorsFilter(corsConfigurationSource());
     }
 
     @Bean
@@ -67,7 +51,8 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "accept", "Origin"));
+        configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

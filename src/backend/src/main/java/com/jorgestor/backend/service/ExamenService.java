@@ -34,6 +34,8 @@ public class ExamenService {
         
         List<PreguntaDTO> banco = preguntaService.obtenerBancoPreguntas(asignatura.getId(), temas);
 
+        System.out.println(">>> Banco de preguntas recuperado: " + banco.size() + " preguntas");
+
         // 3. Agrupar banco por dificultad
         Map<DificultadPregunta, List<PreguntaDTO>> bancoPorDificultad = banco.stream()
                 .collect(Collectors.groupingBy(PreguntaDTO::getDificultad));
@@ -75,29 +77,44 @@ public class ExamenService {
     private List<PreguntaDTO> seleccionarPreguntas(ConfigGradoDTO config, Integer totalPreguntas, Map<DificultadPregunta, List<PreguntaDTO>> banco) {
         List<PreguntaDTO> seleccion = new ArrayList<>();
         
-        int numFacil = (int) Math.round(totalPreguntas * (config.getProporcionFacil() / 100.0));
-        int numMedia = (int) Math.round(totalPreguntas * (config.getProporcionMedia() / 100.0));
+        int facil = config.getProporcionFacil() != null ? config.getProporcionFacil() : 0;
+        int media = config.getProporcionMedia() != null ? config.getProporcionMedia() : 0;
+        int dificil = config.getProporcionDificil() != null ? config.getProporcionDificil() : 0;
+        
+        // Normalizar si la suma no es 100
+        int suma = facil + media + dificil;
+        if (suma == 0) { facil = 33; media = 33; dificil = 34; }
+        else { facil = (facil * 100) / suma; media = (media * 100) / suma; dificil = 100 - facil - media; }
+
+        int numFacil = (int) Math.round(totalPreguntas * (facil / 100.0));
+        int numMedia = (int) Math.round(totalPreguntas * (media / 100.0));
         int numDificil = totalPreguntas - numFacil - numMedia;
 
-        seleccion.addAll(obtenerAleatorias(banco.getOrDefault(DificultadPregunta.FACIL, new ArrayList<>()), numFacil));
-        seleccion.addAll(obtenerAleatorias(banco.getOrDefault(DificultadPregunta.MEDIO, new ArrayList<>()), numMedia));
-        seleccion.addAll(obtenerAleatorias(banco.getOrDefault(DificultadPregunta.DIFICIL, new ArrayList<>()), numDificil));
+        // Intentamos obtener preguntas por dificultad
+        seleccion.addAll(obtenerDisponibles(banco.getOrDefault(DificultadPregunta.FACIL, new ArrayList<>()), numFacil));
+        seleccion.addAll(obtenerDisponibles(banco.getOrDefault(DificultadPregunta.MEDIO, new ArrayList<>()), numMedia));
+        seleccion.addAll(obtenerDisponibles(banco.getOrDefault(DificultadPregunta.DIFICIL, new ArrayList<>()), numDificil));
 
+        // Si faltan preguntas por falta de stock en alguna dificultad, rellenamos con lo que haya
         if (seleccion.size() < totalPreguntas) {
-            throw new RuntimeException("No hay suficientes preguntas para cumplir con la proporción solicitada");
+            List<PreguntaDTO> todasRestantes = banco.values().stream()
+                    .flatMap(List::stream)
+                    .filter(p -> !seleccion.contains(p))
+                    .collect(Collectors.toList());
+            
+            int faltantes = totalPreguntas - seleccion.size();
+            seleccion.addAll(obtenerDisponibles(todasRestantes, faltantes));
         }
 
         Collections.shuffle(seleccion);
         return seleccion;
     }
 
-    private List<PreguntaDTO> obtenerAleatorias(List<PreguntaDTO> lista, int cantidad) {
-        if (lista.size() < cantidad) {
-            throw new RuntimeException("No hay suficientes preguntas de dificultad específica");
-        }
+    private List<PreguntaDTO> obtenerDisponibles(List<PreguntaDTO> lista, int cantidad) {
+        if (cantidad <= 0) return new ArrayList<>();
         List<PreguntaDTO> copia = new ArrayList<>(lista);
         Collections.shuffle(copia);
-        return copia.subList(0, cantidad);
+        return copia.subList(0, Math.min(copia.size(), cantidad));
     }
 
     private String generarClaveAleatoria() {
