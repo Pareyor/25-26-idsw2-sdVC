@@ -7,7 +7,7 @@ participant "ExamenController" as Controller
 participant "ExamenService" as Service
 participant "ExamenSessionService" as SessionService
 participant "AlumnoService" as AlumnoService
-database "Base de Datos (PostgreSQL)" as DB
+participant "Repository" as Repository
 
 Teacher -> FE: Confirmar Asignación
 activate FE
@@ -31,8 +31,10 @@ deactivate AlumnoService
 
 Controller -> Service: persistirAsignaciones(plantillas, alumnos)
 activate Service
-Service -> DB: INSERT INTO examenes (grado_id, alumno_id, ...)
-DB --> Service: void
+Service -> Repository: saveAll(examenes)
+activate Repository
+Repository --> Service: void
+deactivate Repository
 deactivate Service
 
 Controller -> SessionService: limpiarBorradores()

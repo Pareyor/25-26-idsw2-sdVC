@@ -14,9 +14,10 @@ Este caso de uso convierte los borradores de exámenes generados temporalmente (
 
 ### Backend
 - **ExamenController**: Endpoint `POST /api/examenes/asignar`. Gestiona la transición de estado.
-- **ExamenService**: Ejecuta la lógica de persistencia de las instancias de examen en la base de datos.
+- **ExamenService**: Ejecuta la lógica de persistencia de las instancias de examen coordinándose con el Repositorio.
 - **AlumnoService**: Recupera los alumnos para vincularlos con las plantillas generadas.
 - **ExamenSessionService**: Proporciona los datos temporales y, posteriormente, limpia la sesión.
+- **Repository**: Capa abstracta de persistencia en base de datos.
 
 ### Frontend
 - **AsignarExamenesView (React)**: Muestra el resumen de la generación y permite la confirmación final.
@@ -25,7 +26,7 @@ Este caso de uso convierte los borradores de exámenes generados temporalmente (
 1. El docente confirma la asignación desde la vista de previsualización.
 2. Se recuperan los borradores de la sesión.
 3. Se obtienen los alumnos de la asignatura desde `AlumnoService`.
-4. Se ejecutan las operaciones de inserción en la base de datos para crear los registros de `Examen`.
+4. Se ejecutan las operaciones de persistencia llamando al repositorio para crear los registros de `Examen`.
 5. Se eliminan los borradores de la sesión.
 
 ## 6. Diagrama de Secuencia
