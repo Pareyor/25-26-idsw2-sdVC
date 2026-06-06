@@ -1,0 +1,39 @@
+@startuml
+title Diagrama de Secuencia - Corregir Exámenes (Diseño) - Jorgestor
+
+actor "Docente" as Teacher
+participant "Frontend (React)" as FE
+participant "ExamenController" as Controller
+participant "CorreccionService" as Service
+
+Teacher -> FE: Sube PDF con exámenes resueltos
+activate FE
+
+FE -> Controller: POST /api/examenes/corregir\n(multipart/form-data)
+activate Controller
+
+Controller -> Service: procesarPdf(archivo)
+activate Service
+
+Service -> Service: contarPaginas(pdf)
+activate Service
+Service --> Service: numPaginas
+deactivate Service
+
+loop Para cada página
+    Service -> Service: generarNotaAleatoria()
+    activate Service
+    Service --> Service: nota
+    deactivate Service
+    
+    Service -> Service: crearResultado()
+end
+
+Service --> Controller: List<ResultadoCorreccionDTO>
+deactivate Service
+
+Controller --> FE: 200 OK (Resultados)
+deactivate Controller
+deactivate FE
+
+@enduml
