@@ -1,5 +1,5 @@
 @startuml
-title Diagrama de Secuencia - Generar Exámenes (Diseño) - Jorgestor
+title Diagrama de Secuencia - Generar Exámenes (Diseño Detallado) - Jorgestor
 
 actor "Docente" as Teacher
 participant "Frontend (React)" as FE
@@ -10,51 +10,50 @@ participant "PreguntaService" as PreguntaService
 participant "ExamenSessionService" as SessionService
 participant "HttpSession" as Session
 
-Teacher -> FE: Selecciona parámetros y clic "Generar"
+Teacher -> FE: Configura Asignatura, Temas, Evaluación\ny parámetros por cada Grado
 activate FE
 
 FE -> Controller: POST /api/examenes/generar (GenerarExamenesDTO)
 activate Controller
 
-note over Controller: El docenteId se obtiene del SecurityContext (JWT)
+note over Controller: El DTO incluye List<ConfigGradoDTO>\ncon numExamenes, numTipos y dificultadProporcion
 
 Controller -> Service: generarExamenes(dto, docenteId)
 activate Service
 
-Service -> AsignaturaService: obtenerAsignaturaParaDocente(asignaturaId, docenteId)
+Service -> AsignaturaService: obtenerAsignaturaConGrados(asignaturaId, docenteId)
 activate AsignaturaService
-AsignaturaService --> Service: AsignaturaDTO (con Alumnos)
+AsignaturaService --> Service: AsignaturaDTO (con sus Grados asociados)
 deactivate AsignaturaService
 
-Service -> PreguntaService: obtenerPreguntasPorTemas(temasIds)
+Service -> PreguntaService: obtenerBancoPreguntas(asignaturaId, temasIds)
 activate PreguntaService
-PreguntaService --> Service: List<PreguntaDTO>
+PreguntaService --> Service: List<PreguntaDTO> (agrupadas por dificultad)
 deactivate PreguntaService
 
-alt Validación: Preguntas insuficientes
-    Service --> Controller: throw BusinessException("No hay suficientes preguntas")
-    Controller --> FE: 409 Conflict (Error JSON)
+loop PARA CADA Grado en ConfigGradoDTO
+    Service -> Service: validarDisponibilidadPreguntas(configGrado, banco)
+    
+    loop PARA CADA "Tipo" solicitado (numTipos)
+        Service -> Service: seleccionarPreguntas(proporcionDificultad, numPreguntas)
+        note right: Selección aleatoria respetando\n% de Fácil, Media y Difícil
+        Service -> Service: crearPlantillaExamen(gradoId, preguntasSeleccionadas)
+    end
 end
 
-Service -> Service: Algoritmo de Generación\n(Aleatorización y Selección)
-
-loop Para cada Alumno de la Asignatura
-    Service -> Service: Crear ExamenTemporalDTO\n(Preguntas seleccionadas, Clave generada)
-end
-
-Service -> SessionService: guardarBorradores(List<ExamenTemporalDTO>)
+Service -> SessionService: guardarBorradores(List<PlantillaExamenDTO>)
 activate SessionService
-SessionService -> Session: setAttribute("EXAMENES_BORRADOR", lista)
+SessionService -> Session: setAttribute("EXAMENES_BORRADOR", plantillas)
 SessionService --> Service: void
 deactivate SessionService
 
-Service --> Controller: GeneracionResponseDTO (totalExamenes, totalPreguntas)
+Service --> Controller: GeneracionExitoDTO(totalPlantillas, resumenPorGrado)
 deactivate Service
 
-Controller --> FE: 200 OK (GeneracionResponseDTO)
+Controller --> FE: 200 OK (GeneracionExitoDTO)
 deactivate Controller
 
-FE -> FE: Redirigir a vista de "Confirmar/Asignar"
+FE -> FE: Redirigir a vista "EXAMENES_GENERADOS"
 deactivate FE
 
 @enduml
