@@ -144,3 +144,17 @@
 **Enlace:** [Sesión 27](conversations/sesion-27.md)
 
 **Decisión:** Se da por cerrada la etapa de diseño tras verificar que todos los casos de uso visibles (concretos) están correctamente modelados y documentados. El sistema está listo para pasar a la fase de implementación.
+
+## Sesión 28: [06/06/2026][20:30] Implementación de Generar y Asignar Exámenes (UC28 & UC29)
+
+**Prompt:** Implementación de las funcionalidades UC28 (Generar Exámenes) y UC29 (Asignar Exámenes) en el sistema Jorgestor, incluyendo los ajustes necesarios en el frontend y backend para la persistencia, validaciones de grado, y mejoras de usabilidad solicitadas por el usuario.
+
+**Resultado:**
+- **Implementación funcional**: Se completó el flujo de generación y asignación de exámenes con persistencia en base de datos.
+- **Refactorización de persistencia**: Cambio de `HttpSession` a `ExamenBorrador` en BD para corregir errores de estado.
+- **Diseño UI**: Estandarización a "Ethereal Light", paginación de listas, filtrado por nombre y selección de máximo por grado.
+- **Correcciones técnicas**: Correcciones de compilación, gestión de contraseñas de docentes, ajuste de `ManyToMany` entre Asignatura y Grado, y mejora de la calidad de los datos de prueba (`DataInitializer`).
+
+**Enlace:** [Sesión 28](conversations/sesion-28.md)
+
+**Decisión:** Se da por finalizada la implementación de asignarExamenes y generarExamenes, verificando el flujo completo de principio a fin según los requisitos del usuario.
