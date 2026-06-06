@@ -1,0 +1,60 @@
+@startuml
+title Diagrama de Secuencia - Generar Exámenes (Diseño) - Jorgestor
+
+actor "Docente" as Teacher
+participant "Frontend (React)" as FE
+participant "ExamenController" as Controller
+participant "ExamenService" as Service
+participant "AsignaturaService" as AsignaturaService
+participant "PreguntaService" as PreguntaService
+participant "ExamenSessionService" as SessionService
+participant "HttpSession" as Session
+
+Teacher -> FE: Selecciona parámetros y clic "Generar"
+activate FE
+
+FE -> Controller: POST /api/examenes/generar (GenerarExamenesDTO)
+activate Controller
+
+note over Controller: El docenteId se obtiene del SecurityContext (JWT)
+
+Controller -> Service: generarExamenes(dto, docenteId)
+activate Service
+
+Service -> AsignaturaService: obtenerAsignaturaParaDocente(asignaturaId, docenteId)
+activate AsignaturaService
+AsignaturaService --> Service: AsignaturaDTO (con Alumnos)
+deactivate AsignaturaService
+
+Service -> PreguntaService: obtenerPreguntasPorTemas(temasIds)
+activate PreguntaService
+PreguntaService --> Service: List<PreguntaDTO>
+deactivate PreguntaService
+
+alt Validación: Preguntas insuficientes
+    Service --> Controller: throw BusinessException("No hay suficientes preguntas")
+    Controller --> FE: 409 Conflict (Error JSON)
+end
+
+Service -> Service: Algoritmo de Generación\n(Aleatorización y Selección)
+
+loop Para cada Alumno de la Asignatura
+    Service -> Service: Crear ExamenTemporalDTO\n(Preguntas seleccionadas, Clave generada)
+end
+
+Service -> SessionService: guardarBorradores(List<ExamenTemporalDTO>)
+activate SessionService
+SessionService -> Session: setAttribute("EXAMENES_BORRADOR", lista)
+SessionService --> Service: void
+deactivate SessionService
+
+Service --> Controller: GeneracionResponseDTO (totalExamenes, totalPreguntas)
+deactivate Service
+
+Controller --> FE: 200 OK (GeneracionResponseDTO)
+deactivate Controller
+
+FE -> FE: Redirigir a vista de "Confirmar/Asignar"
+deactivate FE
+
+@enduml
