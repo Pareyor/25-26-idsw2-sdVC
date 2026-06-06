@@ -118,3 +118,29 @@
 **Enlace:** [Sesión 25](conversations/sesion-25.md)
 
 **Decisión:** Se ha finalizado la implementación de la funcionalidad central de generación de exámenes, respetando los principios de diseño de JORGESTOR y asegurando la consistencia entre el diseño de la fase de análisis y la implementación técnica final.
+
+## Sesión 26: [06/06/2026][15:32] Limpieza de Documentación de Análisis (Abstractos). Diseño de asignarExamenes
+
+**Prompt:** Diseño del caso de uso de asignarExamenes y eliminación de los archivos de análisis (diagramas puml y documentos) de los casos de uso abstractos de importación y exportación, para mantener la coherencia con el diseño centralizado.
+
+**Resultado:**
+- **AsignarExamenes (UC29)**: Diseño de la lógica de persistencia efímera a persistente, abstrayendo la base de datos a una capa de repositorio.
+- **Limpieza de Repositorio**: Eliminación de directorios y archivos de análisis (`puml`, `README.md`) para `importarAlumnos`, `importarAsignaturas`, `importarGrados`, `importarPreguntas`, `exportarAlumnos`, `exportarAsignaturas`, `exportarGrados` y `exportarPreguntas`.
+- **Coherencia Documental**: La estructura de documentación de análisis ahora refleja únicamente los casos de uso concretos y visibles, manteniendo la integridad del proyecto.
+
+**Enlace:** [Sesión 26](conversations/sesion-26.md)
+
+**Decisión:** Se ha consolidado toda la documentación para reflejar fielmente la arquitectura de JORGESTOR, asegurando que solo los casos de uso ejecutables y visibles tengan artefactos de análisis y diseño independientes.
+
+## Sesión 27: [06/06/2026][17:02] Diseño de Corregir Exámenes y Finalización de Diseño
+
+**Prompt:** Diseño de `corregirExamenes` (UC31) y validación de completitud del diseño funcional.
+
+**Resultado:**
+- **Diseño de CorregirExamenes (UC31)**: Diseño del flujo de corrección simplificada (conteo de páginas del PDF y generación aleatoria de notas), manteniendo la coherencia con la arquitectura de JORGESTOR.
+- **Validación de Completitud**: Verificación final de que todos los casos de uso concretos están diseñados y documentados.
+- **Limpieza de Repositorio**: Eliminación total de artefactos de análisis/diseño para los casos de uso abstractos, dejando el repositorio listo para la implementación.
+
+**Enlace:** [Sesión 27](conversations/sesion-27.md)
+
+**Decisión:** Se da por cerrada la etapa de diseño tras verificar que todos los casos de uso visibles (concretos) están correctamente modelados y documentados. El sistema está listo para pasar a la fase de implementación.
