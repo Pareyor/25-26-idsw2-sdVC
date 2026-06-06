@@ -1,0 +1,35 @@
+@startuml
+title Diagrama de Secuencia - Importar Alumnos (Diseño) - Jorgestor
+
+actor "Docente" as Teacher
+participant "Frontend (React)" as FE
+participant "AlumnoController" as Controller
+participant "AlumnoService" as Service
+participant "ImportadorService" as Importador
+participant "Repository" as Repository
+
+Teacher -> FE: Sube archivo (CSV/JSON)
+activate FE
+
+FE -> Controller: POST /api/alumnos/importar\n(Archivo + GradoId)
+activate Controller
+
+Controller -> Importador: procesarArchivo(archivo)
+activate Importador
+Importador --> Controller: List<AlumnoDTO> extraidos
+deactivate Importador
+
+Controller -> Service: crearAlumnos(listaAlumnos, gradoId)
+activate Service
+
+loop Para cada AlumnoDTO
+    Service -> Repository: save(alumno)
+end
+Repository --> Service: void
+deactivate Service
+
+Controller --> FE: 200 OK
+deactivate Controller
+deactivate FE
+
+@enduml
