@@ -340,3 +340,19 @@
 **Enlace:** [Sesión 25](conversations/sesion-25.md)
 
 **Decisión:** Se ha finalizado la implementación de la funcionalidad central de generación de exámenes, respetando los principios de diseño de JORGESTOR y asegurando la consistencia entre el diseño de la fase de análisis y la implementación técnica final.
+
+## Sesión 26: [06/06/2026][15:15] Diseño Final de Importaciones y asignarExamenes().
+
+**Prompt:** Diseño de los casos de uso de asignación e importación (`asignarExamenes`, `importarPreguntas`, `importarAlumnos`, `importarAsignaturas`, `importarGrados`, `importarConfiguracionGlobal`).
+
+**Resultado:**
+- **AsignarExamenes (UC29)**: Diseño de la lógica de persistencia efímera a persistente, abstrayendo la base de datos a una capa de repositorio.
+- **Importaciones (UC19, UC24, UC36, UC38)**: Diseño estandarizado utilizando un `ImportadorService` para desacoplar el parsing de datos de la lógica de negocio de creación (`Service-to-Service`).
+- **ImportarConfiguracionGlobal (UC27)**: Diseño como orquestador (fachada) que delega la importación de entidades a los servicios correspondientes, garantizando integridad referencial.
+
+**Enlace:** [Sesión 26](conversations/sesion-26.md)
+
+**Decisión:** Se ha mantenido la coherencia arquitectónica en todos los diseños, evitando dependencias directas a base de datos y aplicando el patrón de fachada para los casos de uso que actúan como orquestadores.
+
+
+
