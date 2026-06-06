@@ -1,0 +1,44 @@
+@startuml
+title Diagrama de Secuencia - Importar Configuración Global (Patrón Reset & Import) - Jorgestor
+
+actor "Docente" as Teacher
+participant "Frontend (React)" as FE
+participant "ConfiguracionController" as Controller
+participant "ConfiguracionService" as Service
+participant "GradoService" as GradoService
+participant "AsignaturaService" as AsignaturaService
+participant "AlumnoService" as AlumnoService
+participant "PreguntaService" as PreguntaService
+
+Teacher -> FE: Sube archivo (JSON Global)
+activate FE
+
+FE -> Controller: POST /api/configuracion/importar\n(Archivo)
+activate Controller
+
+Controller -> Service: importarConfiguracion(archivo)
+activate Service
+
+box "FASE 1: RESET (Orden Inverso)" #LightPink
+    Service -> PreguntaService: eliminarPorDocente()
+    Service -> AsignaturaService: eliminarPorDocente()
+    Service -> AlumnoService: eliminarPorDocente()
+    Service -> GradoService: eliminarPorDocente()
+end box
+
+box "FASE 2: IMPORTACIÓN (Orden de Dependencia)" #LightGreen
+    Service -> GradoService: crearGrados(data.grados)
+    Service -> AlumnoService: crearAlumnos(data.alumnos)
+    Service -> AsignaturaService: crearAsignaturas(data.asignaturas)
+    Service -> PreguntaService: crearPreguntas(data.preguntas)
+end box
+
+Service --> Controller: void
+deactivate Service
+
+Controller --> FE: 200 OK
+deactivate Controller
+deactivate FE
+
+@enduml
+
