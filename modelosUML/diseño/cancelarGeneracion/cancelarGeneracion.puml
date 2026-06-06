@@ -1,0 +1,28 @@
+@startuml
+title Diagrama de Secuencia - Cancelar Generación (Diseño) - Jorgestor
+
+actor "Docente" as Teacher
+participant "Frontend (React)" as FE
+participant "ExamenController" as Controller
+participant "ExamenSessionService" as SessionService
+participant "HttpSession" as Session
+
+Teacher -> FE: Clic en "Cancelar" (desde vista Previsualización)
+activate FE
+
+FE -> Controller: DELETE /api/examenes/generar/cancelar
+activate Controller
+
+Controller -> SessionService: limpiarBorradores()
+activate SessionService
+SessionService -> Session: removeAttribute("EXAMENES_BORRADOR")
+SessionService --> Controller: void
+deactivate SessionService
+
+Controller --> FE: 204 No Content
+deactivate Controller
+
+FE -> FE: Redirigir a Dashboard / SISTEMA_DISPONIBLE
+deactivate FE
+
+@enduml
