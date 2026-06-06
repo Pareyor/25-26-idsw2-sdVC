@@ -1,0 +1,48 @@
+@startuml
+title Diagrama de Secuencia - Exportar Configuración Global (Orquestador) - Jorgestor
+
+actor "Docente" as Teacher
+participant "Frontend (React)" as FE
+participant "ConfiguracionController" as Controller
+participant "ExportadorService" as Exportador
+participant "GradoService" as GradoService
+participant "AsignaturaService" as AsignaturaService
+participant "AlumnoService" as AlumnoService
+participant "PreguntaService" as PreguntaService
+
+Teacher -> FE: Solicitar Exportación Global
+activate FE
+
+FE -> Controller: GET /api/configuracion/exportar
+activate Controller
+
+Controller -> GradoService: obtenerGrados()
+activate GradoService
+GradoService --> Controller: List<GradoDTO>
+deactivate GradoService
+
+Controller -> AsignaturaService: obtenerAsignaturas()
+activate AsignaturaService
+AsignaturaService --> Controller: List<AsignaturaDTO>
+deactivate AsignaturaService
+
+Controller -> AlumnoService: obtenerAlumnos()
+activate AlumnoService
+AlumnoService --> Controller: List<AlumnoDTO>
+deactivate AlumnoService
+
+Controller -> PreguntaService: obtenerPreguntas()
+activate PreguntaService
+PreguntaService --> Controller: List<PreguntaDTO>
+deactivate PreguntaService
+
+Controller -> Exportador: convertirAFormato(dataGlobal, formato)
+activate Exportador
+Exportador --> Controller: ArchivoBinario (JSON Global)
+deactivate Exportador
+
+Controller --> FE: 200 OK (ArchivoBinario)
+deactivate Controller
+deactivate FE
+
+@enduml
