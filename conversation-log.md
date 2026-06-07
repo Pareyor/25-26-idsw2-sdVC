@@ -210,5 +210,7 @@
 - **Integración Visual**: Inclusión de diagramas de colaboración (Análisis) y diagramas de secuencia (Diseño) para todos los casos de uso operativos.
 - **Relatividad**: Uso de rutas relativas para asegurar la visibilidad en el portal del repositorio.
 
+**Enlace:** [Sesión 32](conversations/sesion-32.md)
+
 **Decisión:** Se ha completado la documentación visual del proyecto, facilitando la comprensión de los flujos funcionales y técnicos de Jorgestor.
 
