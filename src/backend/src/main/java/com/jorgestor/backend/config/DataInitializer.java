@@ -46,8 +46,8 @@ public class DataInitializer implements CommandLineRunner {
         }
 
         Usuario docente = usuarioRepository.findByUsername("docente").orElseThrow();
-        Usuario pablo = usuarioRepository.findByUsername("72224668E").orElseThrow();
-        List<Usuario> docentes = List.of(docente, pablo);
+        // Usuario pablo = usuarioRepository.findByUsername("72224668E").orElseThrow(); // Pablo no recibirá datos automáticos
+        List<Usuario> docentes = List.of(docente); // Solo el usuario "docente"
 
         if (gradoRepository.count() == 0) {
             Grado g1 = gradoRepository.save(new Grado("GII", "Grado en Ingeniería Informática"));
@@ -63,7 +63,7 @@ public class DataInitializer implements CommandLineRunner {
 
             for (Usuario d : docentes) {
                 for (Map.Entry<String, String[]> entry : temasPorAsignatura.entrySet()) {
-                    Asignatura asig = new Asignatura(d.getUsername() + "-" + entry.getKey().substring(0,3).toUpperCase(), entry.getKey(), "2025-2026", todosLosGrados);
+                    Asignatura asig = new Asignatura(entry.getKey().substring(0,3).toUpperCase(), entry.getKey(), "2025-2026", todosLosGrados);
                     asig.setProfesor(d);
                     asignaturaRepository.save(asig);
                     

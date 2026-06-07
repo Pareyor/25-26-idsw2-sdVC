@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { getMenuOptions } from '../services/menu.service';
 import { logout } from '../services/auth.service';
+import { exportarConfiguracion, importarConfiguracion } from '../services/config.service';
 import * as Icons from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
@@ -15,6 +16,7 @@ const Dashboard: React.FC = () => {
   const [options, setOptions] = useState<MenuOption[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     getMenuOptions()
@@ -35,6 +37,32 @@ const Dashboard: React.FC = () => {
       }
     } else {
       navigate(path);
+    }
+  };
+
+  const handleExportar = async () => {
+    try {
+      const response = await exportarConfiguracion();
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'configuracion.json';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      alert('Error al exportar la configuración');
+    }
+  };
+
+  const handleImportar = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      try {
+        await importarConfiguracion(event.target.files[0]);
+        alert('Configuración importada exitosamente');
+        window.location.reload();
+      } catch (error) {
+        alert('Error al importar la configuración');
+      }
     }
   };
 
@@ -61,6 +89,11 @@ const Dashboard: React.FC = () => {
         <div className="header-titles">
           <h1>Panel de Control</h1>
           <p>Sistema de Gestión de Exámenes</p>
+        </div>
+        <div className="config-actions">
+            <button onClick={handleExportar} className="btn-secondary">Exportar Configuración</button>
+            <button onClick={() => fileInputRef.current?.click()} className="btn-secondary">Importar Configuración</button>
+            <input type="file" ref={fileInputRef} onChange={handleImportar} style={{ display: 'none' }} accept=".json" />
         </div>
       </header>
 

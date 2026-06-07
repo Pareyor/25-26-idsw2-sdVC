@@ -95,6 +95,11 @@ public class PreguntaService {
         preguntaRepository.deleteById(id);
     }
 
+    public void eliminarTodasPorDocente(Long docenteId) {
+        List<Pregunta> preguntas = preguntaRepository.findByAsignaturaProfesorId(docenteId);
+        preguntaRepository.deleteAll(preguntas);
+    }
+
     public List<PreguntaDTO> obtenerBancoPreguntas(Long asignaturaId, List<String> temas) {
         return preguntaRepository.findByAsignaturaIdAndTemaIn(asignaturaId, temas).stream()
                 .map(this::convertToDTO)

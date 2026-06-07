@@ -1,7 +1,9 @@
 package com.jorgestor.backend.service;
 
 import com.jorgestor.backend.dto.GradoDTO;
+import com.jorgestor.backend.model.Asignatura;
 import com.jorgestor.backend.model.Grado;
+import com.jorgestor.backend.repository.AsignaturaRepository;
 import com.jorgestor.backend.repository.GradoRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,16 +14,23 @@ import java.util.stream.Collectors;
 public class GradoService {
 
     private final GradoRepository gradoRepository;
+    private final AsignaturaRepository asignaturaRepository;
 
-    public GradoService(GradoRepository gradoRepository) {
+    public GradoService(GradoRepository gradoRepository, AsignaturaRepository asignaturaRepository) {
         this.gradoRepository = gradoRepository;
+        this.asignaturaRepository = asignaturaRepository;
     }
 
-    public List<GradoDTO> listarGrados() {
-        return gradoRepository.findAll().stream()
+    public List<GradoDTO> listarGrados(Long docenteId) {
+        List<Asignatura> asignaturas = asignaturaRepository.findByProfesorId(docenteId);
+        
+        return asignaturas.stream()
+                .flatMap(a -> a.getGrados().stream())
+                .distinct()
                 .map(g -> new GradoDTO(g.getId(), g.getCodigo(), g.getTitulo()))
                 .collect(Collectors.toList());
     }
+
 
     public GradoDTO obtenerGrado(Long id) {
         Grado g = gradoRepository.findById(id)

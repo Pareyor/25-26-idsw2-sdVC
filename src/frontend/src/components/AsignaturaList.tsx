@@ -18,11 +18,14 @@ const AsignaturaList: React.FC = () => {
   }, []);
 
   const fetchAsignaturas = async () => {
+    console.log("DEBUG - Intentando cargar asignaturas...");
     try {
       const response = await getAsignaturas();
+      console.log("DEBUG - Asignaturas recibidas:", response.data);
       setAsignaturas(response.data);
       setLoading(false);
     } catch (err) {
+      console.error("DEBUG - Error al cargar:", err);
       setError('Error al cargar las asignaturas');
       setLoading(false);
     }

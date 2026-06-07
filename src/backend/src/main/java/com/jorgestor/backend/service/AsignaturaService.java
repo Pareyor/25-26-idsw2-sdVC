@@ -27,34 +27,54 @@ public class AsignaturaService {
         this.alumnoRepository = alumnoRepository;
     }
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(AsignaturaService.class);
+
     public List<AsignaturaDTO> getAllAsignaturas(Long docenteId) {
-        return asignaturaRepository.findAll().stream()
-                .filter(a -> a.getProfesor() != null && a.getProfesor().getId().equals(docenteId))
+        logger.info("DEBUG - Filtrando asignaturas para docenteId: {}", docenteId);
+        List<Asignatura> todas = asignaturaRepository.findAll();
+        
+        return todas.stream()
+                .filter(a -> {
+                    boolean match = a.getProfesor() != null && a.getProfesor().getId().equals(docenteId);
+                    if (!match) {
+                        logger.info("DEBUG - Asignatura {} (ID {}) ignorada. Profesor ID esperado: {}, Profesor ID actual: {}", 
+                            a.getCodigo(), a.getId(), docenteId, 
+                            (a.getProfesor() != null ? a.getProfesor().getId() : "null"));
+                    }
+                    return match;
+                })
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
     public AsignaturaDTO crearAsignatura(AsignaturaDTO dto, Long docenteId) {
-        if (asignaturaRepository.findByCodigo(dto.getCodigo()).isPresent()) {
-            throw new RuntimeException("El código de asignatura ya existe");
-        }
+        // En lugar de lanzar error, buscamos si ya existe para hacer la importación idempotente
+        return asignaturaRepository.findByCodigo(dto.getCodigo())
+                .map(existing -> {
+                    // Actualizar el profesor de la asignatura existente al docente actual
+                    Usuario profesor = new Usuario();
+                    profesor.setId(docenteId);
+                    existing.setProfesor(profesor);
+                    return convertToDTO(asignaturaRepository.save(existing));
+                })
+                .orElseGet(() -> {
+                    List<Grado> grados = dto.getGradoIds().stream().map(gradoService::findEntityById).collect(Collectors.toList());
+                    
+                    Asignatura asignatura = new Asignatura(
+                            dto.getCodigo(),
+                            dto.getTitulo(),
+                            dto.getCursoAcademico(),
+                            grados
+                    );
+                    
+                    // Asignar el docente logueado
+                    Usuario profesor = new Usuario();
+                    profesor.setId(docenteId);
+                    asignatura.setProfesor(profesor);
 
-        List<Grado> grados = dto.getGradoIds().stream().map(gradoService::findEntityById).collect(Collectors.toList());
-        
-        Asignatura asignatura = new Asignatura(
-                dto.getCodigo(),
-                dto.getTitulo(),
-                dto.getCursoAcademico(),
-                grados
-        );
-        
-        // Asignar el docente logueado
-        Usuario profesor = new Usuario();
-        profesor.setId(docenteId);
-        asignatura.setProfesor(profesor);
-
-        Asignatura guardada = asignaturaRepository.save(asignatura);
-        return convertToDTO(guardada);
+                    Asignatura guardada = asignaturaRepository.save(asignatura);
+                    return convertToDTO(guardada);
+                });
     }
 
     public AsignaturaDTO obtenerAsignatura(Long id) {
@@ -85,6 +105,13 @@ public class AsignaturaService {
             throw new RuntimeException("Asignatura no encontrada");
         }
         asignaturaRepository.deleteById(id);
+    }
+
+    public void eliminarTodasPorDocente(Long docenteId) {
+        List<Asignatura> asignaturas = asignaturaRepository.findAll().stream()
+                .filter(a -> a.getProfesor() != null && a.getProfesor().getId().equals(docenteId))
+                .collect(Collectors.toList());
+        asignaturaRepository.deleteAll(asignaturas);
     }
 
     public Asignatura findEntityById(Long id) {
