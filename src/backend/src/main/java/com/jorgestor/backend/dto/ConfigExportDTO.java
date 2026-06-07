@@ -13,8 +13,19 @@ public class ConfigExportDTO {
         this.preguntas = preguntas;
     }
 
-    public List<AsignaturaDTO> getAsignaturas() { return asignaturas; }
-    public void setAsignaturas(List<AsignaturaDTO> asignaturas) { this.asignaturas = asignaturas; }
-    public List<PreguntaDTO> getPreguntas() { return preguntas; }
-    public void setPreguntas(List<PreguntaDTO> preguntas) { this.preguntas = preguntas; }
+    public List<AsignaturaDTO> getAsignaturas() {
+        return asignaturas;
+    }
+
+    public void setAsignaturas(List<AsignaturaDTO> asignaturas) {
+        this.asignaturas = asignaturas;
+    }
+
+    public List<PreguntaDTO> getPreguntas() {
+        return preguntas;
+    }
+
+    public void setPreguntas(List<PreguntaDTO> preguntas) {
+        this.preguntas = preguntas;
+    }
 }

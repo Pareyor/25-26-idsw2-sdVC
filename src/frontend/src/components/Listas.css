@@ -79,7 +79,8 @@ th {
 td {
   padding: 1rem;
   border-bottom: 1px solid var(--glass-border);
-  color: var(--text-main);
+  color: #333; /* Color oscuro para mayor contraste */
+  font-weight: 500;
 }
 
 tr:hover {

@@ -23,6 +23,8 @@ public class GradoController {
         this.usuarioRepository = usuarioRepository;
     }
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GradoController.class);
+
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public List<GradoDTO> getGrados() {

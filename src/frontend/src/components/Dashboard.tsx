@@ -111,6 +111,12 @@ const Dashboard: React.FC = () => {
           </button>
         ))}
       </main>
+
+      <div className="config-actions" style={{ marginTop: '20px', textAlign: 'center' }}>
+        <button onClick={handleExportar} className="btn-secondary" style={{ marginRight: '10px' }}>Exportar Configuración</button>
+        <button onClick={() => fileInputRef.current?.click()} className="btn-secondary">Importar Configuración</button>
+        <input type="file" ref={fileInputRef} onChange={handleImportar} style={{ display: 'none' }} accept=".json" />
+      </div>
     </div>
   );
 };
