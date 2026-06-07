@@ -26,8 +26,8 @@ public class AlumnoService {
                 .collect(Collectors.toList());
     }
 
-    public List<AlumnoDTO> getAllAlumnos() {
-        return alumnoRepository.findAll().stream()
+    public List<AlumnoDTO> getAllAlumnos(Long docenteId) {
+        return alumnoRepository.findByGradoAsignaturasProfesorId(docenteId).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
@@ -49,9 +49,18 @@ public class AlumnoService {
         return dni != null && dni.matches("^([XYZ]\\d{7}[A-Za-z]|\\d{8}[A-Za-z])$");
     }
 
-    public AlumnoDTO obtenerAlumno(Long id) {
+    public AlumnoDTO obtenerAlumno(Long id, Long docenteId) {
         Alumno a = alumnoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
+        
+        // Verificar que el alumno pertenece al grado de una asignatura del docente
+        boolean tieneAcceso = a.getGrado().getAsignaturas().stream()
+                .anyMatch(asig -> asig.getProfesor() != null && asig.getProfesor().getId().equals(docenteId));
+        
+        if (!tieneAcceso) {
+            throw new RuntimeException("No tiene permisos para ver este alumno");
+        }
+        
         return convertToDTO(a);
     }
 

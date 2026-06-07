@@ -1,10 +1,13 @@
 package com.jorgestor.backend.controller;
 
 import com.jorgestor.backend.dto.AsignaturaDTO;
+import com.jorgestor.backend.model.Usuario;
+import com.jorgestor.backend.repository.UsuarioRepository;
 import com.jorgestor.backend.service.AsignaturaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,21 +17,30 @@ import java.util.List;
 public class AsignaturaController {
 
     private final AsignaturaService asignaturaService;
+    private final UsuarioRepository usuarioRepository;
 
-    public AsignaturaController(AsignaturaService asignaturaService) {
+    public AsignaturaController(AsignaturaService asignaturaService, UsuarioRepository usuarioRepository) {
         this.asignaturaService = asignaturaService;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
     public List<AsignaturaDTO> getAllAsignaturas() {
-        return asignaturaService.getAllAsignaturas();
+        return asignaturaService.getAllAsignaturas(getCurrentUserId());
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<AsignaturaDTO> createAsignatura(@RequestBody AsignaturaDTO asignaturaDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(asignaturaService.crearAsignatura(asignaturaDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(asignaturaService.crearAsignatura(asignaturaDTO, getCurrentUserId()));
+    }
+    
+    private Long getCurrentUserId() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return usuario.getId();
     }
 
     @GetMapping("/{id}")

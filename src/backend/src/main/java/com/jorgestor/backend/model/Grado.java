@@ -1,6 +1,8 @@
 package com.jorgestor.backend.model;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "grados")
@@ -14,6 +16,9 @@ public class Grado {
 
     @Column(nullable = false)
     private String titulo;
+
+    @ManyToMany(mappedBy = "grados")
+    private List<Asignatura> asignaturas = new ArrayList<>();
 
     public Grado() {}
 
@@ -29,4 +34,6 @@ public class Grado {
     public void setCodigo(String codigo) { this.codigo = codigo; }
     public String getTitulo() { return titulo; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
+    public List<Asignatura> getAsignaturas() { return asignaturas; }
+    public void setAsignaturas(List<Asignatura> asignaturas) { this.asignaturas = asignaturas; }
 }

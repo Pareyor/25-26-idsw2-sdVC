@@ -20,6 +20,7 @@ import PreguntaEdit from './components/PreguntaEdit';
 import RespuestaEdit from './components/RespuestaEdit';
 import GenerarExamenes from './components/GenerarExamenes';
 import ConfirmarAsignacion from './components/ConfirmarAsignacion';
+import CorregirExamenesList from './components/CorregirExamenesList';
 import { getCurrentUser } from './services/auth.service';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -195,6 +196,14 @@ function App() {
           element={
             <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
               <Layout><ConfirmarAsignacion /></Layout>
+            </RoleRoute>
+          } 
+        />
+        <Route 
+          path="/examenes/corregir" 
+          element={
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><CorregirExamenesList /></Layout>
             </RoleRoute>
           } 
         />

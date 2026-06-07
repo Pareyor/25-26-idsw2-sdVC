@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
+    List<Alumno> findByGradoAsignaturasProfesorId(Long profesorId);
     Optional<Alumno> findByDni(String dni);
     List<Alumno> findByGradoId(Long gradoId);
     long countByGradoId(Long gradoId);

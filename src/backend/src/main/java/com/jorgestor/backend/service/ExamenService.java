@@ -130,6 +130,35 @@ public class ExamenService {
         }
     }
 
+    public List<Examen> obtenerExamenesParaCorregir(Long docenteId) {
+        return examenRepository.findAll().stream()
+                .filter(e -> e.getEstado() == EstadoExamen.ASIGNADO)
+                .collect(Collectors.toList());
+    }
+
+    public Examen corregirExamen(Long examenId, Long docenteId) {
+        Examen examen = examenRepository.findById(examenId)
+                .orElseThrow(() -> new RuntimeException("Examen no encontrado"));
+
+        if (examen.getAsignatura().getProfesor() == null || !examen.getAsignatura().getProfesor().getId().equals(docenteId)) {
+            throw new RuntimeException("No tiene permisos para corregir este examen");
+        }
+
+        if (examen.getEstado() != EstadoExamen.ASIGNADO) {
+            throw new RuntimeException("El examen no está en estado ASIGNADO");
+        }
+
+        // Lógica de corrección simulada según diseño de sesión 27
+        // (Nota aleatoria entre 0 y 10)
+        double nota = Math.random() * 10;
+        nota = Math.round(nota * 10.0) / 10.0; // Un decimal
+
+        examen.setNotaFinal(nota);
+        examen.setEstado(EstadoExamen.CORREGIDO);
+
+        return examenRepository.save(examen);
+    }
+
     private String generarClaveAleatoria() {
         return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }

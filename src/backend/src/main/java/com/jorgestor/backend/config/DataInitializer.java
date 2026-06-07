@@ -39,6 +39,16 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        if (usuarioRepository.count() == 0) {
+            usuarioRepository.save(new Usuario("admin", passwordEncoder.encode("admin123"), "admin@jorgestor.com", "Admin", "Institucional", Role.ROLE_ADMIN));
+            usuarioRepository.save(new Usuario("docente", passwordEncoder.encode("docente123"), "docente@jorgestor.com", "Docente", "Ejemplo", Role.ROLE_DOCENTE));
+            usuarioRepository.save(new Usuario("72224668E", passwordEncoder.encode("pablo123"), "pablo.rey@ejemplo.com", "Pablo", "Rey Ortiz", Role.ROLE_DOCENTE));
+        }
+
+        Usuario docente = usuarioRepository.findByUsername("docente").orElseThrow();
+        Usuario pablo = usuarioRepository.findByUsername("72224668E").orElseThrow();
+        List<Usuario> docentes = List.of(docente, pablo);
+
         if (gradoRepository.count() == 0) {
             Grado g1 = gradoRepository.save(new Grado("GII", "Grado en Ingeniería Informática"));
             Grado g2 = gradoRepository.save(new Grado("GIM", "Grado en Ingeniería Mecánica"));
@@ -51,33 +61,32 @@ public class DataInitializer implements CommandLineRunner {
                 "Bases de Datos", new String[]{"SQL", "Modelado", "Normalización", "NoSQL"}
             );
 
-            for (Map.Entry<String, String[]> entry : temasPorAsignatura.entrySet()) {
-                Asignatura asig = asignaturaRepository.save(new Asignatura("ASIG-" + entry.getKey().substring(0,3).toUpperCase(), entry.getKey(), "2025-2026", todosLosGrados));
-                
-                for (Grado g : todosLosGrados) {
-                    for (int j = 1; j <= 5; j++) {
-                        String nombre = NOMBRES[random.nextInt(NOMBRES.length)];
-                        String apellido = APELLIDOS[random.nextInt(APELLIDOS.length)] + " " + APELLIDOS[random.nextInt(APELLIDOS.length)];
-                        String dni = String.format("%08d%c", random.nextInt(100000000), (char)('A' + random.nextInt(26)));
-                        alumnoRepository.save(new Alumno(dni, nombre, apellido, g, "25/26"));
+            for (Usuario d : docentes) {
+                for (Map.Entry<String, String[]> entry : temasPorAsignatura.entrySet()) {
+                    Asignatura asig = new Asignatura(d.getUsername() + "-" + entry.getKey().substring(0,3).toUpperCase(), entry.getKey(), "2025-2026", todosLosGrados);
+                    asig.setProfesor(d);
+                    asignaturaRepository.save(asig);
+                    
+                    for (Grado g : todosLosGrados) {
+                        for (int j = 1; j <= 5; j++) {
+                            String nombre = NOMBRES[random.nextInt(NOMBRES.length)];
+                            String apellido = APELLIDOS[random.nextInt(APELLIDOS.length)] + " " + APELLIDOS[random.nextInt(APELLIDOS.length)];
+                            String dni = String.format("%08d%c", random.nextInt(100000000), (char)('A' + random.nextInt(26)));
+                            alumnoRepository.save(new Alumno(dni, nombre, apellido, g, "25/26"));
+                        }
+                    }
+
+                    String[] temas = entry.getValue();
+                    for (int k = 0; k < 30; k++) {
+                        String tema = temas[k % temas.length];
+                        Pregunta p = new Pregunta("Pregunta " + tema + " " + (k + 1), TipoPregunta.TEORIA, tema, DificultadPregunta.values()[k % 3], asig);
+                        p.getRespuestas().add(new Respuesta("Correcta", true, p));
+                        p.getRespuestas().add(new Respuesta("Falsa", false, p));
+                        preguntaRepository.save(p);
                     }
                 }
-
-                String[] temas = entry.getValue();
-                for (int k = 0; k < 150; k++) {
-                    String tema = temas[k % temas.length];
-                    Pregunta p = new Pregunta("Pregunta " + tema + " " + (k + 1), TipoPregunta.TEORIA, tema, DificultadPregunta.values()[k % 3], asig);
-                    p.getRespuestas().add(new Respuesta("Correcta", true, p));
-                    p.getRespuestas().add(new Respuesta("Falsa", false, p));
-                    preguntaRepository.save(p);
-                }
             }
-            System.out.println("Base de datos poblada con alumnos reales y datos distribuidos.");
-        }
-        
-        if (usuarioRepository.count() == 0) {
-            usuarioRepository.save(new Usuario("admin", passwordEncoder.encode("admin123"), "admin@jorgestor.com", "Admin", "Institucional", Role.ROLE_ADMIN));
-            usuarioRepository.save(new Usuario("docente", passwordEncoder.encode("docente123"), "docente@jorgestor.com", "Docente", "Ejemplo", Role.ROLE_DOCENTE));
+            System.out.println("Base de datos poblada con alumnos reales y datos distribuidos para ambos docentes.");
         }
     }
 }

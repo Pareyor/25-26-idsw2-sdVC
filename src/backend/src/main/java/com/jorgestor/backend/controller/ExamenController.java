@@ -7,6 +7,7 @@ import com.jorgestor.backend.dto.AsignarExamenesDTO;
 import com.jorgestor.backend.dto.ExamenBorradorDTO;
 import com.jorgestor.backend.model.Asignatura;
 import com.jorgestor.backend.model.Grado;
+import com.jorgestor.backend.model.Examen;
 import com.jorgestor.backend.model.ExamenBorrador;
 import com.jorgestor.backend.model.Usuario;
 import com.jorgestor.backend.repository.UsuarioRepository;
@@ -79,6 +80,35 @@ public class ExamenController {
         examenService.persistirAsignaciones(dto.getAlumnoIds());
         
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/corregir/listar")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<List<Map<String, Object>>> obtenerExamenesParaCorregir() {
+        Long docenteId = getCurrentUserId();
+        List<Examen> examenes = examenService.obtenerExamenesParaCorregir(docenteId);
+        List<Map<String, Object>> response = examenes.stream().map(e -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", e.getId());
+            map.put("alumno", e.getAlumno().getNombre() + " " + e.getAlumno().getApellidos());
+            map.put("asignatura", e.getAsignatura().getTitulo());
+            map.put("tipo", e.getTipoExamen());
+            return map;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/corregir/{examenId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<Map<String, Object>> corregirExamen(@PathVariable Long examenId) {
+        Long docenteId = getCurrentUserId();
+        Examen examen = examenService.corregirExamen(examenId, docenteId);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("notaFinal", examen.getNotaFinal());
+        response.put("estado", examen.getEstado());
+        
+        return ResponseEntity.ok(response);
     }
 
     private Long getCurrentUserId() {

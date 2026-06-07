@@ -1,10 +1,13 @@
 package com.jorgestor.backend.controller;
 
 import com.jorgestor.backend.dto.AlumnoDTO;
+import com.jorgestor.backend.model.Usuario;
+import com.jorgestor.backend.repository.UsuarioRepository;
 import com.jorgestor.backend.service.AlumnoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,35 +17,38 @@ import java.util.List;
 public class AlumnoController {
 
     private final AlumnoService alumnoService;
+    private final UsuarioRepository usuarioRepository;
 
-    public AlumnoController(AlumnoService alumnoService) {
+    public AlumnoController(AlumnoService alumnoService, UsuarioRepository usuarioRepository) {
         this.alumnoService = alumnoService;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<List<AlumnoDTO>> getAllAlumnos() {
-        System.out.println("Accediendo a listar alumnos...");
-        return ResponseEntity.ok(alumnoService.getAllAlumnos());
+        return ResponseEntity.ok(alumnoService.getAllAlumnos(getCurrentUserId()));
     }
 
-    @GetMapping("/grado/{gradoId}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
-    public ResponseEntity<List<AlumnoDTO>> getAlumnosByGrado(@PathVariable Long gradoId) {
-        return ResponseEntity.ok(alumnoService.obtenerAlumnosPorGrado(gradoId));
+    public ResponseEntity<AlumnoDTO> getAlumno(@PathVariable Long id) {
+        return ResponseEntity.ok(alumnoService.obtenerAlumno(id, getCurrentUserId()));
     }
+
+    private Long getCurrentUserId() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return usuario.getId();
+    }
+
 
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<AlumnoDTO> createAlumno(@RequestBody AlumnoDTO alumnoDTO) {
         System.out.println("Creando alumno...");
         return ResponseEntity.status(HttpStatus.CREATED).body(alumnoService.crearAlumno(alumnoDTO));
-    }
-
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
-    public ResponseEntity<AlumnoDTO> getAlumno(@PathVariable Long id) {
-        return ResponseEntity.ok(alumnoService.obtenerAlumno(id));
     }
 
     @PutMapping("/{id}")

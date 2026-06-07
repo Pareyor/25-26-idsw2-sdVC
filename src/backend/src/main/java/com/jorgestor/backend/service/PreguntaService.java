@@ -23,15 +23,20 @@ public class PreguntaService {
         this.asignaturaService = asignaturaService;
     }
 
-    public List<PreguntaDTO> getAllPreguntas() {
-        return preguntaRepository.findAll().stream()
+    public List<PreguntaDTO> getAllPreguntas(Long docenteId) {
+        return preguntaRepository.findByAsignaturaProfesorId(docenteId).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
-    public PreguntaDTO obtenerPregunta(Long id) {
+    public PreguntaDTO obtenerPregunta(Long id, Long docenteId) {
         Pregunta p = preguntaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pregunta no encontrada"));
+        
+        if (p.getAsignatura() == null || !p.getAsignatura().getProfesor().getId().equals(docenteId)) {
+            throw new RuntimeException("No tiene permisos para ver esta pregunta");
+        }
+        
         return convertToDTO(p);
     }
 
