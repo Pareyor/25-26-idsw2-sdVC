@@ -1,6 +1,11 @@
 # Documento de Arquitectura y Decisiones Tecnológicas - Jorgestor
 
-Este documento define los cimientos técnicos del sistema **Jorgestor**, asegurando la coherencia entre el análisis, el diseño y la implementación final.
+---
+### 📂 Navegación del Repositorio
+[**🏠 Inicio**](../../README.md) | [**🔍 Análisis**](../analisis) | [**💻 Desarrollo**](../../src)
+---
+
+Este documento define los cimientos técnicos del sistema **Jorgestor**, asegurando la coherencia entre el análisis, el diseño e implementación final.
 
 ## 1. Stack Tecnológico Seleccionado
 

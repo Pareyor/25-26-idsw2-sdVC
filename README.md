@@ -1,5 +1,10 @@
 # Sesiones de VibeCoding / idsw2 / gII · uneatlantico / [**JORGESTOR**](https://github.com/Pareyor/25-26-idsw2-sdVC.git)
 
+---
+### 📂 Navegación del Repositorio
+[**🔍 Análisis**](documents/analisis) | [**🎨 Diseño**](documents/diseño) | [**💻 Desarrollo**](src)
+---
+
 Este proyecto consiste en el análisis, diseño e implementación de [Jorgestor](https://github.com/Pareyor/25-26-idsw2-sdVC.git).
 
 Construcción de un sistema con AI. Todo en el repositorio. [#2Think](2Think.md)
