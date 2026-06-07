@@ -188,7 +188,7 @@
 
 ## Sesión 31: [21:50] Implementación de importación/exportacion de configuración global y Resolución de Conflictos
 
-**Prompt:** Reimplementar la importación/exportación de configuración JSON, corregir errores de autorización y renderizado, y resolver conflictos de integración con el repositorio remoto.
+**Prompt:** Reimplementar la importación/exportación de configuración JSON, corregir errores de autorización y renderizado, y resolver conflictos de integration con el repositorio remoto.
 
 **Resultado:** 
 - **Reimplementación**: Se recreó el módulo de importación/exportación asegurando que los datos importados se vinculen correctamente al docente que realiza la importación (mapeo de IDs). 
@@ -200,3 +200,15 @@
 **Enlace:** [Sesión 31](conversations/sesion-31.md)
 
 **Decisión:** Se ha implementado con éxito la funcionalidad solicitada, garantizando la integridad de datos entre docentes y la estabilidad del proyecto. El sistema está sincronizado y plenamente operativo.
+
+## Sesión 32: [07/06/2026][22:30] Enriquecimiento de Documentación con Diagramas
+
+**Prompt:** Enriquecer los README de análisis y diseño con las imágenes de cada caso de uso analizado/diseñado.
+
+**Resultado:**
+- **Documentación**: Actualización de `documents/analisis/README.md` y `documents/diseño/README.md`.
+- **Integración Visual**: Inclusión de diagramas de colaboración (Análisis) y diagramas de secuencia (Diseño) para todos los casos de uso operativos.
+- **Relatividad**: Uso de rutas relativas para asegurar la visibilidad en el portal del repositorio.
+
+**Decisión:** Se ha completado la documentación visual del proyecto, facilitando la comprensión de los flujos funcionales y técnicos de Jorgestor.
+
