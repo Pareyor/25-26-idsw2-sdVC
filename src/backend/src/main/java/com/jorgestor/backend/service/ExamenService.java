@@ -2,9 +2,7 @@ package com.jorgestor.backend.service;
 
 import com.jorgestor.backend.dto.*;
 import com.jorgestor.backend.model.*;
-import com.jorgestor.backend.repository.ExamenRepository;
-import com.jorgestor.backend.repository.ExamenBorradorRepository;
-import com.jorgestor.backend.repository.AlumnoRepository;
+import com.jorgestor.backend.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,15 +16,25 @@ public class ExamenService {
     private final ExamenRepository examenRepository;
     private final ExamenBorradorRepository examenBorradorRepository;
     private final AlumnoRepository alumnoRepository;
+    private final ExamenBorradorPreguntaRepository examenBorradorPreguntaRepository;
+    private final ExamenPreguntaRepository examenPreguntaRepository;
+    private final PreguntaRepository preguntaRepository;
+    private final ExamenRespuestaRepository examenRespuestaRepository;
 
     public ExamenService(AsignaturaService asignaturaService, PreguntaService preguntaService, 
                          ExamenRepository examenRepository, ExamenBorradorRepository examenBorradorRepository, 
-                         AlumnoRepository alumnoRepository) {
+                         AlumnoRepository alumnoRepository, ExamenBorradorPreguntaRepository examenBorradorPreguntaRepository,
+                         ExamenPreguntaRepository examenPreguntaRepository, PreguntaRepository preguntaRepository,
+                         ExamenRespuestaRepository examenRespuestaRepository) {
         this.asignaturaService = asignaturaService;
         this.preguntaService = preguntaService;
         this.examenRepository = examenRepository;
         this.examenBorradorRepository = examenBorradorRepository;
         this.alumnoRepository = alumnoRepository;
+        this.examenBorradorPreguntaRepository = examenBorradorPreguntaRepository;
+        this.examenPreguntaRepository = examenPreguntaRepository;
+        this.preguntaRepository = preguntaRepository;
+        this.examenRespuestaRepository = examenRespuestaRepository;
     }
 
     public GeneracionExitoDTO generarExamenes(GenerarExamenesDTO dto, Long docenteId) {
@@ -56,6 +64,10 @@ public class ExamenService {
                 
                 ExamenBorrador borrador = new ExamenBorrador(asignatura, grado, dto.getTipoExamen(), generarClaveAleatoria());
                 examenBorradorRepository.save(borrador);
+                for (PreguntaDTO pDTO : seleccionadas) {
+                    Pregunta p = preguntaRepository.findById(pDTO.getId()).orElseThrow();
+                    examenBorradorPreguntaRepository.save(new ExamenBorradorPregunta(borrador, p));
+                }
                 creados++;
             }
             resumen.put(config.getGradoId(), creados);
@@ -126,14 +138,68 @@ public class ExamenService {
             
             Examen examen = new Examen(alumno, borrador.getAsignatura(), borrador.getTipoExamen(), borrador.getClave(), EstadoExamen.ASIGNADO);
             examenRepository.save(examen);
+            
+            List<ExamenBorradorPregunta> preguntasBorrador = examenBorradorPreguntaRepository.findByExamenBorradorId(borrador.getId());
+            for (ExamenBorradorPregunta ebp : preguntasBorrador) {
+                examenPreguntaRepository.save(new ExamenPregunta(examen, ebp.getPregunta()));
+                examenBorradorPreguntaRepository.delete(ebp);
+            }
+            
             examenBorradorRepository.delete(borrador);
+        }
+    }
+
+    public void corregirTodosExamenes(Long docenteId) {
+        List<Examen> examenesPendientes = obtenerExamenesParaCorregir(docenteId);
+        for (Examen examen : examenesPendientes) {
+            corregirExamen(examen.getId(), docenteId);
         }
     }
 
     public List<Examen> obtenerExamenesParaCorregir(Long docenteId) {
         return examenRepository.findAll().stream()
+                .filter(e -> e.getAsignatura().getProfesor() != null && e.getAsignatura().getProfesor().getId().equals(docenteId))
                 .filter(e -> e.getEstado() == EstadoExamen.ASIGNADO)
                 .collect(Collectors.toList());
+    }
+
+    public List<Examen> obtenerTodosExamenesDocente(Long docenteId) {
+        return examenRepository.findAll().stream()
+                .filter(e -> e.getAsignatura().getProfesor() != null && e.getAsignatura().getProfesor().getId().equals(docenteId))
+                .collect(Collectors.toList());
+    }
+
+    public DetalleExamenDTO obtenerDetalleExamen(Long examenId, Long docenteId) {
+        Examen examen = examenRepository.findById(examenId)
+                .orElseThrow(() -> new RuntimeException("Examen no encontrado"));
+
+        if (examen.getAsignatura().getProfesor() == null || !examen.getAsignatura().getProfesor().getId().equals(docenteId)) {
+            throw new RuntimeException("No tiene permisos para ver este examen");
+        }
+
+        List<ExamenRespuesta> respuestas = examenRespuestaRepository.findByExamenId(examenId);
+        
+        List<DetalleExamenDTO.PreguntaDetalleDTO> preguntasDetalle = respuestas.stream().map(er -> {
+            Pregunta p = er.getPregunta();
+            String respuestaCorrecta = p.getRespuestas().stream()
+                    .filter(Respuesta::isEsCorrecta)
+                    .map(Respuesta::getOpcion)
+                    .findFirst().orElse("N/A");
+            
+            return new DetalleExamenDTO.PreguntaDetalleDTO(
+                p.getEnunciado(),
+                er.getRespuesta().getOpcion(),
+                er.getRespuesta().isEsCorrecta(),
+                respuestaCorrecta
+            );
+        }).collect(Collectors.toList());
+
+        return new DetalleExamenDTO(
+            examen.getId(),
+            examen.getAlumno().getNombre() + " " + examen.getAlumno().getApellidos(),
+            examen.getNotaFinal(),
+            preguntasDetalle
+        );
     }
 
     public Examen corregirExamen(Long examenId, Long docenteId) {
@@ -148,10 +214,23 @@ public class ExamenService {
             throw new RuntimeException("El examen no está en estado ASIGNADO");
         }
 
-        // Lógica de corrección simulada según diseño de sesión 27
-        // (Nota aleatoria entre 0 y 10)
-        double nota = Math.random() * 10;
-        nota = Math.round(nota * 10.0) / 10.0; // Un decimal
+        List<ExamenPregunta> preguntasExamen = examenPreguntaRepository.findByExamenId(examenId);
+        int correctas = 0;
+        Random random = new Random();
+
+        for (ExamenPregunta ep : preguntasExamen) {
+            List<Respuesta> respuestasPosibles = ep.getPregunta().getRespuestas();
+            Respuesta elegida = respuestasPosibles.get(random.nextInt(respuestasPosibles.size()));
+            
+            examenRespuestaRepository.save(new ExamenRespuesta(examen, ep.getPregunta(), elegida));
+            
+            if (elegida.isEsCorrecta()) {
+                correctas++;
+            }
+        }
+
+        double nota = (double) correctas / preguntasExamen.size() * 10.0;
+        nota = Math.round(nota * 10.0) / 10.0;
 
         examen.setNotaFinal(nota);
         examen.setEstado(EstadoExamen.CORREGIDO);

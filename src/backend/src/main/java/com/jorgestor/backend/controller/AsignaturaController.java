@@ -25,15 +25,34 @@ public class AsignaturaController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public List<AsignaturaDTO> getAllAsignaturas() {
         return asignaturaService.getAllAsignaturas(getCurrentUserId());
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<AsignaturaDTO> createAsignatura(@RequestBody AsignaturaDTO asignaturaDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(asignaturaService.crearAsignatura(asignaturaDTO, getCurrentUserId()));
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<AsignaturaDTO> getAsignatura(@PathVariable Long id) {
+        return ResponseEntity.ok(asignaturaService.obtenerAsignatura(id));
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<AsignaturaDTO> updateAsignatura(@PathVariable Long id, @RequestBody AsignaturaDTO asignaturaDTO) {
+        return ResponseEntity.ok(asignaturaService.actualizarAsignatura(id, asignaturaDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public void deleteAsignatura(@PathVariable Long id) {
+        asignaturaService.eliminarAsignatura(id);
     }
     
     private Long getCurrentUserId() {
@@ -41,24 +60,5 @@ public class AsignaturaController {
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         return usuario.getId();
-    }
-
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
-    public ResponseEntity<AsignaturaDTO> getAsignatura(@PathVariable Long id) {
-        return ResponseEntity.ok(asignaturaService.obtenerAsignatura(id));
-    }
-
-    @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
-    public ResponseEntity<AsignaturaDTO> updateAsignatura(@PathVariable Long id, @RequestBody AsignaturaDTO asignaturaDTO) {
-        return ResponseEntity.ok(asignaturaService.actualizarAsignatura(id, asignaturaDTO));
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
-    public void deleteAsignatura(@PathVariable Long id) {
-        asignaturaService.eliminarAsignatura(id);
     }
 }

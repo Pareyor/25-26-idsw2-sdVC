@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAlumnos, deleteAlumno } from '../services/alumno.service';
+import * as gradoService from '../services/grado.service';
 import type { Alumno } from '../services/alumno.service';
 import { Search, Plus, Edit, Trash2, ArrowLeft, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +9,7 @@ import './Listas.css';
 
 const AlumnoList: React.FC = () => {
   const [alumnos, setAlumnos] = useState<Alumno[]>([]);
+  const [grados, setGrados] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -15,6 +17,7 @@ const AlumnoList: React.FC = () => {
 
   useEffect(() => {
     fetchAlumnos();
+    gradoService.getGrados().then(res => setGrados(res.data));
   }, []);
 
   const fetchAlumnos = async () => {
@@ -96,15 +99,19 @@ const AlumnoList: React.FC = () => {
               <th>DNI</th>
               <th>Nombre</th>
               <th>Apellidos</th>
+              <th>Grado</th>
               <th style={{ textAlign: 'center' }}>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {filteredAlumnos.map((alumno) => (
+            {filteredAlumnos.map((alumno) => {
+              const grado = grados.find(g => g.id === alumno.gradoId);
+              return (
               <tr key={alumno.id}>
                 <td style={{ fontWeight: 'bold' }}>{alumno.dni}</td>
                 <td>{alumno.nombre}</td>
                 <td>{alumno.apellidos}</td>
+                <td>{grado ? grado.titulo : 'N/A'}</td>
                 <td>
                   <div className="action-btns" style={{ justifyContent: 'center' }}>
                     <button 
@@ -125,10 +132,10 @@ const AlumnoList: React.FC = () => {
                   </div>
                 </td>
               </tr>
-            ))}
+            )})}
             {filteredAlumnos.length === 0 && (
               <tr>
-                <td colSpan={4} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
+                <td colSpan={5} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
                   No se encontraron alumnos que coincidan con la búsqueda.
                 </td>
               </tr>

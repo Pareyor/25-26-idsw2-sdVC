@@ -20,7 +20,15 @@ public class AlumnoService {
         this.gradoService = gradoService;
     }
 
-    public List<AlumnoDTO> obtenerAlumnosPorGrado(Long gradoId) {
+    public List<AlumnoDTO> obtenerAlumnosPorGrado(Long gradoId, Long docenteId) {
+        Grado grado = gradoService.findEntityById(gradoId);
+        boolean tieneAcceso = grado.getAsignaturas().stream()
+                .anyMatch(asig -> asig.getProfesor() != null && asig.getProfesor().getId().equals(docenteId));
+        
+        if (!tieneAcceso) {
+            throw new RuntimeException("No tiene permisos para ver alumnos de este grado");
+        }
+        
         return alumnoRepository.findByGradoId(gradoId).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());

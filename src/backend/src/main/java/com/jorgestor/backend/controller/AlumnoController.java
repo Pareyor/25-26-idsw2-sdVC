@@ -25,42 +25,46 @@ public class AlumnoController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<List<AlumnoDTO>> getAllAlumnos() {
         return ResponseEntity.ok(alumnoService.getAllAlumnos(getCurrentUserId()));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<AlumnoDTO> getAlumno(@PathVariable Long id) {
         return ResponseEntity.ok(alumnoService.obtenerAlumno(id, getCurrentUserId()));
     }
 
-    private Long getCurrentUserId() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Usuario usuario = usuarioRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        return usuario.getId();
-    }
-
-
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<AlumnoDTO> createAlumno(@RequestBody AlumnoDTO alumnoDTO) {
-        System.out.println("Creando alumno...");
         return ResponseEntity.status(HttpStatus.CREATED).body(alumnoService.crearAlumno(alumnoDTO));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<AlumnoDTO> updateAlumno(@PathVariable Long id, @RequestBody AlumnoDTO alumnoDTO) {
         return ResponseEntity.ok(alumnoService.actualizarAlumno(id, alumnoDTO));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public void deleteAlumno(@PathVariable Long id) {
         alumnoService.eliminarAlumno(id);
+    }
+    
+    @GetMapping("/grado/{gradoId}")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<List<AlumnoDTO>> getAlumnosByGrado(@PathVariable Long gradoId) {
+        return ResponseEntity.ok(alumnoService.obtenerAlumnosPorGrado(gradoId, getCurrentUserId()));
+    }
+    
+    private Long getCurrentUserId() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return usuario.getId();
     }
 }

@@ -101,7 +101,11 @@ public class PreguntaService {
                 .collect(Collectors.toList());
     }
 
-    public List<String> obtenerTemasPorAsignatura(Long asignaturaId) {
+    public List<String> obtenerTemasPorAsignatura(Long asignaturaId, Long docenteId) {
+        Asignatura asignatura = asignaturaService.findEntityById(asignaturaId);
+        if (asignatura.getProfesor() == null || !asignatura.getProfesor().getId().equals(docenteId)) {
+            throw new RuntimeException("No tiene permisos para acceder a esta asignatura");
+        }
         return preguntaRepository.findDistinctTemasByAsignaturaId(asignaturaId);
     }
 

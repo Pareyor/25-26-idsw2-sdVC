@@ -2,17 +2,13 @@ package com.jorgestor.backend.controller;
 
 import com.jorgestor.backend.dto.GenerarExamenesDTO;
 import com.jorgestor.backend.dto.GeneracionExitoDTO;
-import com.jorgestor.backend.dto.PlantillaExamenDTO;
 import com.jorgestor.backend.dto.AsignarExamenesDTO;
 import com.jorgestor.backend.dto.ExamenBorradorDTO;
-import com.jorgestor.backend.model.Asignatura;
-import com.jorgestor.backend.model.Grado;
+import com.jorgestor.backend.dto.DetalleExamenDTO;
 import com.jorgestor.backend.model.Examen;
-import com.jorgestor.backend.model.ExamenBorrador;
 import com.jorgestor.backend.model.Usuario;
 import com.jorgestor.backend.repository.UsuarioRepository;
 import com.jorgestor.backend.service.ExamenService;
-import com.jorgestor.backend.service.AsignaturaService;
 import com.jorgestor.backend.repository.ExamenBorradorRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,24 +28,22 @@ public class ExamenController {
     private final ExamenService examenService;
     private final ExamenBorradorRepository borradorRepository;
     private final UsuarioRepository usuarioRepository;
-    private final AsignaturaService asignaturaService;
 
-    public ExamenController(ExamenService examenService, ExamenBorradorRepository borradorRepository, UsuarioRepository usuarioRepository, AsignaturaService asignaturaService) {
+    public ExamenController(ExamenService examenService, ExamenBorradorRepository borradorRepository, UsuarioRepository usuarioRepository) {
         this.examenService = examenService;
         this.borradorRepository = borradorRepository;
         this.usuarioRepository = usuarioRepository;
-        this.asignaturaService = asignaturaService;
     }
 
     @PostMapping("/generar")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<GeneracionExitoDTO> generarExamenes(@RequestBody GenerarExamenesDTO dto) {
         Long docenteId = getCurrentUserId();
         return ResponseEntity.ok(examenService.generarExamenes(dto, docenteId));
     }
 
     @GetMapping("/generar/borradores")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<List<ExamenBorradorDTO>> obtenerBorradores() {
         List<ExamenBorradorDTO> dtos = borradorRepository.findAll().stream()
                 .map(b -> new ExamenBorradorDTO(
@@ -64,14 +58,14 @@ public class ExamenController {
     }
 
     @DeleteMapping("/generar/cancelar")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<Void> cancelarGeneracion() {
         borradorRepository.deleteAll();
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/asignar")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<Void> asignarExamenes(@RequestBody AsignarExamenesDTO dto) {
         if (dto.getAlumnoIds() == null || dto.getAlumnoIds().isEmpty()) {
             return ResponseEntity.badRequest().build();
@@ -83,23 +77,41 @@ public class ExamenController {
     }
 
     @GetMapping("/corregir/listar")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<List<Map<String, Object>>> obtenerExamenesParaCorregir() {
         Long docenteId = getCurrentUserId();
-        List<Examen> examenes = examenService.obtenerExamenesParaCorregir(docenteId);
+        List<Examen> examenes = examenService.obtenerTodosExamenesDocente(docenteId);
         List<Map<String, Object>> response = examenes.stream().map(e -> {
             Map<String, Object> map = new HashMap<>();
             map.put("id", e.getId());
             map.put("alumno", e.getAlumno().getNombre() + " " + e.getAlumno().getApellidos());
+            map.put("grado", e.getAlumno().getGrado().getTitulo());
             map.put("asignatura", e.getAsignatura().getTitulo());
             map.put("tipo", e.getTipoExamen());
+            map.put("estado", e.getEstado());
+            map.put("notaFinal", e.getNotaFinal());
             return map;
         }).collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/corregir/todos")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<Void> corregirTodos() {
+        Long docenteId = getCurrentUserId();
+        examenService.corregirTodosExamenes(docenteId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/detalle/{examenId}")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<DetalleExamenDTO> obtenerDetalleExamen(@PathVariable Long examenId) {
+        Long docenteId = getCurrentUserId();
+        return ResponseEntity.ok(examenService.obtenerDetalleExamen(examenId, docenteId));
+    }
+
     @PostMapping("/corregir/{examenId}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCENTE')")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<Map<String, Object>> corregirExamen(@PathVariable Long examenId) {
         Long docenteId = getCurrentUserId();
         Examen examen = examenService.corregirExamen(examenId, docenteId);

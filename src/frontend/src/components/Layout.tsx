@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as Icons from 'lucide-react';
 import { getMenuOptions } from '../services/menu.service';
-import { logout } from '../services/auth.service';
+import { logout, getCurrentUser } from '../services/auth.service';
 import './Layout.css';
 
 interface LayoutProps {
@@ -17,6 +17,7 @@ interface MenuOption {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [menuOptions, setMenuOptions] = useState<MenuOption[]>([]);
+  const user = getCurrentUser();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,6 +40,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="layout-wrapper">
       <aside className="sidebar">
         <div className="sidebar-brand">JORGESTOR</div>
+        
+        {user && (
+          <div className="user-profile">
+            <div className="user-avatar">
+              <Icons.User size={24} />
+            </div>
+            <div className="user-info">
+              <span className="user-label">Docente</span>
+              <span className="user-name">{user.username}</span>
+            </div>
+          </div>
+        )}
+
         <nav className="nav-menu">
           {menuOptions.map((opt) => (
             opt.path === '/logout' ? (

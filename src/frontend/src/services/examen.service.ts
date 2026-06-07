@@ -27,6 +27,14 @@ const corregirExamen = (examenId: number) => {
   return axios.post(API_URL + 'corregir/' + examenId, {}, { headers: authHeader() });
 };
 
+const corregirTodos = () => {
+  return axios.post(API_URL + 'corregir/todos', {}, { headers: authHeader() });
+};
+
+const getDetalleExamen = (examenId: number) => {
+  return axios.get(API_URL + 'detalle/' + examenId, { headers: authHeader() });
+};
+
 export default {
   generarExamenes,
   getBorradores,
@@ -34,4 +42,6 @@ export default {
   cancelarGeneracion,
   getExamenesParaCorregir,
   corregirExamen,
+  corregirTodos,
+  getDetalleExamen,
 };

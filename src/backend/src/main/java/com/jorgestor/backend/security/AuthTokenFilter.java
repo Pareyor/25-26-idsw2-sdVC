@@ -31,8 +31,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 
                 logger.info(">>> Usuario: " + username + ", Rol extraído del JWT: " + role);
                 
-                // Asegurar que el rol tenga el formato esperado por Spring Security (ROLE_ prefix)
-                // Si el rol ya es ROLE_DOCENTE, no añadir nada extra. Si es DOCENTE, añadir ROLE_.
+                // Si el rol ya empieza con ROLE_, usarlo directamente. Si no, añadir el prefijo.
                 String formattedRole = role.toUpperCase();
                 if (!formattedRole.startsWith("ROLE_")) {
                     formattedRole = "ROLE_" + formattedRole;

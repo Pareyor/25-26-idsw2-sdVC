@@ -115,9 +115,12 @@ const GenerarExamenes: React.FC = () => {
             <div style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: 'var(--text-muted)' }}>
               <p>Alumnos matriculados:</p>
               <ul>
-                {Object.entries(selectedAsignatura.alumnosPorGrado).map(([gradoId, count]) => (
-                  <li key={gradoId}>Grado {gradoId}: {count as number} alumnos</li>
-                ))}
+                {Object.entries(selectedAsignatura.alumnosPorGrado).map(([gradoId, count]) => {
+                  const grado = grados.find(g => g.id.toString() === gradoId);
+                  return (
+                    <li key={gradoId}>{grado ? grado.titulo : `Grado ${gradoId}`}: {count as number} alumnos</li>
+                  );
+                })}
               </ul>
             </div>
           )}
