@@ -2,7 +2,9 @@ package com.jorgestor.backend.service;
 
 import com.jorgestor.backend.dto.GradoDTO;
 import com.jorgestor.backend.model.Grado;
+import com.jorgestor.backend.model.Asignatura;
 import com.jorgestor.backend.repository.GradoRepository;
+import com.jorgestor.backend.repository.AsignaturaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,13 +14,31 @@ import java.util.stream.Collectors;
 public class GradoService {
 
     private final GradoRepository gradoRepository;
+    private final AsignaturaRepository asignaturaRepository;
 
-    public GradoService(GradoRepository gradoRepository) {
+    public GradoService(GradoRepository gradoRepository, AsignaturaRepository asignaturaRepository) {
         this.gradoRepository = gradoRepository;
+        this.asignaturaRepository = asignaturaRepository;
     }
 
-    public List<GradoDTO> listarGrados() {
-        return gradoRepository.findAll().stream()
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GradoService.class);
+
+    public List<GradoDTO> listarGrados(Long docenteId) {
+        logger.info("DEBUG - Buscando grados para docenteId: {}", docenteId);
+        
+        // Obtenemos asignaturas del profesor
+        List<Asignatura> asignaturas = asignaturaRepository.findByProfesorId(docenteId);
+        logger.info("DEBUG - Asignaturas encontradas: {}", asignaturas.size());
+        
+        // Extraemos grados únicos de esas asignaturas
+        List<Grado> grados = asignaturas.stream()
+                .flatMap(a -> a.getGrados().stream())
+                .distinct()
+                .collect(Collectors.toList());
+        
+        logger.info("DEBUG - Grados únicos encontrados: {}", grados.size());
+        
+        return grados.stream()
                 .map(g -> new GradoDTO(g.getId(), g.getCodigo(), g.getTitulo()))
                 .collect(Collectors.toList());
     }
@@ -30,11 +50,14 @@ public class GradoService {
     }
 
     public GradoDTO crearGrado(GradoDTO dto) {
+        logger.info("DEBUG - Intentando crear grado: {}", dto.getCodigo());
         if (gradoRepository.findByCodigo(dto.getCodigo()).isPresent()) {
+            logger.warn("DEBUG - El grado {} ya existe", dto.getCodigo());
             throw new RuntimeException("El código de grado ya existe");
         }
         Grado grado = new Grado(dto.getCodigo(), dto.getTitulo());
         Grado guardado = gradoRepository.save(grado);
+        logger.info("DEBUG - Grado guardado exitosamente con ID: {}", guardado.getId());
         return new GradoDTO(guardado.getId(), guardado.getCodigo(), guardado.getTitulo());
     }
 

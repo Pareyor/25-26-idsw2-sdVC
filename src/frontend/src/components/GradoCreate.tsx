@@ -22,11 +22,14 @@ const GradoCreate: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    console.log("DEBUG - Intentando crear grado:", grado);
 
     try {
-      await createGrado(grado);
+      const response = await createGrado(grado);
+      console.log("DEBUG - Respuesta del servidor:", response);
       navigate('/grados');
     } catch (err: any) {
+      console.error("DEBUG - Error al crear grado:", err);
       setError(err.response?.data?.message || 'Error al crear el grado. Verifique si el código ya existe.');
     } finally {
       setLoading(false);

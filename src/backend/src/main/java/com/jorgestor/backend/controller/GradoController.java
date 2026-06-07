@@ -1,9 +1,12 @@
 package com.jorgestor.backend.controller;
 
 import com.jorgestor.backend.dto.GradoDTO;
+import com.jorgestor.backend.model.Usuario;
+import com.jorgestor.backend.repository.UsuarioRepository;
 import com.jorgestor.backend.service.GradoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,15 +16,28 @@ import java.util.List;
 public class GradoController {
 
     private final GradoService gradoService;
+    private final UsuarioRepository usuarioRepository;
 
-    public GradoController(GradoService gradoService) {
+    public GradoController(GradoService gradoService, UsuarioRepository usuarioRepository) {
         this.gradoService = gradoService;
+        this.usuarioRepository = usuarioRepository;
     }
+
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GradoController.class);
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public List<GradoDTO> getGrados() {
-        return gradoService.listarGrados();
+        logger.info("DEBUG - Endpoint /api/grados llamado por docenteId: {}", getCurrentUserId());
+        return gradoService.listarGrados(getCurrentUserId());
+    }
+
+    private Long getCurrentUserId() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        logger.info("DEBUG - Usuario autenticado: {}", username);
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return usuario.getId();
     }
 
     @GetMapping("/{id}")

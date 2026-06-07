@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { getMenuOptions } from '../services/menu.service';
 import { logout } from '../services/auth.service';
 import * as Icons from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { exportarConfiguracion, importarConfiguracion } from '../services/config.service';
 import './Dashboard.css';
 
 interface MenuOption {
@@ -15,6 +16,7 @@ const Dashboard: React.FC = () => {
   const [options, setOptions] = useState<MenuOption[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     getMenuOptions()
@@ -35,6 +37,32 @@ const Dashboard: React.FC = () => {
       }
     } else {
       navigate(path);
+    }
+  };
+
+  const handleExportar = async () => {
+    try {
+      const blob = await exportarConfiguracion();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'configuracion_jorgestor.json';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      alert('Error al exportar la configuración');
+    }
+  };
+
+  const handleImportar = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      try {
+        await importarConfiguracion(event.target.files[0]);
+        alert('Configuración importada exitosamente');
+        window.location.reload();
+      } catch (error) {
+        alert('Error al importar: formato incorrecto o error en el servidor');
+      }
     }
   };
 
@@ -78,6 +106,12 @@ const Dashboard: React.FC = () => {
           </button>
         ))}
       </main>
+
+      <div className="config-actions" style={{ marginTop: '20px', textAlign: 'center' }}>
+        <button onClick={handleExportar} className="btn-secondary" style={{ marginRight: '10px' }}>Exportar Configuración</button>
+        <button onClick={() => fileInputRef.current?.click()} className="btn-secondary">Importar Configuración</button>
+        <input type="file" ref={fileInputRef} onChange={handleImportar} style={{ display: 'none' }} accept=".json" />
+      </div>
     </div>
   );
 };
