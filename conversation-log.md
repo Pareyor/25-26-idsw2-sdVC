@@ -159,13 +159,15 @@
 
 **Decisión:** Se da por finalizada la implementación de asignarExamenes y generarExamenes, verificando el flujo completo de principio a fin según los requisitos del usuario.
 
+## Sesión 29: [07/06/2026][12:30] Implementación de Aislamiento de Datos y Nuevo Docente
 
-## Sesión 31: [07/06/2026][10:00] Finalización de Fase de Diseño y Cierre de Bitácora
-
-**Prompt:** Cierre y consolidación del log de sesiones.
+**Prompt:** Implementar aislamiento de datos (multitenancy) para todos los módulos por profesor y crear un nuevo docente (Pablo Rey Ortiz) con datos poblados.
 
 **Resultado:**
-- Verificación final de la documentación técnica y diagramas.
-- Consolidación del historial de diseño para asegurar consistencia.
+- **Aislamiento**: Se añadió profesor_id a las entidades necesarias y se actualizaron los repositorios/servicios para filtrar por docente logueado.
+- **Nuevo Docente**: Inserción de 'Pablo Rey Ortiz' (72224668E) y actualización de DataInitializer para poblar entornos independientes para cada docente.
+- **Correcciones**: Resolución de errores de compilación y errores de visibilidad de datos iniciales.
 
-**Decisión:** Se cierra oficialmente la etapa de diseño tras validar que todos los casos de uso visibles están correctamente modelados, documentados y centralizados. El sistema está listo para la fase de implementación completa.
+**Enlace:** [Sesión 29](conversations/sesion-29.md) 
+
+**Decisión:** Se ha garantizado la privacidad de datos entre docentes. El sistema está listo para continuar con la gestión y corrección de exámenes en entornos aislados.
