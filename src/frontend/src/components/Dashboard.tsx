@@ -90,32 +90,50 @@ const Dashboard: React.FC = () => {
           <h1>Panel de Control</h1>
           <p>Sistema de Gestión de Exámenes</p>
         </div>
-        <div className="config-actions">
-            <button onClick={handleExportar} className="btn-secondary">Exportar Configuración</button>
-            <button onClick={() => fileInputRef.current?.click()} className="btn-secondary">Importar Configuración</button>
+        <div className="config-actions" style={{ display: 'flex', gap: '1rem', marginTop: '1rem', justifyContent: 'center' }}>
+            <button onClick={handleExportar} className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', borderRadius: '1rem', border: '1px solid var(--glass-border)', background: 'var(--card-bg)', cursor: 'pointer' }}>
+                <Icons.Download size={18} /> Exportar
+            </button>
+            <button onClick={() => fileInputRef.current?.click()} className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', borderRadius: '1rem', border: '1px solid var(--glass-border)', background: 'var(--card-bg)', cursor: 'pointer' }}>
+                <Icons.Upload size={18} /> Importar
+            </button>
             <input type="file" ref={fileInputRef} onChange={handleImportar} style={{ display: 'none' }} accept=".json" />
         </div>
       </header>
 
       <main className="menu-grid">
-        {options.map((option, index) => (
-          <button
-            key={index}
-            onClick={() => handleAction(option.path)}
-            className="menu-item"
-          >
-            <div className="icon-wrapper">
-              <DynamicIcon name={option.icon} />
-            </div>
-            <span>{option.title}</span>
-          </button>
-        ))}
+        {options
+          .filter(option => option.path !== '/logout')
+          .map((option, index) => (
+            <button
+              key={index}
+              onClick={() => handleAction(option.path)}
+              className="menu-item"
+            >
+              <div className="icon-wrapper">
+                <DynamicIcon name={option.icon} />
+              </div>
+              <span>{option.title}</span>
+            </button>
+          ))}
       </main>
 
-      <div className="config-actions" style={{ marginTop: '20px', textAlign: 'center' }}>
-        <button onClick={handleExportar} className="btn-secondary" style={{ marginRight: '10px' }}>Exportar Configuración</button>
-        <button onClick={() => fileInputRef.current?.click()} className="btn-secondary">Importar Configuración</button>
-        <input type="file" ref={fileInputRef} onChange={handleImportar} style={{ display: 'none' }} accept=".json" />
+      <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', width: '100%' }}>
+        {options
+          .filter(option => option.path === '/logout')
+          .map((option, index) => (
+            <button
+              key={index}
+              onClick={() => handleAction(option.path)}
+              className="menu-item"
+              style={{ width: '250px' }}
+            >
+              <div className="icon-wrapper">
+                <DynamicIcon name={option.icon} />
+              </div>
+              <span>{option.title}</span>
+            </button>
+          ))}
       </div>
     </div>
   );

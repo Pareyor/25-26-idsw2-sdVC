@@ -3,14 +3,11 @@ package com.jorgestor.backend.service;
 import com.jorgestor.backend.dto.GradoDTO;
 import com.jorgestor.backend.model.Asignatura;
 import com.jorgestor.backend.model.Grado;
-<<<<<<< HEAD
 import com.jorgestor.backend.repository.AsignaturaRepository;
-=======
-import com.jorgestor.backend.model.Asignatura;
->>>>>>> f5e9e67dd430e2cc309cd3d9332b94756e591fe8
 import com.jorgestor.backend.repository.GradoRepository;
-import com.jorgestor.backend.repository.AsignaturaRepository;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,13 +17,13 @@ public class GradoService {
 
     private final GradoRepository gradoRepository;
     private final AsignaturaRepository asignaturaRepository;
+    private static final Logger logger = LoggerFactory.getLogger(GradoService.class);
 
     public GradoService(GradoRepository gradoRepository, AsignaturaRepository asignaturaRepository) {
         this.gradoRepository = gradoRepository;
         this.asignaturaRepository = asignaturaRepository;
     }
 
-<<<<<<< HEAD
     public List<GradoDTO> listarGrados(Long docenteId) {
         logger.info("DEBUG - Buscando grados para docenteId: {}", docenteId);
 
@@ -46,8 +43,6 @@ public class GradoService {
                 .map(g -> new GradoDTO(g.getId(), g.getCodigo(), g.getTitulo()))
                 .collect(Collectors.toList());
     }
-    }
-
 
     public GradoDTO obtenerGrado(Long id) {
         Grado g = gradoRepository.findById(id)
