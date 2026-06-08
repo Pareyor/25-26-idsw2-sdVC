@@ -1,4 +1,4 @@
-# Sesiones de VibeCoding / idsw2 / gII · uneatlantico / [**JORGESTOR**](https://github.com/Pareyor/25-26-idsw2-sdVC.git)
+# Sesiones de VibeCoding / idsw2 / gII · uneatlantico / [**JORGESTOR**](https://github.com/martinlopez7/25-26-IdSw1-SdR)
 
 ---
 ### 📂 Navegación del Repositorio

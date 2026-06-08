@@ -224,7 +224,8 @@
 - **Navegación:** Se actualizaron los menús en 5 archivos README para que los enlaces a Análisis y Diseño lleven al archivo README.md y el de Inicio a la raíz. Se añadió el botón `[📜 Log]` en todos los menús.
 - **Reestructuración:** El README principal se limpió de secciones administrativas (movidas a `PROTOCOLOS_IA.md`) y se añadió una presentación funcional detallada destacando las características heredadas de IdSw1 y el stack tecnológico.
 - **Enlace de Definición:** Se añadió un acceso destacado a `QUE_HACE.md` en el README principal.
+- **Actualización de Enlace:** Se cambió la URL de referencia en el título del `README.md` raíz, vinculando el proyecto con su origen en IdSw1 ([https://github.com/martinlopez7/25-26-IdSw1-SdR](https://github.com/martinlopez7/25-26-IdSw1-SdR)).
 
 **Enlace:** [Sesión 33](conversations/sesion-33.md)
 
-**Decisión:** Se validaron y aplicaron todos los cambios de diseño documental y navegación para mejorar la experiencia de usuario en el repositorio, asegurando que la transición entre el análisis, el diseño y el código sea intuitiva y esté bien referenciada.
+**Decisión:** Se validaron y aplicaron todos los cambios de diseño documental y navegación para mejorar la experiencia de usuario en el repositorio, asegurando que la transición entre el análisis, el diseño y el código sea intuitiva y esté bien referenciada. Se ajustó la referencia para mantener la trazabilidad histórica correcta del proyecto conforme a la solicitud del usuario.
