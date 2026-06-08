@@ -214,3 +214,17 @@
 
 **Decisión:** Se ha completado la documentación visual del proyecto, facilitando la comprensión de los flujos funcionales y técnicos de Jorgestor.
 
+
+## Sesión 33: [08/06/2026][20:03] Refinado de Documentación, Navegación y Reestructuración del README Principal
+
+**Prompt:** Modificar los READMEs del repositorio para incluir enlaces a los archivos PUML debajo de las imágenes (análisis y diseño), ajustar los menús de navegación para que apunten a los archivos README.md directamente, reestructurar el README principal (quitar info administrativa y añadir resumen funcional del sistema JORGESTOR) e incluir el enlace al conversation-log.md en el menú de navegación.
+
+**Resultado:**
+- **Documentación Visual:** Se añadieron enlaces `[📄 Código PUML]` debajo de cada diagrama en `documents/analisis/README.md` y `documents/diseño/README.md`.
+- **Navegación:** Se actualizaron los menús en 5 archivos README para que los enlaces a Análisis y Diseño lleven al archivo README.md y el de Inicio a la raíz. Se añadió el botón `[📜 Log]` en todos los menús.
+- **Reestructuración:** El README principal se limpió de secciones administrativas (movidas a `PROTOCOLOS_IA.md`) y se añadió una presentación funcional detallada destacando las características heredadas de IdSw1 y el stack tecnológico.
+- **Enlace de Definición:** Se añadió un acceso destacado a `QUE_HACE.md` en el README principal.
+
+**Enlace:** [Sesión 33](conversations/sesion-33.md)
+
+**Decisión:** Se validaron y aplicaron todos los cambios de diseño documental y navegación para mejorar la experiencia de usuario en el repositorio, asegurando que la transición entre el análisis, el diseño y el código sea intuitiva y esté bien referenciada.

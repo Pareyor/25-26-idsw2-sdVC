@@ -22,3 +22,26 @@ Cuando se escriba "fin" el agente debe añadir al archivo `conversation-log.md` 
 **Resultado:** lo que produjo
 
 **Decisión:** qué aceptó, qué rechazó, qué modificó, y por qué
+
+---
+
+## ARTEFACTOS Y EVALUACIÓN (Admin)
+
+### Artefactos
+
+||||
+|-|-|-|
+|0|**[`QUE_HACE.md`](QUE_HACE.md)**|En el primer commit. Luego no se modifica.|
+|1|**README.md**|Archivo principal con la presentación del sistema.|
+|2|Código fuente|`/src`, o `/backend` y `/frontend` según el stack.|
+|3|Diagramas UML|Fuentes `.puml` en `/modelosUML`. SVGs en `/images`.|
+|4|Imágenes|En `/images`, referenciadas desde el README.|
+|5|Documentación adicional|En `/documents`.|
+|6|**`conversation-log.md`**|Historial de sesiones con la IA.|
+
+### Qué se evalúa
+
+- Sistema funcional.
+- Proceso de creación, en la forma de commits.
+- `conversation-log.md`: completo, honesto, cronológico.
+- Análisis del resultado frente a los contenidos de las asignaturas.

@@ -2,7 +2,7 @@
 
 ---
 ### 📂 Navegación del Repositorio
-[**🏠 Inicio**](../README.md) | [**🔍 Análisis**](analisis) | [**🎨 Diseño**](diseño) | [**💻 Desarrollo**](../src)
+[**🏠 Inicio**](../README.md) | [**🔍 Análisis**](analisis/README.md) | [**🎨 Diseño**](diseño/README.md) | [**💻 Desarrollo**](../src) | [**📜 Log**](../conversation-log.md)
 ---
 
 Esta carpeta centraliza todos los artefactos de documentación del proyecto **Jorgestor**.

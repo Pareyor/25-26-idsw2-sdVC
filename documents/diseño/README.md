@@ -2,7 +2,7 @@
 
 ---
 ### 📂 Navegación del Repositorio
-[**🏠 Inicio**](../../README.md) | [**🔍 Análisis**](../analisis) | [**💻 Desarrollo**](../../src)
+[**🏠 Inicio**](../../README.md) | [**🔍 Análisis**](../analisis/README.md) | [**🎨 Diseño**](README.md) | [**💻 Desarrollo**](../../src) | [**📜 Log**](../../conversation-log.md)
 ---
 
 Este documento define los cimientos técnicos del sistema **Jorgestor**, asegurando la coherencia entre el análisis, el diseño e implementación final.
@@ -52,7 +52,7 @@ A continuación se detallan las interacciones técnicas entre los componentes de
 
 | Inicio de Sesión | Cerrar Sesión |
 | :---: | :---: |
-| ![Iniciar Sesión](../../images/diseño/iniciarSesion/iniciarSesion.svg) | ![Cerrar Sesión](../../images/diseño/cerrarSesion/cerrarSesion.svg) |
+| ![Iniciar Sesión](../../images/diseño/iniciarSesion/iniciarSesion.svg)<br>[📄 Código PUML](../../modelosUML/diseño/iniciarSesion/secuencia.puml) | ![Cerrar Sesión](../../images/diseño/cerrarSesion/cerrarSesion.svg)<br>[📄 Código PUML](../../modelosUML/diseño/cerrarSesion/secuencia.puml) |
 
 ---
 
@@ -61,7 +61,7 @@ A continuación se detallan las interacciones técnicas entre los componentes de
 
 | Completar Gestión |
 | :---: |
-| ![Completar Gestión](../../images/diseño/completarGestion/completarGestion.svg) |
+| ![Completar Gestión](../../images/diseño/completarGestion/completarGestion.svg)<br>[📄 Código PUML](../../modelosUML/diseño/completarGestion/secuencia.puml) |
 
 ---
 
@@ -69,11 +69,11 @@ A continuación se detallan las interacciones técnicas entre los componentes de
 
 | Ver Grados | Crear Grado |
 | :---: | :---: |
-| ![Ver Grados](../../images/diseño/verGrados/verGrados.svg) | ![Crear Grado](../../images/diseño/crearGrado/crearGrado.svg) |
+| ![Ver Grados](../../images/diseño/verGrados/verGrados.svg)<br>[📄 Código PUML](../../modelosUML/diseño/verGrados/secuencia.puml) | ![Crear Grado](../../images/diseño/crearGrado/crearGrado.svg)<br>[📄 Código PUML](../../modelosUML/diseño/crearGrado/secuencia.puml) |
 
 | Editar Grado | Eliminar Grado |
 | :---: | :---: |
-| ![Editar Grado](../../images/diseño/editarGrado/editarGrado.svg) | ![Eliminar Grado](../../images/diseño/eliminarGrado/eliminarGrado.svg) |
+| ![Editar Grado](../../images/diseño/editarGrado/editarGrado.svg)<br>[📄 Código PUML](../../modelosUML/diseño/editarGrado/secuencia.puml) | ![Eliminar Grado](../../images/diseño/eliminarGrado/eliminarGrado.svg)<br>[📄 Código PUML](../../modelosUML/diseño/eliminarGrado/secuencia.puml) |
 
 ---
 
@@ -81,11 +81,11 @@ A continuación se detallan las interacciones técnicas entre los componentes de
 
 | Ver Asignaturas | Crear Asignatura |
 | :---: | :---: |
-| ![Ver Asignaturas](../../images/diseño/verAsignaturas/verAsignaturas.svg) | ![Crear Asignatura](../../images/diseño/crearAsignatura/crearAsignatura.svg) |
+| ![Ver Asignaturas](../../images/diseño/verAsignaturas/verAsignaturas.svg)<br>[📄 Código PUML](../../modelosUML/diseño/verAsignaturas/secuencia.puml) | ![Crear Asignatura](../../images/diseño/crearAsignatura/crearAsignatura.svg)<br>[📄 Código PUML](../../modelosUML/diseño/crearAsignatura/secuencia.puml) |
 
 | Editar Asignatura | Eliminar Asignatura |
 | :---: | :---: |
-| ![Editar Asignatura](../../images/diseño/editarAsignatura/editarAsignatura.svg) | ![Eliminar Asignatura](../../images/diseño/eliminarAsignatura/eliminarAsignatura.svg) |
+| ![Editar Asignatura](../../images/diseño/editarAsignatura/editarAsignatura.svg)<br>[📄 Código PUML](../../modelosUML/diseño/editarAsignatura/secuencia.puml) | ![Eliminar Asignatura](../../images/diseño/eliminarAsignatura/eliminarAsignatura.svg)<br>[📄 Código PUML](../../modelosUML/diseño/eliminarAsignatura/secuencia.puml) |
 
 ---
 
@@ -93,11 +93,11 @@ A continuación se detallan las interacciones técnicas entre los componentes de
 
 | Ver Alumnos | Crear Alumno |
 | :---: | :---: |
-| ![Ver Alumnos](../../images/diseño/verAlumnos/verAlumnos.svg) | ![Crear Alumno](../../images/diseño/crearAlumno/crearAlumno.svg) |
+| ![Ver Alumnos](../../images/diseño/verAlumnos/verAlumnos.svg)<br>[📄 Código PUML](../../modelosUML/diseño/verAlumnos/secuencia.puml) | ![Crear Alumno](../../images/diseño/crearAlumno/crearAlumno.svg)<br>[📄 Código PUML](../../modelosUML/diseño/crearAlumno/secuencia.puml) |
 
 | Editar Alumno | Eliminar Alumno |
 | :---: | :---: |
-| ![Editar Alumno](../../images/diseño/editarAlumno/editarAlumno.svg) | ![Eliminar Alumno](../../images/diseño/eliminarAlumno/eliminarAlumno.svg) |
+| ![Editar Alumno](../../images/diseño/editarAlumno/editarAlumno.svg)<br>[📄 Código PUML](../../modelosUML/diseño/editarAlumno/secuencia.puml) | ![Eliminar Alumno](../../images/diseño/eliminarAlumno/eliminarAlumno.svg)<br>[📄 Código PUML](../../modelosUML/diseño/eliminarAlumno/secuencia.puml) |
 
 ---
 
@@ -105,11 +105,11 @@ A continuación se detallan las interacciones técnicas entre los componentes de
 
 | Ver Preguntas | Crear Pregunta |
 | :---: | :---: |
-| ![Ver Preguntas](../../images/diseño/verPreguntas/verPreguntas.svg) | ![Crear Pregunta](../../images/diseño/crearPregunta/crearPregunta.svg) |
+| ![Ver Preguntas](../../images/diseño/verPreguntas/verPreguntas.svg)<br>[📄 Código PUML](../../modelosUML/diseño/verPreguntas/secuencia.puml) | ![Crear Pregunta](../../images/diseño/crearPregunta/crearPregunta.svg)<br>[📄 Código PUML](../../modelosUML/diseño/crearPregunta/secuencia.puml) |
 
 | Editar Pregunta | Eliminar Pregunta |
 | :---: | :---: |
-| ![Editar Pregunta](../../images/diseño/editarPregunta/editarPregunta.svg) | ![Eliminar Pregunta](../../images/diseño/eliminarPregunta/eliminarPregunta.svg) |
+| ![Editar Pregunta](../../images/diseño/editarPregunta/editarPregunta.svg)<br>[📄 Código PUML](../../modelosUML/diseño/editarPregunta/secuencia.puml) | ![Eliminar Pregunta](../../images/diseño/eliminarPregunta/eliminarPregunta.svg)<br>[📄 Código PUML](../../modelosUML/diseño/eliminarPregunta/secuencia.puml) |
 
 ---
 
@@ -117,11 +117,11 @@ A continuación se detallan las interacciones técnicas entre los componentes de
 
 | Ver Respuestas | Crear Respuesta |
 | :---: | :---: |
-| ![Ver Respuestas](../../images/diseño/verRespustas/verRespuestas.svg) | ![Crear Respuesta](../../images/diseño/crearRespuesta/crearRespuesta.svg) |
+| ![Ver Respuestas](../../images/diseño/verRespustas/verRespuestas.svg)<br>[📄 Código PUML](../../modelosUML/diseño/verRespuestas/secuencia.puml) | ![Crear Respuesta](../../images/diseño/crearRespuesta/crearRespuesta.svg)<br>[📄 Código PUML](../../modelosUML/diseño/crearRespuesta/secuencia.puml) |
 
 | Editar Respuesta | Eliminar Respuesta |
 | :---: | :---: |
-| ![Editar Respuesta](../../images/diseño/editarRespuesta/editarRespuesta.svg) | ![Eliminar Respuesta](../../images/diseño/eliminarRespuesta/eliminarRespuesta.svg) |
+| ![Editar Respuesta](../../images/diseño/editarRespuesta/editarRespuesta.svg)<br>[📄 Código PUML](../../modelosUML/diseño/editarRespuesta/secuencia.puml) | ![Eliminar Respuesta](../../images/diseño/eliminarRespuesta/eliminarRespuesta.svg)<br>[📄 Código PUML](../../modelosUML/diseño/eliminarRespuesta/secuencia.puml) |
 
 ---
 
@@ -129,11 +129,11 @@ A continuación se detallan las interacciones técnicas entre los componentes de
 
 | Generar Exámenes | Cancelar Generación |
 | :---: | :---: |
-| ![Generar Exámenes](../../images/diseño/generarExamenes/generarEamenes.svg) | ![Cancelar Generación](../../images/diseño/cancelarGeneracion/cancelarGeneracion.svg) |
+| ![Generar Exámenes](../../images/diseño/generarExamenes/generarEamenes.svg)<br>[📄 Código PUML](../../modelosUML/diseño/generarExamenes/generarExamenes.puml) | ![Cancelar Generación](../../images/diseño/cancelarGeneracion/cancelarGeneracion.svg)<br>[📄 Código PUML](../../modelosUML/diseño/cancelarGeneracion/cancelarGeneracion.puml) |
 
 | Asignar Exámenes | Corregir Exámenes |
 | :---: | :---: |
-| ![Asignar Exámenes](../../images/diseño/asignarExamenes/asignarExamenes.svg) | ![Corregir Exámenes](../../images/diseño/corregirExamenes/corregirExamenes.svg) |
+| ![Asignar Exámenes](../../images/diseño/asignarExamenes/asignarExamenes.svg)<br>[📄 Código PUML](../../modelosUML/diseño/asignarExamenes/asignarExamenes.puml) | ![Corregir Exámenes](../../images/diseño/corregirExamenes/corregirExamenes.svg)<br>[📄 Código PUML](../../modelosUML/diseño/corregirExamenes/corregirExamenes.puml) |
 
 ---
 
@@ -141,12 +141,12 @@ A continuación se detallan las interacciones técnicas entre los componentes de
 
 | Ver Docentes | Crear Docente |
 | :---: | :---: |
-| ![Ver Docentes](../../images/diseño/verDocentes/verDocentes.svg) | ![Crear Docente](../../images/diseño/crearDocente/crearDocente.svg) |
+| ![Ver Docentes](../../images/diseño/verDocentes/verDocentes.svg)<br>[📄 Código PUML](../../modelosUML/diseño/verDocentes/secuencia.puml) | ![Crear Docente](../../images/diseño/crearDocente/crearDocente.svg)<br>[📄 Código PUML](../../modelosUML/diseño/crearDocente/secuencia.puml) |
 
 | Editar Docente | Eliminar Docente |
 | :---: | :---: |
-| ![Editar Docente](../../images/diseño/editarDocente/editarDocente.svg) | ![Eliminar Docente](../../images/diseño/eliminarDocente/eliminarDocentes.svg) |
+| ![Editar Docente](../../images/diseño/editarDocente/editarDocente.svg)<br>[📄 Código PUML](../../modelosUML/diseño/editarDocente/secuencia.puml) | ![Eliminar Docente](../../images/diseño/eliminarDocente/eliminarDocentes.svg)<br>[📄 Código PUML](../../modelosUML/diseño/eliminarDocente/secuencia.puml) |
 
 | Importar Configuración | Exportar Configuración |
 | :---: | :---: |
-| ![Importar](../../images/diseño/importarConfiguracionGlobal/importarConfiguracionGlobal.svg) | ![Exportar](../../images/diseño/exportarConfiguracionGlobal/exportarConfiguracionGlobal.svg) |
+| ![Importar](../../images/diseño/importarConfiguracionGlobal/importarConfiguracionGlobal.svg)<br>[📄 Código PUML](../../modelosUML/diseño/importarConfiguracionGlobal/importarConfiguracionGlobal.puml) | ![Exportar](../../images/diseño/exportarConfiguracionGlobal/exportarConfiguracionGlobal.svg)<br>[📄 Código PUML](../../modelosUML/diseño/exportarConfiguracionGlobal/exportarConfiguracionGlobal.puml) |
