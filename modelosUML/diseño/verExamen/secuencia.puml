@@ -1,0 +1,34 @@
+@startuml verExamen-secuencia
+
+title Diagrama de Secuencia - verExamen (Diseño) - Jorgestor
+
+actor Docente
+participant "Frontend (React)" as FE
+participant "ExamenController" as Controller
+participant "ExamenService" as Service
+participant "ExamenRepository" as ExamenRepo
+
+Docente -> FE: seleccionarExamen(examenId)
+activate FE
+
+FE -> Controller: GET /api/examenes/detalle/{id}
+activate Controller
+
+Controller -> Service: obtenerDetalleExamen(id, docenteId)
+activate Service
+
+Service -> ExamenRepo: findById(id)
+activate ExamenRepo
+ExamenRepo --> Service: Optional<Examen>
+deactivate ExamenRepo
+
+Service --> Controller: DetalleExamenDTO
+deactivate Service
+
+Controller --> FE: 200 OK (DetalleExamenDTO)
+deactivate Controller
+
+FE -> FE: Renderizar detalle
+deactivate FE
+
+@enduml
