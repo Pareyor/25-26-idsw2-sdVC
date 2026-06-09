@@ -1,0 +1,34 @@
+@startuml verExamenes-secuencia
+
+title Diagrama de Secuencia - verExamenes (Diseño) - Jorgestor
+
+actor Docente
+participant "Frontend (React)" as FE
+participant "ExamenController" as Controller
+participant "ExamenService" as Service
+participant "ExamenRepository" as ExamenRepo
+
+Docente -> FE: acceder a Gestión de Exámenes
+activate FE
+
+FE -> Controller: GET /api/examenes/corregir/listar
+activate Controller
+
+Controller -> Service: obtenerTodosExamenesDocente(docenteId)
+activate Service
+
+Service -> ExamenRepo: findAll()
+activate ExamenRepo
+ExamenRepo --> Service: List<Examen>
+deactivate ExamenRepo
+
+Service --> Controller: List<Map>
+deactivate Service
+
+Controller --> FE: 200 OK (List<Map>)
+deactivate Controller
+
+FE -> FE: Agrupar por Tipo y mostrar panel
+deactivate FE
+
+@enduml
