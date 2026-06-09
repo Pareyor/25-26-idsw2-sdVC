@@ -20,7 +20,7 @@ Detallar la implementación técnica de la creación de alumnos por parte del Do
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/crearAlumno/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/crearAlumno/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/crearAlumno/secuencia.puml)|
 

@@ -20,7 +20,7 @@ Detallar la implementación técnica del listado de grados para el Docente. Este
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/verGrados/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/verGrados/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/verGrados/secuencia.puml)|
 

@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `eliminarRespuesta()` mediante el pat
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: eliminarRespuesta()](../../../modelosUML/analisis/eliminarRespuesta/eliminarRespuesta-analisis.svg)|
+|![Análisis: eliminarRespuesta()](../../../images/analisis/eliminarRespuesta/eliminarRespuesta-analisis.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 

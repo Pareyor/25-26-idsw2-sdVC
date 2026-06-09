@@ -20,7 +20,7 @@ Detallar la implementación técnica para la visualización de las respuestas as
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/verRespuestas/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/verRespuestas/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/verRespuestas/secuencia.puml)|
 

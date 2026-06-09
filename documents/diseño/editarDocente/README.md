@@ -20,7 +20,7 @@ Detallar la implementación técnica de la edición de datos de un docente exist
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/editarDocente/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/editarDocente/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/editarDocente/secuencia.puml)|
 

@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `verAlumnos()` mediante el patrón MV
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: verAlumnos()](../../../modelosUML/analisis/verAlumnos/verAlumnos-analisis.svg)|
+|![Análisis: verAlumnos()](../../../images/analisis/verAlumnos/verAlumnos-analisis.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 

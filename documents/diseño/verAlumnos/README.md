@@ -20,7 +20,7 @@ Detallar la implementación técnica del listado de alumnos para el Docente. Est
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/verAlumnos/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/verAlumnos/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/verAlumnos/secuencia.puml)|
 

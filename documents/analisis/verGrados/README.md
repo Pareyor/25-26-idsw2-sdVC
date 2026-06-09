@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `verGrados()` mediante el patrón MVC
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: verGrados()](../../../modelosUML/analisis/verGrados/verGrados-analisis.svg)|
+|![Análisis: verGrados()](../../../images/analisis/verGrados/verGrados-analisis.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 

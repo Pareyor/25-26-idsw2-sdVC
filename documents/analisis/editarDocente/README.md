@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `editarDocente()` mediante el patrón
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: editarDocente()](../../../modelosUML/analisis/editarDocente/editarDocente-analisis.svg)|
+|![Análisis: editarDocente()](../../../images/analisis/editarDocente/editarDocente-analisis.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -30,7 +30,7 @@ Análisis de colaboración del caso de uso `editarDocente()` mediante el patrón
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: editarDocente()](../../../modelosUML/analisis/editarDocente/secuencia.svg)|
+|![Secuencia: editarDocente()](../../../images/analisis/editarDocente/secuencia.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

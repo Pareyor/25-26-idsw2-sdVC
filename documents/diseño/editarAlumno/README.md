@@ -20,7 +20,7 @@ Detallar la implementación técnica de la edición de datos de un alumno existe
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/editarAlumno/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/editarAlumno/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/editarAlumno/secuencia.puml)|
 

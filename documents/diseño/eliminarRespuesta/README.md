@@ -20,7 +20,7 @@ Detallar la implementación técnica para la eliminación de una respuesta exist
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/eliminarRespuesta/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/eliminarRespuesta/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/eliminarRespuesta/secuencia.puml)|
 

@@ -20,7 +20,7 @@ Detallar la implementación técnica de la edición de datos de un grado académ
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/editarGrado/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/editarGrado/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/editarGrado/secuencia.puml)|
 

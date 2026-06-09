@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `completarGestion()` mediante el patr
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: completarGestion()](../../../modelosUML/analisis/completarGestion/completarGestion-analisis.svg)|
+|![Análisis: completarGestion()](../../../images/analisis/completarGestion/completarGestion-analisis.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 

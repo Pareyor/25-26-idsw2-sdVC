@@ -20,7 +20,7 @@ Detallar la implementación técnica de la eliminación de una pregunta por part
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/eliminarPregunta/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/eliminarPregunta/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/eliminarPregunta/secuencia.puml)|
 

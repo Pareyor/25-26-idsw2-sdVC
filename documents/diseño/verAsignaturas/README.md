@@ -20,7 +20,7 @@ Detallar la implementación técnica del listado de asignaturas para el Docente.
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/verAsignaturas/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/verAsignaturas/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/verAsignaturas/secuencia.puml)|
 

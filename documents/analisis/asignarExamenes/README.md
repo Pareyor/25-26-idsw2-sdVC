@@ -17,7 +17,7 @@ Análisis de colaboración del caso de uso `asignarExamenes()` mediante el patr�
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: asignarExamenes()](../../../modelosUML/analisis/asignarExamenes/colaboracion.svg)|
+|![Análisis: asignarExamenes()](../../../images/analisis/asignarExamenes/colaboracion.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -26,7 +26,7 @@ Análisis de colaboración del caso de uso `asignarExamenes()` mediante el patr�
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: asignarExamenes()](../../../modelosUML/analisis/asignarExamenes/secuencia.svg)|
+|![Secuencia: asignarExamenes()](../../../images/analisis/asignarExamenes/secuencia.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

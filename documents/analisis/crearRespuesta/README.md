@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `crearRespuesta()` mediante el patró
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: crearRespuesta()](../../../modelosUML/analisis/crearRespuesta/crearRespuesta-analisis.svg)|
+|![Análisis: crearRespuesta()](../../../images/analisis/crearRespuesta/crearRespuesta-analisis.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 

@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `verDocentes()` mediante el patrón M
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: verDocentes()](../../../modelosUML/analisis/verDocentes/verDocentes-analisis.svg)|
+|![Análisis: verDocentes()](../../../images/analisis/verDocentes/verDocentes-analisis.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 

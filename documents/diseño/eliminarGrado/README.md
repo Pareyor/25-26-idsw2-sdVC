@@ -20,7 +20,7 @@ Detallar la implementación técnica de la eliminación de un grado académico p
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/eliminarGrado/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/eliminarGrado/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/eliminarGrado/secuencia.puml)|
 

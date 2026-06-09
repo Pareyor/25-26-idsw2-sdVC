@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `crearAsignatura()` mediante el patr�
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: crearAsignatura()](../../../modelosUML/analisis/crearAsignatura/crearAsignatura-analisis.svg)|
+|![Análisis: crearAsignatura()](../../../images/analisis/crearAsignatura/crearAsignatura-analisis.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -30,7 +30,7 @@ Análisis de colaboración del caso de uso `crearAsignatura()` mediante el patr�
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: crearAsignatura()](../../../modelosUML/analisis/crearAsignatura/secuencia.svg)|
+|![Secuencia: crearAsignatura()](../../../images/analisis/crearAsignatura/secuencia.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

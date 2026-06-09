@@ -20,7 +20,7 @@ Detallar el proceso de cierre de sesión, asegurando que el cliente elimine las 
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/cerrarSesion/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/cerrarSesion/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/cerrarSesion/secuencia.puml)|
 

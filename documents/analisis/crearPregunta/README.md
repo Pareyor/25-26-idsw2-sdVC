@@ -17,7 +17,7 @@ Análisis de colaboración del caso de uso `crearPregunta()` mediante el patrón
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: crearPregunta()](../../../modelosUML/analisis/crearPregunta/colaboracion.svg)|
+|![Análisis: crearPregunta()](../../../images/analisis/crearPregunta/colaboracion.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -26,7 +26,7 @@ Análisis de colaboración del caso de uso `crearPregunta()` mediante el patrón
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: crearPregunta()](../../../modelosUML/analisis/crearPregunta/secuencia.svg)|
+|![Secuencia: crearPregunta()](../../../images/analisis/crearPregunta/secuencia.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

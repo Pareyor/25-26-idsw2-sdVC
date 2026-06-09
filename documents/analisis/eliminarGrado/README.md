@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `eliminarGrado()` mediante el patrón
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: eliminarGrado()](../../../modelosUML/analisis/eliminarGrado/eliminarGrado-analisis.svg)|
+|![Análisis: eliminarGrado()](../../../images/analisis/eliminarGrado/eliminarGrado-analisis.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 

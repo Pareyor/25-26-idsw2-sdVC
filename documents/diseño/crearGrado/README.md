@@ -20,7 +20,7 @@ Detallar la implementación técnica de la creación de grados académicos por p
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/crearGrado/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/crearGrado/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/crearGrado/secuencia.puml)|
 

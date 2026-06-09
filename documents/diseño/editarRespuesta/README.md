@@ -20,7 +20,7 @@ Detallar la implementación técnica para la modificación de una respuesta exis
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/editarRespuesta/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/editarRespuesta/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/editarRespuesta/secuencia.puml)|
 

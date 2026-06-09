@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `editarAlumno()` mediante el patrón 
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: editarAlumno()](../../../modelosUML/analisis/editarAlumno/editarAlumno-analisis.svg)|
+|![Análisis: editarAlumno()](../../../images/analisis/editarAlumno/editarAlumno-analisis.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -30,7 +30,7 @@ Análisis de colaboración del caso de uso `editarAlumno()` mediante el patrón 
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: editarAlumno()](../../../modelosUML/analisis/editarAlumno/secuencia.svg)|
+|![Secuencia: editarAlumno()](../../../images/analisis/editarAlumno/secuencia.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

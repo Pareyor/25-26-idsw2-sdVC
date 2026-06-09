@@ -20,7 +20,7 @@ Detallar la implementación técnica de la edición de datos de una asignatura e
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../modelosUML/diseño/editarAsignatura/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/editarAsignatura/secuencia.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/editarAsignatura/secuencia.puml)|
 

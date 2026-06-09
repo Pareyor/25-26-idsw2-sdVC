@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `editarAsignatura()` mediante el patr
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: editarAsignatura()](../../../modelosUML/analisis/editarAsignatura/editarAsignatura-analisis.svg)|
+|![Análisis: editarAsignatura()](../../../images/analisis/editarAsignatura/editarAsignatura-analisis.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -30,7 +30,7 @@ Análisis de colaboración del caso de uso `editarAsignatura()` mediante el patr
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: editarAsignatura()](../../../modelosUML/analisis/editarAsignatura/secuencia.svg)|
+|![Secuencia: editarAsignatura()](../../../images/analisis/editarAsignatura/secuencia.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 
