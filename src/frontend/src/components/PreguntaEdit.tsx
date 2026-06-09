@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { getPregunta, updatePregunta } from '../services/pregunta.service';
 import { getAsignaturas } from '../services/asignatura.service';
 import type { Asignatura } from '../services/asignatura.service';
@@ -23,6 +23,8 @@ const PreguntaEdit: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const initialContext = useRef((location.state as { asignaturaId?: number })?.asignaturaId);
 
   useEffect(() => {
     if (id) {
@@ -88,7 +90,11 @@ const PreguntaEdit: React.FC = () => {
 
     try {
       await updatePregunta(parseInt(id!), pregunta as any);
-      navigate('/preguntas');
+      if (initialContext.current) {
+        navigate('/preguntas', { state: { asignaturaId: initialContext.current } });
+      } else {
+        navigate('/preguntas');
+      }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Error al actualizar la pregunta.');
     } finally {
@@ -102,7 +108,7 @@ const PreguntaEdit: React.FC = () => {
     <div className="form-container" style={{maxWidth: '800px'}}>
       <div className="form-header-actions">
         <button 
-          onClick={() => navigate('/preguntas')}
+          onClick={() => initialContext.current ? navigate('/preguntas', { state: { asignaturaId: initialContext.current } }) : navigate('/preguntas')}
           className="btn-icon"
           title="Volver"
         >

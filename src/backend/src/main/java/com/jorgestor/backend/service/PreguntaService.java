@@ -29,6 +29,16 @@ public class PreguntaService {
                 .collect(Collectors.toList());
     }
 
+    public List<PreguntaDTO> getPreguntasPorAsignatura(Long asignaturaId, Long docenteId) {
+        Asignatura asignatura = asignaturaService.findEntityById(asignaturaId);
+        if (asignatura.getProfesor() == null || !asignatura.getProfesor().getId().equals(docenteId)) {
+            throw new RuntimeException("No tiene permisos para ver preguntas de esta asignatura");
+        }
+        return preguntaRepository.findByAsignaturaId(asignaturaId).stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
     public PreguntaDTO obtenerPregunta(Long id, Long docenteId) {
         Pregunta p = preguntaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pregunta no encontrada"));

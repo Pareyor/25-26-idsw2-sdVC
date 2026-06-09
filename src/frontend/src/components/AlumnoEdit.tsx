@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 import { getAlumno, updateAlumno } from '../services/alumno.service';
 import { getGrados } from '../services/grado.service';
+import { authHeader } from '../services/auth.service';
 import type { Alumno } from '../services/alumno.service';
 import { ArrowLeft, Save, User } from 'lucide-react';
 import './Formularios.css';
@@ -14,6 +16,9 @@ const AlumnoEdit: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
+
+  const [examenes, setExamenes] = useState<any[]>([]);
+  const [showExamenes, setShowExamenes] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -98,10 +103,13 @@ const AlumnoEdit: React.FC = () => {
             </select>
           </div>
 
-          <div className="form-actions">
+          <div className="form-actions" style={{ display: 'flex', gap: '10px', marginTop: '1rem' }}>
             <button type="submit" disabled={saving} className="btn btn-primary">
               <Save size={20} />
               <span>{saving ? 'Guardando...' : 'Actualizar Alumno'}</span>
+            </button>
+            <button type="button" onClick={() => navigate(`/alumnos/${id}/examenes`)} className="btn btn-secondary">
+              Ver Exámenes Corregidos
             </button>
           </div>
         </form>

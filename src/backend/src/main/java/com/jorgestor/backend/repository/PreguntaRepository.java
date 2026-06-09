@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface PreguntaRepository extends JpaRepository<Pregunta, Long> {
     List<Pregunta> findByAsignaturaProfesorId(Long profesorId);
+    List<Pregunta> findByAsignaturaId(Long asignaturaId);
     List<Pregunta> findByAsignaturaIdAndTemaIn(Long asignaturaId, List<String> temas);
     
     @org.springframework.data.jpa.repository.Query("SELECT DISTINCT p.tema FROM Pregunta p WHERE p.asignatura.id = :asignaturaId")

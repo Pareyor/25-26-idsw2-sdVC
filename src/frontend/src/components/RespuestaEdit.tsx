@@ -56,60 +56,54 @@ const RespuestaEdit: React.FC = () => {
   if (loading) return <div className="p-8 text-center">Cargando respuesta...</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
-      <div className="max-w-xl mx-auto">
-        <div className="flex items-center gap-4 mb-8">
-          <button 
+    <div className="list-container">
+      <div className="form-header">
+        <button 
             onClick={() => navigate(`/preguntas/editar/${preguntaId}`)}
-            className="p-2 hover:bg-gray-200 rounded-full transition-colors"
-          >
+            className="btn-icon"
+        >
             <ArrowLeft size={24} />
-          </button>
-          <h1 className="text-3xl font-bold text-gray-800">Editar Opción</h1>
+        </button>
+        <h2>Editar Opción de Respuesta</h2>
+      </div>
+
+      <form onSubmit={handleSubmit} className="standard-form">
+        <div className="form-card">
+          <div className="form-group">
+            <label>Contenido de la respuesta</label>
+            <textarea
+              required
+              className="form-control"
+              value={respuesta.opcion}
+              onChange={(e) => setRespuesta({...respuesta, opcion: e.target.value})}
+              rows={3}
+              placeholder="Escribe aquí el contenido de la respuesta..."
+            />
+          </div>
+
+          <div className="form-group-checkbox">
+            <input 
+              type="checkbox" 
+              id="esCorrecta"
+              className="form-checkbox"
+              checked={respuesta.esCorrecta} 
+              onChange={(e) => setRespuesta({...respuesta, esCorrecta: e.target.checked})} 
+            />
+            <label htmlFor="esCorrecta">
+              Marcar como respuesta correcta
+            </label>
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
-          <div className="p-6 bg-blue-600 text-white flex items-center gap-3">
-            <MessageSquare size={24} />
-            <h2 className="text-xl font-semibold">Modificar Contenido</h2>
-          </div>
+        {error && <div className="error-message">{error}</div>}
 
-          <div className="p-6 space-y-6">
-            {error && <div className="bg-red-50 text-red-600 p-4 rounded-lg text-sm">{error}</div>}
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Contenido de la respuesta</label>
-              <textarea
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                value={respuesta.opcion}
-                onChange={(e) => setRespuesta({...respuesta, opcion: e.target.value})}
-                rows={3}
-              />
-            </div>
-
-            <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border border-gray-100">
-              <input 
-                type="checkbox" 
-                id="esCorrecta"
-                className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
-                checked={respuesta.esCorrecta} 
-                onChange={(e) => setRespuesta({...respuesta, esCorrecta: e.target.checked})} 
-              />
-              <label htmlFor="esCorrecta" className="font-medium text-gray-700 cursor-pointer">
-                Esta opción es correcta
-              </label>
-            </div>
-
-            <div className="flex justify-end pt-4 border-t">
-              <button type="submit" disabled={saving} className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                <Save size={20} />
-                <span>{saving ? 'Guardando...' : 'Guardar Cambios'}</span>
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
+        <div className="form-actions">
+          <button type="submit" disabled={saving} className="btn btn-primary">
+            <Save size={20} />
+            <span>{saving ? 'Guardando...' : 'Guardar Cambios'}</span>
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

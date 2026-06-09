@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ExamenRepository extends JpaRepository<Examen, Long> {
     List<Examen> findByEstado(EstadoExamen estado);
+    List<Examen> findByAlumnoIdAndEstado(Long alumnoId, EstadoExamen estado);
 }

@@ -23,6 +23,12 @@ export const getPreguntas = () => {
   });
 };
 
+export const getPreguntasByAsignatura = (asignaturaId: number) => {
+  return axios.get<PreguntaDTO[]>(`${API_URL}/asignatura/${asignaturaId}`, {
+    headers: getAuthHeader()
+  });
+};
+
 export const getPregunta = (id: number) => {
   return axios.get<PreguntaDTO>(`${API_URL}/${id}`, { 
     headers: getAuthHeader() 

@@ -30,6 +30,12 @@ public class PreguntaController {
         return ResponseEntity.ok(preguntaService.getAllPreguntas(getCurrentUserId()));
     }
 
+    @GetMapping("/asignatura/{asignaturaId}")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<List<PreguntaDTO>> getPreguntasByAsignatura(@PathVariable Long asignaturaId) {
+        return ResponseEntity.ok(preguntaService.getPreguntasPorAsignatura(asignaturaId, getCurrentUserId()));
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<PreguntaDTO> getPregunta(@PathVariable Long id) {

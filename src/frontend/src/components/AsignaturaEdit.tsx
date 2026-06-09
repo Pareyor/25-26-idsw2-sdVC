@@ -3,7 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getAsignatura, updateAsignatura } from '../services/asignatura.service';
 import { getGrados } from '../services/grado.service';
 import type { Grado } from '../services/grado.service';
-import { ArrowLeft, Save, BookOpen } from 'lucide-react';
+import { ArrowLeft, Save, BookOpen, ClipboardCheck, GraduationCap, HelpCircle } from 'lucide-react';
+import examenService from '../services/examen.service';
 import './Formularios.css';
 
 const AsignaturaEdit: React.FC = () => {
@@ -43,6 +44,15 @@ const AsignaturaEdit: React.FC = () => {
     } catch (err: any) {
       setError('Error al cargar los datos.');
       setLoading(false);
+    }
+  };
+
+  const handleCorregirAsignatura = async (id: number) => {
+    try {
+      await examenService.corregirPorAsignatura(id);
+      alert('Exámenes de la asignatura corregidos con éxito.');
+    } catch (err) {
+      alert('Error al corregir los exámenes de la asignatura.');
     }
   };
 
@@ -90,6 +100,31 @@ const AsignaturaEdit: React.FC = () => {
           <ArrowLeft size={24} />
         </button>
         <h1>Editar Asignatura</h1>
+      </div>
+
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '2rem' }}>
+          <button 
+              onClick={() => navigate(`/examenes/generar`, { state: { asignaturaId: parseInt(id!) } })}
+              className="btn btn-secondary"
+              title="Generar y Asignar Exámenes"
+          >
+              <ClipboardCheck size={18} /> Generar Exámenes
+          </button>
+          <button 
+              onClick={() => navigate(`/examenes/corregir`, { state: { asignaturaNombre: asignatura.titulo, asignaturaId: id } })}
+              className="btn btn-secondary"
+              title="Corregir Exámenes"
+          >
+              <GraduationCap size={18} /> Corregir Exámenes
+          </button>
+
+          <button
+              type="button"
+              onClick={() => navigate('/preguntas', { state: { asignaturaId: parseInt(id!) } })}
+              className="btn btn-secondary"
+          >
+              <HelpCircle size={18} /> Ver Preguntas
+          </button>
       </div>
 
       <form onSubmit={handleSubmit} className="standard-form">

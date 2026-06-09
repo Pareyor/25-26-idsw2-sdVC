@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { createPregunta } from '../services/pregunta.service';
 import { getAsignaturas } from '../services/asignatura.service';
 import type { Asignatura } from '../services/asignatura.service';
@@ -9,11 +9,16 @@ import { ArrowLeft, Save, PlusCircle, Trash2, HelpCircle } from 'lucide-react';
 import './Formularios.css';
 
 const PreguntaCreate: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as { asignaturaId?: number };
+  const initialAsignaturaId = state?.asignaturaId || 0;
+
   const [pregunta, setPregunta] = useState({
     enunciado: '',
     tema: '',
     dificultad: Dificultad.FACIL,
-    asignaturaId: 0,
+    asignaturaId: initialAsignaturaId,
     respuestas: [] as Respuesta[],
   });
   const [asignaturas, setAsignaturas] = useState<Asignatura[]>([]);
@@ -21,7 +26,6 @@ const PreguntaCreate: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingAsignaturas, setLoadingAsignaturas] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchAsignaturas();
@@ -81,7 +85,7 @@ const PreguntaCreate: React.FC = () => {
 
     try {
       await createPregunta(pregunta);
-      navigate('/preguntas');
+      navigate('/preguntas', { state: { asignaturaId: pregunta.asignaturaId } });
     } catch (err: any) {
       setError('Error al crear la pregunta.');
     } finally {
@@ -93,7 +97,7 @@ const PreguntaCreate: React.FC = () => {
     <div className="form-container" style={{maxWidth: '800px'}}>
       <div className="form-header-actions">
         <button 
-          onClick={() => navigate('/preguntas')}
+          onClick={() => navigate('/preguntas', { state: { asignaturaId: initialAsignaturaId } })}
           className="btn-icon"
           title="Volver"
         >

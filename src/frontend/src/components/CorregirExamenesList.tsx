@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import examenService from '../services/examen.service';
 import './Listas.css';
 
@@ -9,10 +9,25 @@ const CorregirExamenesList: React.FC = () => {
   const [expandedAsignatura, setExpandedAsignatura] = useState<string | null>(null);
   const [filtroEstado, setFiltroEstado] = useState<string>('TODOS');
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as { asignaturaNombre?: string, asignaturaId?: string };
+  const initialAsignatura = state?.asignaturaNombre;
 
   useEffect(() => {
-    fetchExamenes();
+    console.log("DEBUG - CorregirExamenesList mounted. Location state:", location.state);
+    if (!initialAsignatura) {
+      console.log("DEBUG - Redirigiendo al dashboard por falta de asignatura");
+      navigate('/dashboard');
+    } else {
+      fetchExamenes();
+    }
   }, []);
+
+  useEffect(() => {
+    if (initialAsignatura && !loading) {
+      setExpandedAsignatura(initialAsignatura);
+    }
+  }, [initialAsignatura, loading]);
 
   const fetchExamenes = () => {
     examenService.getExamenesParaCorregir().then(
@@ -27,23 +42,14 @@ const CorregirExamenesList: React.FC = () => {
     );
   };
 
-  const handleCorregir = (examenId: number) => {
-    examenService.corregirExamen(examenId).then(
-      response => {
-        alert(`Examen corregido. Nota: ${response.data.notaFinal}`);
-        fetchExamenes();
-      },
-      error => {
-        console.error(error);
-        alert('Error al corregir examen');
-      }
-    );
-  };
-
   const handleCorregirTodos = () => {
-    examenService.corregirTodos().then(
+    const action = initialAsignatura 
+      ? examenService.corregirPorAsignatura(parseInt(location.state.asignaturaId)) 
+      : examenService.corregirTodos();
+
+    action.then(
       () => {
-        alert('Todos los exámenes han sido corregidos');
+        alert('Los exámenes han sido corregidos');
         fetchExamenes();
       },
       error => {
@@ -53,21 +59,35 @@ const CorregirExamenesList: React.FC = () => {
     );
   };
 
+  const handleVolver = () => {
+    if (state?.asignaturaId) {
+      navigate(`/asignaturas/editar/${state.asignaturaId}`);
+    } else {
+      navigate('/dashboard');
+    }
+  };
+
   if (loading) return <div>Cargando...</div>;
 
-  const examenesPorAsignatura = examenes
-    .filter(e => filtroEstado === 'TODOS' || e.estado === filtroEstado)
+  const examenesPorTipo = examenes
+    .filter(e => {
+        const estadoMatches = filtroEstado === 'TODOS' || e.estado === filtroEstado;
+        const asignaturaMatches = !initialAsignatura || e.asignatura === initialAsignatura;
+        return estadoMatches && asignaturaMatches;
+    })
     .reduce((acc: any, curr: any) => {
-      (acc[curr.asignatura] = acc[curr.asignatura] || []).push(curr);
+      (acc[curr.tipo] = acc[curr.tipo] || []).push(curr);
       return acc;
     }, {});
 
   return (
     <div className="list-container">
-      <h2>Gestión de Exámenes</h2>
+      <h2>{initialAsignatura ? `Corregir Exámenes: ${initialAsignatura}` : 'Gestión de Exámenes'}</h2>
       <div style={{marginBottom: '20px'}}>
-        <button onClick={() => navigate('/dashboard')} className="btn-edit" style={{marginRight: '10px'}}>Volver al Panel</button>
-        <button onClick={handleCorregirTodos} className="btn-edit" style={{marginRight: '10px'}}>Corregir Todos con IA</button>
+        <button onClick={handleVolver} className="btn-edit" style={{marginRight: '10px'}}>Volver</button>
+        <button onClick={handleCorregirTodos} className="btn-edit" style={{marginRight: '10px'}}>
+            {initialAsignatura ? 'Corregir Asignatura con IA' : 'Corregir Todos con IA'}
+        </button>
         
         <select value={filtroEstado} onChange={(e) => setFiltroEstado(e.target.value)} className="btn-edit">
           <option value="TODOS">Todos</option>
@@ -76,50 +96,46 @@ const CorregirExamenesList: React.FC = () => {
         </select>
       </div>
       
-      {Object.keys(examenesPorAsignatura).length === 0 ? (
+      {Object.keys(examenesPorTipo).length === 0 ? (
         <p>No hay exámenes encontrados con el filtro seleccionado.</p>
       ) : (
-        Object.keys(examenesPorAsignatura).map(asignatura => (
-          <div key={asignatura} style={{marginBottom: '10px', border: '1px solid #ccc', padding: '10px'}}>
+        Object.keys(examenesPorTipo).map(tipo => (
+          <div key={tipo} style={{marginBottom: '10px', border: '1px solid #ccc', padding: '10px'}}>
             <h3 
-              onClick={() => setExpandedAsignatura(expandedAsignatura === asignatura ? null : asignatura)}
+              onClick={() => setExpandedAsignatura(expandedAsignatura === tipo ? null : tipo)}
               style={{cursor: 'pointer', color: '#007bff'}}
             >
-              {expandedAsignatura === asignatura ? '▼' : '▶'} Asignatura: {asignatura}
+              {expandedAsignatura === tipo ? '▼' : '▶'} Tipo de Examen: {tipo}
             </h3>
             
-            {expandedAsignatura === asignatura && (
+            {expandedAsignatura === tipo && (
               <table>
                 <thead>
                   <tr>
                     <th>Alumno</th>
                     <th>Grado</th>
-                    <th>Tipo</th>
+                    <th>Asignatura</th>
                     <th>Estado</th>
                     <th>Nota</th>
                     <th>Acciones</th>
-                    <th>Detalle</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {examenesPorAsignatura[asignatura].map((e: any) => (
+                  {examenesPorTipo[tipo].map((e: any) => (
                     <tr key={e.id}>
                       <td>{e.alumno}</td>
                       <td>{e.grado}</td>
-                      <td>{e.tipo}</td>
+                      <td>{e.asignatura}</td>
                       <td>{e.estado}</td>
                       <td>{e.estado === 'CORREGIDO' ? e.notaFinal : '-'}</td>
                       <td>
                         <div style={{ display: 'flex', gap: '5px' }}>
                           <button 
-                            onClick={() => navigate(`/examenes/detalle/${e.id}`)} 
+                            onClick={() => navigate(`/examenes/detalle/${e.id}`, { state: location.state })} 
                             className="btn-edit"
                           >
                             {e.estado === 'CORREGIDO' ? 'Ver Detalle' : 'Ver Examen'}
                           </button>
-                          {e.estado === 'ASIGNADO' && (
-                            <button onClick={() => handleCorregir(e.id)} className="btn-edit">Corregir</button>
-                          )}
                         </div>
                       </td>
                     </tr>

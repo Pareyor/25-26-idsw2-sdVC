@@ -51,7 +51,8 @@ public class ExamenController {
                         b.getAsignatura().getId(),
                         b.getGrado() != null ? b.getGrado().getId() : null,
                         b.getTipoExamen(),
-                        b.getClave()
+                        b.getClave(),
+                        b.getPreguntas() != null ? b.getPreguntas().size() : 0
                 ))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
@@ -103,11 +104,41 @@ public class ExamenController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/corregir/asignatura/{asignaturaId}")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<Void> corregirPorAsignatura(@PathVariable Long asignaturaId) {
+        Long docenteId = getCurrentUserId();
+        examenService.corregirExamenesPorAsignatura(asignaturaId, docenteId);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/detalle/{examenId}")
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public ResponseEntity<DetalleExamenDTO> obtenerDetalleExamen(@PathVariable Long examenId) {
         Long docenteId = getCurrentUserId();
         return ResponseEntity.ok(examenService.obtenerDetalleExamen(examenId, docenteId));
+    }
+
+    @GetMapping("/alumno/{alumnoId}/corregidos")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<List<Map<String, Object>>> obtenerExamenesCorregidosPorAlumno(@PathVariable Long alumnoId) {
+        List<Examen> examenes = examenService.obtenerExamenesCorregidosPorAlumno(alumnoId);
+        List<Map<String, Object>> response = examenes.stream().map(e -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", e.getId());
+            map.put("asignatura", e.getAsignatura().getTitulo());
+            map.put("tipo", e.getTipoExamen());
+            map.put("notaFinal", e.getNotaFinal());
+            return map;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/detalle-borrador/{borradorId}")
+    @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
+    public ResponseEntity<DetalleExamenDTO> obtenerDetalleBorrador(@PathVariable Long borradorId) {
+        Long docenteId = getCurrentUserId();
+        return ResponseEntity.ok(examenService.obtenerDetalleBorrador(borradorId, docenteId));
     }
 
     @PostMapping("/corregir/{examenId}")

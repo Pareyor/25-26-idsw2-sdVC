@@ -20,6 +20,9 @@ public class ExamenBorrador {
     @Enumerated(EnumType.STRING)
     private TipoExamen tipoExamen;
 
+    @OneToMany(mappedBy = "examenBorrador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<ExamenBorradorPregunta> preguntas;
+
     private String clave;
 
     public ExamenBorrador() {}
@@ -42,4 +45,6 @@ public class ExamenBorrador {
     public void setTipoExamen(TipoExamen tipoExamen) { this.tipoExamen = tipoExamen; }
     public String getClave() { return clave; }
     public void setClave(String clave) { this.clave = clave; }
+    public java.util.List<ExamenBorradorPregunta> getPreguntas() { return preguntas; }
+    public void setPreguntas(java.util.List<ExamenBorradorPregunta> preguntas) { this.preguntas = preguntas; }
 }

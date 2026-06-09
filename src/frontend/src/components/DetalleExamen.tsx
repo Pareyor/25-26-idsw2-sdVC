@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import examenService from '../services/examen.service';
 import './Listas.css';
 
 const DetalleExamen: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
   const [detalle, setDetalle] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  
+  const isBorrador = location.pathname.includes('detalle-borrador');
 
   useEffect(() => {
     if (id) {
-      examenService.getDetalleExamen(parseInt(id)).then(
+      const fetchFunction = isBorrador ? examenService.getDetalleBorrador : examenService.getDetalleExamen;
+      fetchFunction(parseInt(id)).then(
         response => {
           setDetalle(response.data);
           setLoading(false);
@@ -22,7 +26,18 @@ const DetalleExamen: React.FC = () => {
         }
       );
     }
-  }, [id]);
+  }, [id, isBorrador]);
+
+  const handleVolverGestion = () => {
+    const from = (location.state as any)?.from;
+    if (from) {
+        navigate(from);
+    } else if (isBorrador) {
+        navigate('/examenes/previsualizar', { state: location.state });
+    } else {
+        navigate('/examenes/corregir', { state: location.state });
+    }
+  };
 
   if (loading) return <div>Cargando...</div>;
   if (!detalle) return <div>No se encontró el detalle del examen.</div>;
@@ -33,8 +48,7 @@ const DetalleExamen: React.FC = () => {
     <div className="list-container">
       <h2>{esCorregido ? 'Detalle del Examen Corregido' : 'Contenido del Examen'} - {detalle.alumno}</h2>
       {esCorregido && <h3>Nota Final: {detalle.notaFinal}</h3>}
-      <button onClick={() => navigate('/examenes/corregir')} className="btn-edit" style={{marginBottom: '10px', marginRight: '10px'}}>Volver a Gestión</button>
-      <button onClick={() => navigate('/dashboard')} className="btn-edit" style={{marginBottom: '10px'}}>Volver al Panel</button>
+      <button onClick={handleVolverGestion} className="btn-edit" style={{marginBottom: '10px', marginRight: '10px'}}>Volver a Gestión</button>
       <table>
         <thead>
           <tr>

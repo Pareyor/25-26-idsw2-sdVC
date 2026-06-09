@@ -103,7 +103,6 @@ const Dashboard: React.FC = () => {
 
       <main className="menu-grid">
         {options
-          .filter(option => option.path !== '/logout')
           .map((option, index) => (
             <button
               key={index}
@@ -117,24 +116,6 @@ const Dashboard: React.FC = () => {
             </button>
           ))}
       </main>
-
-      <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', width: '100%' }}>
-        {options
-          .filter(option => option.path === '/logout')
-          .map((option, index) => (
-            <button
-              key={index}
-              onClick={() => handleAction(option.path)}
-              className="menu-item"
-              style={{ width: '250px' }}
-            >
-              <div className="icon-wrapper">
-                <DynamicIcon name={option.icon} />
-              </div>
-              <span>{option.title}</span>
-            </button>
-          ))}
-      </div>
     </div>
   );
 };

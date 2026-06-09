@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { getPreguntas, deletePregunta } from '../services/pregunta.service';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { getPreguntas, getPreguntasByAsignatura, deletePregunta } from '../services/pregunta.service';
 import type { Pregunta } from '../types/pregunta';
 import { Search, Plus, Edit, Trash2, ArrowLeft, HelpCircle, Filter } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import { normalizeString } from '../utils/searchUtils';
 import './Listas.css';
 
@@ -12,14 +12,20 @@ const PreguntaList: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as { asignaturaId?: number };
+  const filteredAsignaturaId = state?.asignaturaId;
 
   useEffect(() => {
     fetchPreguntas();
-  }, []);
+  }, [filteredAsignaturaId]);
 
   const fetchPreguntas = async () => {
     try {
-      const response = await getPreguntas();
+      setLoading(true);
+      const response = filteredAsignaturaId 
+        ? await getPreguntasByAsignatura(filteredAsignaturaId)
+        : await getPreguntas();
       setPreguntas(response.data);
       setLoading(false);
     } catch (err) {
@@ -63,7 +69,7 @@ const PreguntaList: React.FC = () => {
       <div className="list-header">
         <div className="flex-row-center gap-4">
           <button 
-            onClick={() => navigate('/dashboard')}
+            onClick={() => filteredAsignaturaId ? navigate(`/asignaturas/editar/${filteredAsignaturaId}`) : navigate('/dashboard')}
             className="btn-icon"
             title="Volver"
           >
@@ -71,11 +77,11 @@ const PreguntaList: React.FC = () => {
           </button>
           <div className="flex-row-center gap-3">
               <HelpCircle className="icon-primary" size={32} />
-              <h2>Batería de Preguntas</h2>
+              <h2>{filteredAsignaturaId ? 'Preguntas de la Asignatura' : 'Batería de Preguntas'}</h2>
           </div>
         </div>
         <button 
-          onClick={() => navigate('/preguntas/nuevo')}
+          onClick={() => navigate('/preguntas/nuevo', { state: { asignaturaId: filteredAsignaturaId } })}
           className="btn btn-primary"
         >
           <Plus size={20} />
@@ -128,7 +134,7 @@ const PreguntaList: React.FC = () => {
                 </td>
                 <td className="action-btns">
                   <button 
-                    onClick={() => navigate(`/preguntas/editar/${pregunta.id}`)}
+                    onClick={() => navigate(`/preguntas/editar/${pregunta.id}`, { state: { asignaturaId: filteredAsignaturaId } })}
                     className="btn-icon" 
                     title="Editar"
                   >

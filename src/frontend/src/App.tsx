@@ -22,6 +22,8 @@ import GenerarExamenes from './components/GenerarExamenes';
 import ConfirmarAsignacion from './components/ConfirmarAsignacion';
 import CorregirExamenesList from './components/CorregirExamenesList';
 import DetalleExamen from './components/DetalleExamen';
+import VistaPreviaAsignacion from './components/VistaPreviaAsignacion';
+import AlumnoExamenesList from './components/AlumnoExamenesList';
 import { getCurrentUser } from './services/auth.service';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -153,6 +155,14 @@ function App() {
           } 
         />
         <Route 
+          path="/alumnos/:id/examenes" 
+          element={
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><AlumnoExamenesList /></Layout>
+            </RoleRoute>
+          } 
+        />
+        <Route 
           path="/preguntas" 
           element={
             <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
@@ -193,6 +203,14 @@ function App() {
           } 
         />
         <Route 
+          path="/examenes/previsualizar" 
+          element={
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><VistaPreviaAsignacion /></Layout>
+            </RoleRoute>
+          } 
+        />
+        <Route 
           path="/examenes/confirmar" 
           element={
             <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
@@ -205,6 +223,14 @@ function App() {
           element={
             <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
               <Layout><CorregirExamenesList /></Layout>
+            </RoleRoute>
+          } 
+        />
+        <Route 
+          path="/examenes/detalle-borrador/:id" 
+          element={
+            <RoleRoute allowedRoles={['ROLE_DOCENTE']}>
+              <Layout><DetalleExamen /></Layout>
             </RoleRoute>
           } 
         />

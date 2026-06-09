@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import * as asignaturaService from '../services/asignatura.service';
 import * as gradoService from '../services/grado.service';
 import * as preguntaService from '../services/pregunta.service';
@@ -8,6 +8,10 @@ import './GenerarExamenes.css';
 
 const GenerarExamenes: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as { asignaturaId?: number };
+  const initialAsignaturaId = state?.asignaturaId;
+
   const [asignaturas, setAsignaturas] = useState<any[]>([]);
   const [grados, setGrados] = useState<any[]>([]);
   const [temasDisponibles, setTemasDisponibles] = useState<string[]>([]);
@@ -21,9 +25,26 @@ const GenerarExamenes: React.FC = () => {
   });
 
   useEffect(() => {
-    asignaturaService.getAsignaturas().then(res => setAsignaturas(res.data));
-    gradoService.getGrados().then(res => setGrados(res.data));
-  }, []);
+    const loadInitialData = async () => {
+      const [asignRes, gradRes] = await Promise.all([
+        asignaturaService.getAsignaturas(),
+        gradoService.getGrados()
+      ]);
+      setAsignaturas(asignRes.data);
+      setGrados(gradRes.data);
+
+      if (initialAsignaturaId) {
+        const initialAsig = asignRes.data.find((a: any) => a.id === initialAsignaturaId);
+        if (initialAsig) {
+          setSelectedAsignatura(initialAsig);
+          setConfig(prev => ({ ...prev, asignaturaId: initialAsignaturaId.toString() }));
+          const temasRes = await preguntaService.getTemasByAsignatura(initialAsignaturaId);
+          setTemasDisponibles(temasRes.data);
+        }
+      }
+    };
+    loadInitialData();
+  }, [initialAsignaturaId]);
 
   const handleAsignaturaChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const asignaturaId = e.target.value;
@@ -86,7 +107,11 @@ const GenerarExamenes: React.FC = () => {
     } catch (error) {
       console.error("Error al cancelar la generación:", error);
     } finally {
-      navigate('/dashboard');
+      if (initialAsignaturaId) {
+        navigate(`/asignaturas/editar/${initialAsignaturaId}`);
+      } else {
+        navigate('/dashboard');
+      }
     }
   };
 
@@ -94,7 +119,7 @@ const GenerarExamenes: React.FC = () => {
     e.preventDefault();
     try {
       await examenService.generarExamenes(config);
-      navigate('/examenes/confirmar');
+      navigate('/examenes/previsualizar');
     } catch (error) {
       console.error(error);
       alert('Error al generar exámenes: ' + (error as any).response?.data?.message || 'Error desconocido');
@@ -107,7 +132,7 @@ const GenerarExamenes: React.FC = () => {
       <form onSubmit={handleSubmit} className="examen-form">
         <div className="form-group">
           <label>Asignatura:</label>
-          <select onChange={handleAsignaturaChange} value={config.asignaturaId}>
+          <select onChange={handleAsignaturaChange} value={config.asignaturaId} disabled={!!initialAsignaturaId}>
             <option value="">Seleccione una asignatura</option>
             {asignaturas.map(a => <option key={a.id} value={a.id}>{a.titulo}</option>)}
           </select>

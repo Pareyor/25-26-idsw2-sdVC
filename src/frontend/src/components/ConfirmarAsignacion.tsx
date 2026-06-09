@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import examenService from '../services/examen.service';
 import * as alumnoService from '../services/alumno.service';
@@ -17,6 +17,12 @@ const ConfirmarAsignacion: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Record<number, number>>({});
   const [selectedAlumnos, setSelectedAlumnos] = useState<Set<number>>(new Set());
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as { asignaturaId?: number };
+  const asignaturaIdContext = state?.asignaturaId;
+
+  // Intentamos obtener la asignatura del primer borrador
+  const asignaturaId = borradores.length > 0 ? borradores[0].asignaturaId : null;
 
   useEffect(() => {
     Promise.all([
@@ -76,10 +82,18 @@ const ConfirmarAsignacion: React.FC = () => {
     try {
       await examenService.asignarExamenes(Array.from(selectedAlumnos));
       alert('Exámenes asignados correctamente');
-      navigate('/dashboard');
+      if (asignaturaIdContext) {
+        navigate(`/asignaturas/editar/${asignaturaIdContext}`);
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       alert('Error al asignar exámenes');
     }
+  };
+
+  const handleVolver = () => {
+    navigate('/examenes/generar', { state: { asignaturaId } });
   };
 
   return (
@@ -109,7 +123,9 @@ const ConfirmarAsignacion: React.FC = () => {
           <div key={gradoId} className="list-container" style={{ marginBottom: '2rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h3>{grado ? grado.titulo : `Grado ${gradoId}`} ({seleccionadosGrado}/{borradoresGrado} asignados)</h3>
-              <button className="btn" onClick={() => seleccionarMaximo(gId)}>Seleccionar Máximo</button>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button className="btn" onClick={() => seleccionarMaximo(gId)}>Seleccionar Máximo</button>
+              </div>
             </div>
             
             <div className="search-filter-wrapper" style={{ marginTop: '1rem' }}>
@@ -165,7 +181,7 @@ const ConfirmarAsignacion: React.FC = () => {
       })}
 
       <div className="form-actions">
-        <button className="btn btn-danger" onClick={() => navigate('/examenes/generar')}>Volver</button>
+        <button className="btn btn-danger" onClick={handleVolver}>Volver</button>
       </div>
     </div>
   );

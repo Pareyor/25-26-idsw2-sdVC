@@ -38,7 +38,12 @@ public class ExamenService {
     }
 
     public GeneracionExitoDTO generarExamenes(GenerarExamenesDTO dto, Long docenteId) {
-        examenBorradorRepository.deleteAll();
+        // En lugar de deleteAll(), borramos manualmente para manejar dependencias
+        List<ExamenBorrador> borradoresExistentes = examenBorradorRepository.findAll();
+        for (ExamenBorrador borrador : borradoresExistentes) {
+            examenBorradorPreguntaRepository.deleteByExamenBorradorId(borrador.getId());
+            examenBorradorRepository.delete(borrador);
+        }
 
         Asignatura asignatura = asignaturaService.findEntityById(dto.getAsignaturaId());
         if (asignatura.getProfesor() != null && !asignatura.getProfesor().getId().equals(docenteId)) {
@@ -156,11 +161,26 @@ public class ExamenService {
         }
     }
 
+    public void corregirExamenesPorAsignatura(Long asignaturaId, Long docenteId) {
+        List<Examen> examenesPendientes = examenRepository.findAll().stream()
+                .filter(e -> e.getAsignatura().getId().equals(asignaturaId))
+                .filter(e -> e.getAsignatura().getProfesor() != null && e.getAsignatura().getProfesor().getId().equals(docenteId))
+                .filter(e -> e.getEstado() == EstadoExamen.ASIGNADO)
+                .collect(Collectors.toList());
+        for (Examen examen : examenesPendientes) {
+            corregirExamen(examen.getId(), docenteId);
+        }
+    }
+
     public List<Examen> obtenerExamenesParaCorregir(Long docenteId) {
         return examenRepository.findAll().stream()
                 .filter(e -> e.getAsignatura().getProfesor() != null && e.getAsignatura().getProfesor().getId().equals(docenteId))
                 .filter(e -> e.getEstado() == EstadoExamen.ASIGNADO)
                 .collect(Collectors.toList());
+    }
+
+    public List<Examen> obtenerExamenesCorregidosPorAlumno(Long alumnoId) {
+        return examenRepository.findByAlumnoIdAndEstado(alumnoId, EstadoExamen.CORREGIDO);
     }
 
     public List<Examen> obtenerTodosExamenesDocente(Long docenteId) {
@@ -170,8 +190,12 @@ public class ExamenService {
     }
 
     public DetalleExamenDTO obtenerDetalleExamen(Long examenId, Long docenteId) {
+        System.out.println("DEBUG - Service: Fetching examen with ID: " + examenId);
         Examen examen = examenRepository.findById(examenId)
-                .orElseThrow(() -> new RuntimeException("Examen no encontrado"));
+                .orElseThrow(() -> {
+                    System.out.println("DEBUG - Examen not found with ID: " + examenId);
+                    return new RuntimeException("Examen no encontrado");
+                });
 
         if (examen.getAsignatura().getProfesor() == null || !examen.getAsignatura().getProfesor().getId().equals(docenteId)) {
             throw new RuntimeException("No tiene permisos para ver este examen");
@@ -224,6 +248,38 @@ public class ExamenService {
             examen.getId(),
             examen.getAlumno().getNombre() + " " + examen.getAlumno().getApellidos(),
             examen.getNotaFinal(),
+            preguntasDetalle
+        );
+    }
+
+    public DetalleExamenDTO obtenerDetalleBorrador(Long borradorId, Long docenteId) {
+        ExamenBorrador borrador = examenBorradorRepository.findById(borradorId)
+                .orElseThrow(() -> new RuntimeException("Borrador no encontrado"));
+
+        if (borrador.getAsignatura().getProfesor() == null || !borrador.getAsignatura().getProfesor().getId().equals(docenteId)) {
+            throw new RuntimeException("No tiene permisos para ver este borrador");
+        }
+
+        List<DetalleExamenDTO.PreguntaDetalleDTO> preguntasDetalle = examenBorradorPreguntaRepository.findByExamenBorradorId(borradorId)
+                .stream().map(ebp -> {
+                    Pregunta p = ebp.getPregunta();
+                    List<String> opciones = p.getRespuestas().stream()
+                            .map(Respuesta::getOpcion)
+                            .collect(Collectors.toList());
+                    
+                    return new DetalleExamenDTO.PreguntaDetalleDTO(
+                        p.getEnunciado(),
+                        "PENDIENTE",
+                        false,
+                        "OCULTA",
+                        opciones
+                    );
+                }).collect(Collectors.toList());
+
+        return new DetalleExamenDTO(
+            borrador.getId(),
+            "Borrador (" + borrador.getClave() + ")",
+            0.0,
             preguntasDetalle
         );
     }

@@ -8,15 +8,17 @@ public class ExamenBorradorDTO {
     private Long gradoId;
     private TipoExamen tipoExamen;
     private String clave;
+    private int numPreguntas;
 
     public ExamenBorradorDTO() {}
 
-    public ExamenBorradorDTO(Long id, Long asignaturaId, Long gradoId, TipoExamen tipoExamen, String clave) {
+    public ExamenBorradorDTO(Long id, Long asignaturaId, Long gradoId, TipoExamen tipoExamen, String clave, int numPreguntas) {
         this.id = id;
         this.asignaturaId = asignaturaId;
         this.gradoId = gradoId;
         this.tipoExamen = tipoExamen;
         this.clave = clave;
+        this.numPreguntas = numPreguntas;
     }
 
     public Long getId() { return id; }
@@ -29,4 +31,6 @@ public class ExamenBorradorDTO {
     public void setTipoExamen(TipoExamen tipoExamen) { this.tipoExamen = tipoExamen; }
     public String getClave() { return clave; }
     public void setClave(String clave) { this.clave = clave; }
+    public int getNumPreguntas() { return numPreguntas; }
+    public void setNumPreguntas(int numPreguntas) { this.numPreguntas = numPreguntas; }
 }

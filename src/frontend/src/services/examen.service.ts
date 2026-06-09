@@ -31,8 +31,16 @@ const corregirTodos = () => {
   return axios.post(API_URL + 'corregir/todos', {}, { headers: authHeader() });
 };
 
+const corregirPorAsignatura = (asignaturaId: number) => {
+  return axios.post(API_URL + 'corregir/asignatura/' + asignaturaId, {}, { headers: authHeader() });
+};
+
 const getDetalleExamen = (examenId: number) => {
   return axios.get(API_URL + 'detalle/' + examenId, { headers: authHeader() });
+};
+
+const getDetalleBorrador = (borradorId: number) => {
+  return axios.get(API_URL + 'detalle-borrador/' + borradorId, { headers: authHeader() });
 };
 
 export default {
@@ -43,5 +51,7 @@ export default {
   getExamenesParaCorregir,
   corregirExamen,
   corregirTodos,
+  corregirPorAsignatura,
   getDetalleExamen,
+  getDetalleBorrador,
 };

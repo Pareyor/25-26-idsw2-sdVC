@@ -22,7 +22,6 @@ public class MenuService {
             options.add(new MenuOptionDTO("Alumnos", "/alumnos", "Users"));
             options.add(new MenuOptionDTO("Preguntas", "/preguntas", "HelpCircle"));
             options.add(new MenuOptionDTO("Generar Exámenes", "/examenes/generar", "FileText"));
-            options.add(new MenuOptionDTO("Corregir Exámenes", "/examenes/corregir", "CheckCircle"));
             options.add(new MenuOptionDTO("Cerrar Sesión", "/logout", "LogOut"));
         }
 
