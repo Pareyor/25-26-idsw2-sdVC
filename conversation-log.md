@@ -244,3 +244,13 @@
 **Enlace:** [Sesión 34](conversations/sesion-34.md)
 
 **Decisión:** Se optó por un aislamiento total basado en profesor_id para todos los catálogos. Se aceptó la eliminación de restricciones de unicidad en BD para favorecer la independencia de los docentes. Se validó la mejora en la gestión de exámenes al permitir la previsualización de preguntas y respuestas antes de ser corregidas.
+
+## Sesión 35: [09/06/2026][17:15] Actualización de documentación para 'verExamen' y 'verExamenes' y últimos retoques en el sistema para cumplir todas sus funciones.
+
+**Prompt:** Añadir los casos de uso de verExamenes y verExamen en el readme principal de la carpeta de analisis y diseño de documents, añadiendo las imagenes de la carpeta images.
+
+**Resultado:** Se actualizaron `documents/analisis/README.md` y `documents/diseño/README.md` para incluir los casos de uso solicitados, enlazando correctamente las imágenes SVG y los diagramas PUML correspondientes. Se corrigió un enlace roto en la sección de `eliminarDocente` del documento de diseño.
+
+**Enlace:** [Sesión 35](conversations/sesion-35.md)
+
+**Decisión:** Se aceptó la solicitud, se verificaron los paths de las imágenes y archivos PUML, y se aplicaron los cambios en ambos READMEs. Se procedió a cerrar la tarea con el protocolo 'fin'.
