@@ -2,7 +2,7 @@
 
 ---
 ### 📂 Navegación del Repositorio
-[**🏠 Inicio**](../README.md) | [**🔍 Análisis**](analisis/README.md) | [**🎨 Diseño**](diseño/README.md) | [**💻 Desarrollo**](../src) | [**📜 Log**](../conversation-log.md)
+[**🏠 Inicio**](../README.md) | [**🔍 Análisis**](analisis/README.md) | [**🎨 Diseño**](diseño/README.md) | [**💻 Desarrollo**](../src) | [**📜 Log**](../conversation-log.md) | [**🗺️ Diagrama de Contexto**](../archivosEsenciales/casos-de-uso/diagramasDeContexto/diagramaDeContextoDocente/diagramaContexto.puml)
 ---
 
 Esta carpeta centraliza todos los artefactos de documentación del proyecto **Jorgestor**.

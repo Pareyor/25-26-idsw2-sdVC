@@ -2,7 +2,7 @@
 
 ---
 ### 📂 Navegación del Repositorio
-[**🏠 Inicio**](../../README.md) | [**🔍 Análisis**](README.md) | [**🎨 Diseño**](../diseño/README.md) | [**💻 Desarrollo**](../../src) | [**📜 Log**](../../conversation-log.md)
+[**🏠 Inicio**](../../README.md) | [**🔍 Análisis**](README.md) | [**🎨 Diseño**](../diseño/README.md) | [**💻 Desarrollo**](../../src) | [**📜 Log**](../../conversation-log.md) | [**🗺️ Diagrama de Contexto**](../../archivosEsenciales/casos-de-uso/diagramasDeContexto/diagramaDeContextoDocente/diagramaContexto.puml)
 ---
 
 Esta carpeta contiene la documentación detallada del análisis de los casos de uso del sistema **Jorgestor**. Cada subdirectorio corresponde a un caso de uso específico y contiene su análisis funcional.

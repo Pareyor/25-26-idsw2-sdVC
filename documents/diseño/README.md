@@ -2,7 +2,7 @@
 
 ---
 ### 📂 Navegación del Repositorio
-[**🏠 Inicio**](../../README.md) | [**🔍 Análisis**](../analisis/README.md) | [**🎨 Diseño**](README.md) | [**💻 Desarrollo**](../../src) | [**📜 Log**](../../conversation-log.md)
+[**🏠 Inicio**](../../README.md) | [**🔍 Análisis**](../analisis/README.md) | [**🎨 Diseño**](README.md) | [**💻 Desarrollo**](../../src) | [**📜 Log**](../../conversation-log.md) | [**🗺️ Diagrama de Contexto**](../../archivosEsenciales/casos-de-uso/diagramasDeContexto/diagramaDeContextoDocente/diagramaContexto.puml)
 ---
 
 Este documento define los cimientos técnicos del sistema **Jorgestor**, asegurando la coherencia entre el análisis, el diseño e implementación final.

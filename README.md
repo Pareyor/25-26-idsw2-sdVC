@@ -2,7 +2,7 @@
 
 ---
 ### 📂 Navegación del Repositorio
-[**🔍 Análisis**](documents/analisis/README.md) | [**🎨 Diseño**](documents/diseño/README.md) | [**💻 Desarrollo**](src) | [**📜 Log**](conversation-log.md)
+[**🔍 Análisis**](documents/analisis/README.md) | [**🎨 Diseño**](documents/diseño/README.md) | [**🗺️ Diagrama de Contexto**](archivosEsenciales/casos-de-uso/diagramasDeContexto/diagramaDeContextoDocente/diagramaContexto.puml) | [**💻 Desarrollo**](src) | [**📜 Log**](conversation-log.md)
 ---
 
 ## 🚀 Presentación del Sistema
