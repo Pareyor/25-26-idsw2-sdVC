@@ -105,6 +105,10 @@ Núcleo del sistema para la generación, asignación y corrección.
 | :---: | :---: |
 | ![Asignar Exámenes](../../images/analisis/asignarExamenes/asignarExamenes.svg)<br>[📄 Código PUML](../../modelosUML/analisis/asignarExamenes/colaboracion.puml) | ![Corregir Exámenes](../../images/analisis/corregirExamenes/corregirExamenes.svg)<br>[📄 Código PUML](../../modelosUML/analisis/corregirExamenes/colaboracion.puml) |
 
+| [Ver Exámenes](verExamenes) | [Ver Examen](verExamen) |
+| :---: | :---: |
+| ![Ver Exámenes](../../images/analisis/verExamenes/verExamenes.svg)<br>[📄 Código PUML](../../modelosUML/analisis/verExamenes/colaboracion.puml) | ![Ver Examen](../../images/analisis/verExamen/verExamen.svg)<br>[📄 Código PUML](../../modelosUML/analisis/verExamen/colaboracion.puml) |
+
 ---
 
 ### ⚙️ Configuración y Sistema

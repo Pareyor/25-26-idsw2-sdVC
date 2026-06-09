@@ -135,6 +135,10 @@ A continuación se detallan las interacciones técnicas entre los componentes de
 | :---: | :---: |
 | ![Asignar Exámenes](../../images/diseño/asignarExamenes/asignarExamenes.svg)<br>[📄 Código PUML](../../modelosUML/diseño/asignarExamenes/asignarExamenes.puml) | ![Corregir Exámenes](../../images/diseño/corregirExamenes/corregirExamenes.svg)<br>[📄 Código PUML](../../modelosUML/diseño/corregirExamenes/corregirExamenes.puml) |
 
+| [Ver Exámenes](verExamenes) | [Ver Examen](verExamen) |
+| :---: | :---: |
+| ![Ver Exámenes](../../images/diseño/verExamenes/verExamenes.svg)<br>[📄 Código PUML](../../modelosUML/diseño/verExamenes/secuencia.puml) | ![Ver Examen](../../images/diseño/verExamen/verExamen.svg)<br>[📄 Código PUML](../../modelosUML/diseño/verExamen/secuencia.puml) |
+
 ---
 
 ### ⚙️ Mantenimiento de Sistema
@@ -145,7 +149,7 @@ A continuación se detallan las interacciones técnicas entre los componentes de
 
 | [Editar Docente](editarDocente) | [Eliminar Docente](eliminarDocente) |
 | :---: | :---: |
-| ![Editar Docente](../../images/diseño/editarDocente/editarDocente.svg)<br>[📄 Código PUML](../../modelosUML/diseño/editarDocente/secuencia.puml) | ![Eliminar Docente](verDocentes)<br>[📄 Código PUML](../../modelosUML/diseño/eliminarDocente/secuencia.puml) |
+| ![Editar Docente](../../images/diseño/editarDocente/editarDocente.svg)<br>[📄 Código PUML](../../modelosUML/diseño/editarDocente/secuencia.puml) | ![Eliminar Docente](../../images/diseño/eliminarDocente/eliminarDocente.svg)<br>[📄 Código PUML](../../modelosUML/diseño/eliminarDocente/secuencia.puml) |
 
 | [Importar Configuración](importarConfiguracionGlobal) | [Exportar Configuración](exportarConfiguracionGlobal) |
 | :---: | :---: |
