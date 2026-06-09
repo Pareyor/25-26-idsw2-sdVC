@@ -1,0 +1,29 @@
+@startuml verExamenes-colaboracion
+
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":SISTEMA_DISPONIBLE" as SistemaDisponible
+rectangle #CDEBA5 ":ASIGNATURA_ABIERTO" as AsignaturaAbierto
+
+package verExamenes as "verExamenes()" {
+    rectangle #629EF9 CorregirExamenesList
+    rectangle #b5bd68 ExamenController
+    rectangle #F2AC4E ExamenService
+    rectangle #F2AC4E ExamenRepository
+    rectangle #F2AC4E Examen
+}
+
+SistemaDisponible --> CorregirExamenesList: verExamenes()
+AsignaturaAbierto --> CorregirExamenesList: corregirExamenes()
+
+CorregirExamenesList -d-> ExamenController: obtenerExamenesParaCorregir() : List<Map>
+CorregirExamenesList -d-> ExamenController: corregirPorAsignatura(asignaturaId) : void
+
+ExamenController --> ExamenService: obtenerTodosExamenesDocente(docenteId) : List<Examen>
+ExamenController --> ExamenService: corregirExamenesPorAsignatura(asignaturaId, docenteId) : void
+
+ExamenService --> ExamenRepository: findAll() : List<Examen>
+
+ExamenRepository -- Examen
+
+@enduml
