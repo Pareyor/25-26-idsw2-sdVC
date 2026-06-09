@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `eliminarAlumno()` mediante el patró
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: eliminarAlumno()](../../../images/analisis/eliminarAlumno/eliminarAlumno-analisis.svg)|
+|![Análisis: eliminarAlumno()](../../../images/analisis/eliminarAlumno/eliminarAlumno.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 

@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `crearDocente()` mediante el patrón 
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: crearDocente()](../../../images/analisis/crearDocente/crearDocente-analisis.svg)|
+|![Análisis: crearDocente()](../../../images/analisis/crearDocente/crearDocenteColaboracion.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -30,7 +30,7 @@ Análisis de colaboración del caso de uso `crearDocente()` mediante el patrón 
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: crearDocente()](../../../images/analisis/crearDocente/secuencia.svg)|
+|![Secuencia: crearDocente()](../../../images/analisis/crearDocente/crearDocenteSecuencia.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

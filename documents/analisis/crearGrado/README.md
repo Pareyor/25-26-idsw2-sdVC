@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `crearGrado()` mediante el patrón MV
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: crearGrado()](../../../images/analisis/crearGrado/crearGrado-analisis.svg)|
+|![Análisis: crearGrado()](../../../images/analisis/crearGrado/crearGradoColaboracion.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -30,7 +30,7 @@ Análisis de colaboración del caso de uso `crearGrado()` mediante el patrón MV
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: crearGrado()](../../../images/analisis/crearGrado/secuencia.svg)|
+|![Secuencia: crearGrado()](../../../images/analisis/crearGrado/crearGradoSecuencia.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `eliminarPregunta()` mediante el patr
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: eliminarPregunta()](../../../images/analisis/eliminarPregunta/eliminarPregunta-analisis.svg)|
+|![Análisis: eliminarPregunta()](../../../images/analisis/eliminarPregunta/eliminarPreguntaColaboracion.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -30,7 +30,7 @@ Análisis de colaboración del caso de uso `eliminarPregunta()` mediante el patr
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: eliminarPregunta()](../../../images/analisis/eliminarPregunta/secuencia.svg)|
+|![Secuencia: eliminarPregunta()](../../../images/analisis/eliminarPregunta/eliminarPreguntaSecuencia.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

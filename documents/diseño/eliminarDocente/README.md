@@ -20,7 +20,7 @@ Detallar la implementación técnica de la eliminación de un docente por parte 
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../images/diseño/eliminarDocente/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/eliminarDocente/eliminarDocentes.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/eliminarDocente/secuencia.puml)|
 

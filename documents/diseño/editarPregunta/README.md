@@ -20,7 +20,7 @@ Detallar la implementación técnica de la edición de datos de una pregunta exi
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../images/diseño/editarPregunta/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/editarPregunta/editarPregunta.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/editarPregunta/secuencia.puml)|
 

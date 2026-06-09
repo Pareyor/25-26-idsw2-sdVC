@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `editarRespuesta()` mediante el patr�
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: editarRespuesta()](../../../images/analisis/editarRespuesta/editarRespuesta-analisis.svg)|
+|![Análisis: editarRespuesta()](../../../images/analisis/editarRespuesta/editarRespuesta.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 

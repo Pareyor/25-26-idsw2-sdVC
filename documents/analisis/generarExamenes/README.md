@@ -17,7 +17,7 @@ Análisis de colaboración del caso de uso `generarExamenes()` mediante el patr�
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: generarExamenes()](../../../images/analisis/generarExamenes/colaboracion.svg)|
+|![Análisis: generarExamenes()](../../../images/analisis/generarExamenes/generarExamenes.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -26,7 +26,7 @@ Análisis de colaboración del caso de uso `generarExamenes()` mediante el patr�
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: generarExamenes()](../../../images/analisis/generarExamenes/secuencia.svg)|
+|![Secuencia: generarExamenes()](../../../images/analisis/generarExamenes/generarExamenes.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

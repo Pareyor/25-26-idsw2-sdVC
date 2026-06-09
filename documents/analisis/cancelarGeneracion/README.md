@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `cancelarGeneracion()` mediante el pa
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: cancelarGeneracion()](../../../images/analisis/cancelarGeneracion/cancelarGeneracion-analisis.svg)|
+|![Análisis: cancelarGeneracion()](../../../images/analisis/cancelarGeneracion/cancelarGeneracion.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 

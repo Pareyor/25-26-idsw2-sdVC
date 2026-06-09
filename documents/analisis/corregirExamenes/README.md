@@ -17,7 +17,7 @@ Análisis de colaboración del caso de uso `corregirExamenes()` mediante el patr
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: corregirExamenes()](../../../images/analisis/corregirExamenes/colaboracion.svg)|
+|![Análisis: corregirExamenes()](../../../images/analisis/corregirExamenes/corregirExamenes.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -26,7 +26,7 @@ Análisis de colaboración del caso de uso `corregirExamenes()` mediante el patr
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: corregirExamenes()](../../../images/analisis/corregirExamenes/secuencia.svg)|
+|![Secuencia: corregirExamenes()](../../../images/analisis/corregirExamenes/corregirExamenes.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

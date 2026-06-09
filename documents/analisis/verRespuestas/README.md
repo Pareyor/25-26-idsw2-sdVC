@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `verRespuestas()` mediante el patrón
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: verRespuestas()](../../../images/analisis/verRespuestas/verRespuestas-analisis.svg)|
+|![Análisis: verRespuestas()](../../../images/analisis/verRespuestas/verRespuestasColaboracion.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -30,7 +30,7 @@ Análisis de colaboración del caso de uso `verRespuestas()` mediante el patrón
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: verRespuestas()](../../../images/analisis/verRespuestas/secuencia.svg)|
+|![Secuencia: verRespuestas()](../../../images/analisis/verRespuestas/verRespuestasSecuencia.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

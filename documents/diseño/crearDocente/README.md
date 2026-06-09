@@ -20,7 +20,7 @@ Detallar la implementación técnica de la creación de docentes por parte del A
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../images/diseño/crearDocente/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/crearDocente/crearDocente.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/crearDocente/secuencia.puml)|
 

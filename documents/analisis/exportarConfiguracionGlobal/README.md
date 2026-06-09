@@ -16,7 +16,7 @@ Análisis de colaboración para la exportación del estado completo del sistema.
 
 <div align=center>
 
-|![Análisis: exportarConfiguracionGlobal()](../../../images/analisis/exportarConfiguracionGlobal/colaboracion.svg)|
+|![Análisis: exportarConfiguracionGlobal()](../../../images/analisis/exportarConfiguracionGlobal/exportarConfiguracionGlobal.svg)|
 |-|
 |Código fuente: [colaboracion.puml](../../../modelosUML/analisis/exportarConfiguracionGlobal/colaboracion.puml)|
 

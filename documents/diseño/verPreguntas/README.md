@@ -20,7 +20,7 @@ Detallar la implementación técnica de la visualización de la batería de preg
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../images/diseño/verPreguntas/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/verPreguntas/verPreguntas.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/verPreguntas/secuencia.puml)|
 

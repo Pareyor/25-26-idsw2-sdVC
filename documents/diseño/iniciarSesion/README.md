@@ -20,7 +20,7 @@ Detallar la implementación técnica de la autenticación de usuarios mediante e
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../images/diseño/iniciarSesion/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/iniciarSesion/iniciarSesion.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/iniciarSesion/secuencia.puml)|
 

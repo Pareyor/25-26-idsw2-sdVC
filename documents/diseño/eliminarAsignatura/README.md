@@ -20,7 +20,7 @@ Detallar la implementación técnica de la eliminación de una asignatura por pa
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../images/diseño/eliminarAsignatura/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/eliminarAsignatura/eliminarAsignatura.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/eliminarAsignatura/secuencia.puml)|
 

@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `cerrarSesion()` mediante el patrón 
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: cerrarSesion()](../../../images/analisis/cerrarSesion/cerrarSesion-analisis.svg)|
+|![Análisis: cerrarSesion()](../../../images/analisis/cerrarSesion/cerrarSesion.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -30,7 +30,7 @@ Análisis de colaboración del caso de uso `cerrarSesion()` mediante el patrón 
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: cerrarSesion()](../../../images/analisis/cerrarSesion/secuencia.svg)|
+|![Secuencia: cerrarSesion()](../../../images/analisis/cerrarSesion/cerrarSesion.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

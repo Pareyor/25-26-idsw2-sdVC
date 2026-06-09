@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `crearAlumno()` mediante el patrón M
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: crearAlumno()](../../../images/analisis/crearAlumno/crearAlumno-analisis.svg)|
+|![Análisis: crearAlumno()](../../../images/analisis/crearAlumno/crearAlumnoColaboracion.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -30,7 +30,7 @@ Análisis de colaboración del caso de uso `crearAlumno()` mediante el patrón M
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: crearAlumno()](../../../images/analisis/crearAlumno/secuencia.svg)|
+|![Secuencia: crearAlumno()](../../../images/analisis/crearAlumno/crearAlumnoSecuencia.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

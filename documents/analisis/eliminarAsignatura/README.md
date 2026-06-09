@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `eliminarAsignatura()` mediante el pa
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: eliminarAsignatura()](../../../images/analisis/eliminarAsignatura/eliminarAsignatura-analisis.svg)|
+|![Análisis: eliminarAsignatura()](../../../images/analisis/eliminarAsignatura/eliminarAsignatura.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 

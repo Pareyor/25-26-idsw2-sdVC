@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `editarPregunta()` mediante el patró
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: editarPregunta()](../../../images/analisis/editarPregunta/editarPregunta-analisis.svg)|
+|![Análisis: editarPregunta()](../../../images/analisis/editarPregunta/editarPreguntaColaboracion.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -30,7 +30,7 @@ Análisis de colaboración del caso de uso `editarPregunta()` mediante el patró
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: editarPregunta()](../../../images/analisis/editarPregunta/secuencia.svg)|
+|![Secuencia: editarPregunta()](../../../images/analisis/editarPregunta/editarPreguntaSecuencia.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

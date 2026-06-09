@@ -16,7 +16,7 @@ Análisis de colaboración del caso de uso `importarConfiguracionGlobal()` media
 
 <div align=center>
 
-|![Análisis: importarConfiguracionGlobal()](../../../images/analisis/importarConfiguracionGlobal/colaboracion.svg)|
+|![Análisis: importarConfiguracionGlobal()](../../../images/analisis/importarConfiguracionGlobal/importarConfiguracionGlobal.svg)|
 |-|
 |Código fuente: [colaboracion.puml](../../../modelosUML/analisis/importarConfiguracionGlobal/colaboracion.puml)|
 

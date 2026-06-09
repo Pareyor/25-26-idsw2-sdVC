@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `iniciarSesion()` mediante el patrón
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: iniciarSesion()](../../../images/analisis/iniciarSesion/iniciarSesion-analisis.svg)|
+|![Análisis: iniciarSesion()](../../../images/analisis/iniciarSesion/iniciarSesion.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -30,7 +30,7 @@ Análisis de colaboración del caso de uso `iniciarSesion()` mediante el patrón
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: iniciarSesion()](../../../images/analisis/iniciarSesion/secuencia.svg)|
+|![Secuencia: iniciarSesion()](../../../images/analisis/iniciarSesion/iniciarSesion.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

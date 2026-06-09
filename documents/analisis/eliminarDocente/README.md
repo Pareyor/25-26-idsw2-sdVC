@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `eliminarDocente()` mediante el patr�
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: eliminarDocente()](../../../images/analisis/eliminarDocente/eliminarDocente-analisis.svg)|
+|![Análisis: eliminarDocente()](../../../images/analisis/eliminarDocente/eliminarDocente.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 

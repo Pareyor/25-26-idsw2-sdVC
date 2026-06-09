@@ -20,7 +20,7 @@ Detallar la implementación técnica de la vista principal del sistema (`SISTEMA
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../images/diseño/completarGestion/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/completarGestion/completarGestion.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/completarGestion/secuencia.puml)|
 

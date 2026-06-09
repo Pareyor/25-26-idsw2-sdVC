@@ -20,7 +20,7 @@ Detallar la implementación técnica del listado de docentes para el Administrad
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../images/diseño/verDocentes/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/verDocentes/verDocentes.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/verDocentes/secuencia.puml)|
 

@@ -20,7 +20,7 @@ Detallar la implementación técnica de la eliminación de un alumno por parte d
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../images/diseño/eliminarAlumno/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/eliminarAlumno/eliminarAlumno.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/eliminarAlumno/secuencia.puml)|
 

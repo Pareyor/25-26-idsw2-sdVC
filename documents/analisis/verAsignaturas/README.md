@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `verAsignaturas()` mediante el patró
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: verAsignaturas()](../../../images/analisis/verAsignaturas/verAsignaturas-analisis.svg)|
+|![Análisis: verAsignaturas()](../../../images/analisis/verAsignaturas/verAsignaturas.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 

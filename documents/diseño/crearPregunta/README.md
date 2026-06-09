@@ -20,7 +20,7 @@ Detallar la implementación técnica de la creación de preguntas por parte del 
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../images/diseño/crearPregunta/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/crearPregunta/crearPregunta.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/crearPregunta/secuencia.puml)|
 

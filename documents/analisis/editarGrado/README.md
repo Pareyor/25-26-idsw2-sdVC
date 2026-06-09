@@ -21,7 +21,7 @@ Análisis de colaboración del caso de uso `editarGrado()` mediante el patrón M
 ### diagrama de colaboración
 <div align=center>
 
-|![Análisis: editarGrado()](../../../images/analisis/editarGrado/editarGrado-analisis.svg)|
+|![Análisis: editarGrado()](../../../images/analisis/editarGrado/editarGradoColaboracion.svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -30,7 +30,7 @@ Análisis de colaboración del caso de uso `editarGrado()` mediante el patrón M
 ### diagrama de secuencia
 <div align=center>
 
-|![Secuencia: editarGrado()](../../../images/analisis/editarGrado/secuencia.svg)|
+|![Secuencia: editarGrado()](../../../images/analisis/editarGrado/editarGradoSecuencia.svg)|
 |-|
 |Código fuente: [secuencia.puml](secuencia.puml)|
 

@@ -20,7 +20,7 @@ Detallar la implementación técnica para la creación de respuestas asociadas a
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../images/diseño/crearRespuesta/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/crearRespuesta/crearRespuesta.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/crearRespuesta/secuencia.puml)|
 

@@ -20,7 +20,7 @@ Detallar la implementación técnica de la creación de asignaturas por parte de
 
 <div align=center>
 
-|![Diagrama de Secuencia](../../../images/diseño/crearAsignatura/secuencia.svg)|
+|![Diagrama de Secuencia](../../../images/diseño/crearAsignatura/crearAsignatura.svg)|
 |-|
 |[Código PlantUML](../../../modelosUML/diseño/crearAsignatura/secuencia.puml)|
 
