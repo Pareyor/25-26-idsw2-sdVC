@@ -30,35 +30,28 @@ public class AsignaturaService {
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(AsignaturaService.class);
 
     public List<AsignaturaDTO> getAllAsignaturas(Long docenteId) {
-        logger.info("DEBUG - Filtrando asignaturas para docenteId: {}", docenteId);
-        List<Asignatura> todas = asignaturaRepository.findAll();
+        logger.info("DEBUG - Buscando asignaturas para docenteId: {}", docenteId);
+        List<Asignatura> asignaturas = asignaturaRepository.findByProfesorId(docenteId);
         
-        return todas.stream()
-                .filter(a -> {
-                    boolean match = a.getProfesor() != null && a.getProfesor().getId().equals(docenteId);
-                    if (!match) {
-                        logger.info("DEBUG - Asignatura {} (ID {}) ignorada. Profesor ID esperado: {}, Profesor ID actual: {}", 
-                            a.getCodigo(), a.getId(), docenteId, 
-                            (a.getProfesor() != null ? a.getProfesor().getId() : "null"));
-                    }
-                    return match;
-                })
+        return asignaturas.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
     public AsignaturaDTO crearAsignatura(AsignaturaDTO dto, Long docenteId) {
-        // En lugar de lanzar error, buscamos si ya existe para hacer la importación idempotente
-        return asignaturaRepository.findByCodigo(dto.getCodigo())
+        // Buscamos si ya existe para este docente específico (importación idempotente)
+        return asignaturaRepository.findByCodigoAndProfesorId(dto.getCodigo(), docenteId)
                 .map(existing -> {
-                    // Actualizar el profesor de la asignatura existente al docente actual
-                    Usuario profesor = new Usuario();
-                    profesor.setId(docenteId);
-                    existing.setProfesor(profesor);
-                    return convertToDTO(asignaturaRepository.save(existing));
+                    // Si ya existe, simplemente lo devolvemos (o podríamos actualizarlo)
+                    return convertToDTO(existing);
                 })
                 .orElseGet(() -> {
-                    List<Grado> grados = dto.getGradoIds().stream().map(gradoService::findEntityById).collect(Collectors.toList());
+                    List<Grado> grados = new ArrayList<>();
+                    if (dto.getGradoIds() != null) {
+                        grados = dto.getGradoIds().stream()
+                            .map(gradoService::findEntityById)
+                            .collect(Collectors.toList());
+                    }
                     
                     Asignatura asignatura = new Asignatura(
                             dto.getCodigo(),
@@ -86,6 +79,13 @@ public class AsignaturaService {
     public AsignaturaDTO actualizarAsignatura(Long id, AsignaturaDTO dto) {
         Asignatura asignatura = asignaturaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Asignatura no encontrada"));
+
+        // Si el código cambia, verificar que el nuevo no lo tenga ya este profesor
+        if (!asignatura.getCodigo().equals(dto.getCodigo())) {
+            if (asignaturaRepository.findByCodigoAndProfesorId(dto.getCodigo(), asignatura.getProfesor().getId()).isPresent()) {
+                throw new RuntimeException("El código de asignatura ya existe para usted");
+            }
+        }
 
         asignatura.setTitulo(dto.getTitulo());
         asignatura.setCodigo(dto.getCodigo());

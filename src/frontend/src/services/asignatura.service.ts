@@ -7,6 +7,7 @@ export interface Asignatura {
   codigo: string;
   titulo: string;
   cursoAcademico: string;
+  gradoIds: number[];
 }
 
 const getAuthHeader = () => {
@@ -22,18 +23,18 @@ export const getAsignaturas = () => {
 };
 
 export const getAsignatura = (id: number) => {
-  return axios.get<Asignatura & { gradoId: number }>(`${API_URL}/${id}`, {
+  return axios.get<Asignatura>(`${API_URL}/${id}`, {
     headers: getAuthHeader()
   });
 };
 
-export const createAsignatura = (asignatura: Omit<Asignatura, 'id'> & { gradoId: number }) => {
+export const createAsignatura = (asignatura: Omit<Asignatura, 'id'>) => {
   return axios.post<Asignatura>(API_URL, asignatura, {
     headers: getAuthHeader()
   });
 };
 
-export const updateAsignatura = (id: number, asignatura: Asignatura & { gradoId: number }) => {
+export const updateAsignatura = (id: number, asignatura: Omit<Asignatura, 'id'>) => {
   return axios.put<Asignatura>(`${API_URL}/${id}`, asignatura, {
     headers: getAuthHeader()
   });

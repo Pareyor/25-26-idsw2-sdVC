@@ -177,22 +177,48 @@ public class ExamenService {
             throw new RuntimeException("No tiene permisos para ver este examen");
         }
 
-        List<ExamenRespuesta> respuestas = examenRespuestaRepository.findByExamenId(examenId);
-        
-        List<DetalleExamenDTO.PreguntaDetalleDTO> preguntasDetalle = respuestas.stream().map(er -> {
-            Pregunta p = er.getPregunta();
-            String respuestaCorrecta = p.getRespuestas().stream()
-                    .filter(Respuesta::isEsCorrecta)
-                    .map(Respuesta::getOpcion)
-                    .findFirst().orElse("N/A");
-            
-            return new DetalleExamenDTO.PreguntaDetalleDTO(
-                p.getEnunciado(),
-                er.getRespuesta().getOpcion(),
-                er.getRespuesta().isEsCorrecta(),
-                respuestaCorrecta
-            );
-        }).collect(Collectors.toList());
+        List<DetalleExamenDTO.PreguntaDetalleDTO> preguntasDetalle;
+
+        if (examen.getEstado() == EstadoExamen.CORREGIDO) {
+            List<ExamenRespuesta> respuestas = examenRespuestaRepository.findByExamenId(examenId);
+            preguntasDetalle = respuestas.stream().map(er -> {
+                Pregunta p = er.getPregunta();
+                String respuestaCorrecta = p.getRespuestas().stream()
+                        .filter(Respuesta::isEsCorrecta)
+                        .map(Respuesta::getOpcion)
+                        .findFirst().orElse("N/A");
+                
+                List<String> opciones = p.getRespuestas().stream()
+                        .map(Respuesta::getOpcion)
+                        .collect(Collectors.toList());
+                
+                return new DetalleExamenDTO.PreguntaDetalleDTO(
+                    p.getEnunciado(),
+                    er.getRespuesta().getOpcion(),
+                    er.getRespuesta().isEsCorrecta(),
+                    respuestaCorrecta,
+                    opciones
+                );
+            }).collect(Collectors.toList());
+        } else {
+            // Para exámenes ASIGNADOS (no corregidos), mostramos las preguntas y sus opciones
+            List<ExamenPregunta> examenPreguntas = examenPreguntaRepository.findByExamenId(examenId);
+            preguntasDetalle = examenPreguntas.stream().map(ep -> {
+                Pregunta p = ep.getPregunta();
+                
+                List<String> opciones = p.getRespuestas().stream()
+                        .map(Respuesta::getOpcion)
+                        .collect(Collectors.toList());
+
+                return new DetalleExamenDTO.PreguntaDetalleDTO(
+                    p.getEnunciado(),
+                    "PENDIENTE",
+                    false,
+                    "OCULTA",
+                    opciones
+                );
+            }).collect(Collectors.toList());
+        }
 
         return new DetalleExamenDTO(
             examen.getId(),

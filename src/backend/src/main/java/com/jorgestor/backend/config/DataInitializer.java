@@ -61,9 +61,50 @@ public class DataInitializer implements CommandLineRunner {
                 "Bases de Datos", new String[]{"SQL", "Modelado", "Normalización", "NoSQL"}
             );
 
+            // Datos reales para las asignaturas
+            Map<String, List<Object[]>> preguntasReales = Map.of(
+                "Programación", List.of(
+                    new Object[]{"¿Qué es una variable en programación?", "Variables", DificultadPregunta.FACIL, "Un espacio en memoria para almacenar un dato", "Un error del sistema"},
+                    new Object[]{"¿Para qué sirve un bucle 'for'?", "Bucles", DificultadPregunta.FACIL, "Para repetir un bloque de código un número determinado de veces", "Para saltar líneas de código"},
+                    new Object[]{"¿Qué es el polimorfismo en POO?", "POO", DificultadPregunta.DIFICIL, "La capacidad de un objeto de tomar varias formas", "Un tipo de variable numérica"},
+                    new Object[]{"¿Qué palabra reservada se usa para capturar una excepción?", "Excepciones", DificultadPregunta.MEDIO, "catch", "get"},
+                    new Object[]{"¿Cuál es la función del operador '&&'?", "Variables", DificultadPregunta.MEDIO, "Operador lógico AND", "Operador de suma"},
+                    new Object[]{"¿Qué es una clase abstracta?", "POO", DificultadPregunta.DIFICIL, "Una clase que no se puede instanciar directamente", "Una clase sin métodos"},
+                    new Object[]{"¿Qué hace el comando 'break'?", "Bucles", DificultadPregunta.MEDIO, "Sale inmediatamente de un bucle", "Pausa el programa"},
+                    new Object[]{"¿Qué es un constructor?", "POO", DificultadPregunta.MEDIO, "Un método especial para inicializar objetos", "Un tipo de dato"},
+                    new Object[]{"¿Qué es la recursividad?", "Bucles", DificultadPregunta.DIFICIL, "Una función que se llama a sí misma", "Un bucle infinito"},
+                    new Object[]{"¿Qué es un puntero?", "Variables", DificultadPregunta.DIFICIL, "Una variable que almacena una dirección de memoria", "Una flecha en el código"}
+                ),
+                "Software", List.of(
+                    new Object[]{"¿Qué es un requisito no funcional?", "Requisitos", DificultadPregunta.MEDIO, "Una restricción sobre los servicios o funciones del sistema", "Una característica que el usuario no quiere"},
+                    new Object[]{"¿Qué es el patrón Singleton?", "Diseño", DificultadPregunta.DIFICIL, "Garantiza que una clase tenga una única instancia", "Un patrón para crear muchas listas"},
+                    new Object[]{"¿Cuál es el objetivo de las pruebas unitarias?", "Pruebas", DificultadPregunta.FACIL, "Verificar que un componente individual funcione correctamente", "Probar todo el sistema a la vez"},
+                    new Object[]{"¿Qué significa 'escalabilidad' en arquitectura?", "Arquitectura", DificultadPregunta.MEDIO, "Capacidad del sistema para manejar un crecimiento en la carga", "Velocidad de internet"},
+                    new Object[]{"¿Qué es un diagrama de clases?", "Diseño", DificultadPregunta.FACIL, "Una representación de la estructura estática del sistema", "Un dibujo de la pantalla"},
+                    new Object[]{"¿Qué es la metodología Scrum?", "Requisitos", DificultadPregunta.FACIL, "Un marco de trabajo ágil para la gestión de proyectos", "Un lenguaje de programación"},
+                    new Object[]{"¿Qué es el 'acoplamiento' en software?", "Diseño", DificultadPregunta.DIFICIL, "El grado de interdependencia entre módulos", "La unión de cables"},
+                    new Object[]{"¿Qué es la 'cohesión'?", "Diseño", DificultadPregunta.DIFICIL, "El grado en que las tareas de un módulo están relacionadas", "La velocidad de ejecución"},
+                    new Object[]{"¿Para qué sirve un Mock?", "Pruebas", DificultadPregunta.MEDIO, "Simular el comportamiento de un objeto real", "Para decorar el código"},
+                    new Object[]{"¿Qué es un microservicio?", "Arquitectura", DificultadPregunta.DIFICIL, "Un servicio pequeño e independiente en una arquitectura distribuida", "Un programa que ocupa pocos KB"}
+                ),
+                "Bases de Datos", List.of(
+                    new Object[]{"¿Qué significa la sigla SQL?", "SQL", DificultadPregunta.FACIL, "Structured Query Language", "Simple Quality List"},
+                    new Object[]{"¿Qué es una clave primaria?", "Modelado", DificultadPregunta.FACIL, "Un campo que identifica de forma única cada registro", "La contraseña de la base de datos"},
+                    new Object[]{"¿Qué es la normalización?", "Normalización", DificultadPregunta.DIFICIL, "Proceso para organizar los datos y evitar redundancia", "Hacer que todos los datos sean iguales"},
+                    new Object[]{"¿Cuál es la diferencia entre INNER JOIN y LEFT JOIN?", "SQL", DificultadPregunta.MEDIO, "INNER devuelve coincidencias, LEFT devuelve todo de la izquierda", "No hay diferencia"},
+                    new Object[]{"¿Qué es una base de datos NoSQL?", "NoSQL", DificultadPregunta.MEDIO, "Una base de datos que no usa el modelo relacional tradicional", "Una base de datos que no usa SQL para nada"},
+                    new Object[]{"¿Qué es una transacción (ACID)?", "SQL", DificultadPregunta.DIFICIL, "Una unidad de trabajo que se ejecuta completamente o no se ejecuta", "Un pago con tarjeta"},
+                    new Object[]{"¿Qué es un índice?", "Modelado", DificultadPregunta.MEDIO, "Una estructura que mejora la velocidad de las consultas", "El número de página de la tabla"},
+                    new Object[]{"¿Qué es una clave foránea?", "Modelado", DificultadPregunta.MEDIO, "Un campo que referencia la clave primaria de otra tabla", "Una clave de otro país"},
+                    new Object[]{"¿Para qué sirve la cláusula GROUP BY?", "SQL", DificultadPregunta.MEDIO, "Para agrupar filas que tienen los mismos valores", "Para ordenar la lista"},
+                    new Object[]{"¿Qué es el Teorema CAP?", "NoSQL", DificultadPregunta.DIFICIL, "Establece que es imposible garantizar Consistencia, Disponibilidad y Tolerancia al particionamiento a la vez", "Un teorema de geometría"}
+                )
+            );
+
             for (Usuario d : docentes) {
-                for (Map.Entry<String, String[]> entry : temasPorAsignatura.entrySet()) {
-                    Asignatura asig = new Asignatura(entry.getKey().substring(0,3).toUpperCase(), entry.getKey(), "2025-2026", todosLosGrados);
+                for (Map.Entry<String, List<Object[]>> entry : preguntasReales.entrySet()) {
+                    String nombreAsig = entry.getKey();
+                    Asignatura asig = new Asignatura(nombreAsig.substring(0,3).toUpperCase(), nombreAsig, "2025-2026", todosLosGrados);
                     asig.setProfesor(d);
                     asignaturaRepository.save(asig);
                     
@@ -76,17 +117,15 @@ public class DataInitializer implements CommandLineRunner {
                         }
                     }
 
-                    String[] temas = entry.getValue();
-                    for (int k = 0; k < 30; k++) {
-                        String tema = temas[k % temas.length];
-                        Pregunta p = new Pregunta("Pregunta " + tema + " " + (k + 1), TipoPregunta.TEORIA, tema, DificultadPregunta.values()[k % 3], asig);
-                        p.getRespuestas().add(new Respuesta("Correcta", true, p));
-                        p.getRespuestas().add(new Respuesta("Falsa", false, p));
+                    for (Object[] pData : entry.getValue()) {
+                        Pregunta p = new Pregunta((String)pData[0], TipoPregunta.TEORIA, (String)pData[1], (DificultadPregunta)pData[2], asig);
+                        p.getRespuestas().add(new Respuesta((String)pData[3], true, p));
+                        p.getRespuestas().add(new Respuesta((String)pData[4], false, p));
                         preguntaRepository.save(p);
                     }
                 }
             }
-            System.out.println("Base de datos poblada con alumnos reales y datos distribuidos para ambos docentes.");
+            System.out.println("Base de datos poblada con preguntas reales, alumnos y datos distribuidos para ambos docentes.");
         }
     }
 }

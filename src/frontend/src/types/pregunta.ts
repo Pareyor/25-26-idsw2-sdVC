@@ -21,7 +21,7 @@ export interface Respuesta {
 export interface Pregunta {
   id: number;
   enunciado: string;
-  tema: Tema;
+  tema: string;
   dificultad: Dificultad;
   asignaturaId: number;
   respuestas: Respuesta[];

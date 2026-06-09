@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { createPregunta } from '../services/pregunta.service';
 import { getAsignaturas } from '../services/asignatura.service';
 import type { Asignatura } from '../services/asignatura.service';
-import { Tema, Dificultad } from '../types/pregunta';
+import { Dificultad } from '../types/pregunta';
 import type { Respuesta } from '../types/pregunta';
 import { ArrowLeft, Save, PlusCircle, Trash2, HelpCircle } from 'lucide-react';
 import './Formularios.css';
@@ -11,7 +11,7 @@ import './Formularios.css';
 const PreguntaCreate: React.FC = () => {
   const [pregunta, setPregunta] = useState({
     enunciado: '',
-    tema: Tema.GENERAL,
+    tema: '',
     dificultad: Dificultad.FACIL,
     asignaturaId: 0,
     respuestas: [] as Respuesta[],
@@ -138,9 +138,13 @@ const PreguntaCreate: React.FC = () => {
         <div className="form-row">
           <div className="form-group flex-1">
             <label>Tema</label>
-            <select value={pregunta.tema} onChange={(e) => setPregunta({...pregunta, tema: e.target.value as Tema})}>
-              {Object.values(Tema).map(t => <option key={t} value={t}>{t}</option>)}
-            </select>
+            <input 
+              type="text"
+              value={pregunta.tema} 
+              onChange={(e) => setPregunta({...pregunta, tema: e.target.value})}
+              placeholder="Ej: SQL, POO, Requisitos..."
+              required
+            />
           </div>
           <div className="form-group flex-1">
             <label>Dificultad</label>

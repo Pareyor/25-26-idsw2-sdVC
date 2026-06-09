@@ -11,8 +11,9 @@ const AsignaturaCreate: React.FC = () => {
     codigo: '',
     titulo: '',
     cursoAcademico: '',
-    gradoId: 0,
+    gradoIds: [] as number[],
   });
+  const [selectedGradoId, setSelectedGradoId] = useState<number>(0);
   const [grados, setGrados] = useState<Grado[]>([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -36,15 +37,18 @@ const AsignaturaCreate: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setAsignatura(prev => ({ 
-      ...prev, 
-      [name]: name === 'gradoId' ? parseInt(value) : value 
-    }));
+    if (name === 'gradoId') {
+      const id = parseInt(value);
+      setSelectedGradoId(id);
+      setAsignatura(prev => ({ ...prev, gradoIds: [id] }));
+    } else {
+      setAsignatura(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (asignatura.gradoId === 0) {
+    if (selectedGradoId === 0) {
       setError('Debe seleccionar un grado.');
       return;
     }
@@ -127,7 +131,7 @@ const AsignaturaCreate: React.FC = () => {
           <select
             name="gradoId"
             required
-            value={asignatura.gradoId}
+            value={selectedGradoId}
             onChange={handleChange}
             disabled={loadingGrados}
           >

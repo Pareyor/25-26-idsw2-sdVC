@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getPregunta, updatePregunta } from '../services/pregunta.service';
 import { getAsignaturas } from '../services/asignatura.service';
 import type { Asignatura } from '../services/asignatura.service';
-import { Tema, Dificultad } from '../types/pregunta';
+import { Dificultad } from '../types/pregunta';
 import type { Respuesta } from '../types/pregunta';
 import { ArrowLeft, Save, PlusCircle, Trash2, HelpCircle, Edit } from 'lucide-react';
 import './Formularios.css';
@@ -12,7 +12,7 @@ const PreguntaEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [pregunta, setPregunta] = useState({
     enunciado: '',
-    tema: Tema.GENERAL,
+    tema: '',
     dificultad: Dificultad.FACIL,
     asignaturaId: 0,
     respuestas: [] as Respuesta[],
@@ -146,9 +146,13 @@ const PreguntaEdit: React.FC = () => {
         <div className="form-row">
           <div className="form-group flex-1">
             <label>Tema</label>
-            <select value={pregunta.tema} onChange={(e) => setPregunta({...pregunta, tema: e.target.value as Tema})}>
-              {Object.values(Tema).map(t => <option key={t} value={t}>{t}</option>)}
-            </select>
+            <input 
+              type="text"
+              value={pregunta.tema} 
+              onChange={(e) => setPregunta({...pregunta, tema: e.target.value})}
+              placeholder="Ej: SQL, POO, Requisitos..."
+              required
+            />
           </div>
           <div className="form-group flex-1">
             <label>Dificultad</label>

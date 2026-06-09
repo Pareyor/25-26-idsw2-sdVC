@@ -27,28 +27,38 @@ const DetalleExamen: React.FC = () => {
   if (loading) return <div>Cargando...</div>;
   if (!detalle) return <div>No se encontró el detalle del examen.</div>;
 
+  const esCorregido = detalle.preguntas.length > 0 && detalle.preguntas[0].respuestaElegida !== 'PENDIENTE';
+
   return (
     <div className="list-container">
-      <h2>Detalle del Examen: {detalle.alumno}</h2>
-      <h3>Nota Final: {detalle.notaFinal}</h3>
+      <h2>{esCorregido ? 'Detalle del Examen Corregido' : 'Contenido del Examen'} - {detalle.alumno}</h2>
+      {esCorregido && <h3>Nota Final: {detalle.notaFinal}</h3>}
       <button onClick={() => navigate('/examenes/corregir')} className="btn-edit" style={{marginBottom: '10px', marginRight: '10px'}}>Volver a Gestión</button>
       <button onClick={() => navigate('/dashboard')} className="btn-edit" style={{marginBottom: '10px'}}>Volver al Panel</button>
       <table>
         <thead>
           <tr>
             <th>Pregunta</th>
-            <th>Respuesta Alumno</th>
-            <th>Respuesta Correcta</th>
-            <th>Resultado</th>
+            <th>Opciones de Respuesta</th>
+            {esCorregido && <th>Respuesta Alumno</th>}
+            {esCorregido && <th>Respuesta Correcta</th>}
+            {esCorregido && <th>Resultado</th>}
           </tr>
         </thead>
         <tbody>
           {detalle.preguntas.map((p: any, index: number) => (
-            <tr key={index} style={{ backgroundColor: p.esCorrecta ? '#d4edda' : '#f8d7da' }}>
+            <tr key={index} style={{ backgroundColor: esCorregido ? (p.esCorrecta ? '#d4edda' : '#f8d7da') : 'inherit' }}>
               <td>{p.enunciado}</td>
-              <td>{p.respuestaElegida}</td>
-              <td>{p.respuestaCorrecta}</td>
-              <td>{p.esCorrecta ? 'Correcta' : 'Incorrecta'}</td>
+              <td>
+                <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.9rem' }}>
+                  {p.opciones && p.opciones.map((opt: string, i: number) => (
+                    <li key={i}>{opt}</li>
+                  ))}
+                </ul>
+              </td>
+              {esCorregido && <td>{p.respuestaElegida}</td>}
+              {esCorregido && <td>{p.respuestaCorrecta}</td>}
+              {esCorregido && <td>{p.esCorrecta ? 'Correcta' : 'Incorrecta'}</td>}
             </tr>
           ))}
         </tbody>

@@ -48,7 +48,7 @@ public class GradoController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('ROLE_DOCENTE')")
     public GradoDTO createGrado(@RequestBody GradoDTO gradoDTO) {
-        return gradoService.crearGrado(gradoDTO);
+        return gradoService.crearGrado(gradoDTO, getCurrentUserId());
     }
 
     @PutMapping("/{id}")

@@ -12,8 +12,9 @@ const AsignaturaEdit: React.FC = () => {
     codigo: '',
     titulo: '',
     cursoAcademico: '',
-    gradoId: 0,
+    gradoIds: [] as number[],
   });
+  const [selectedGradoId, setSelectedGradoId] = useState<number>(0);
   const [grados, setGrados] = useState<Grado[]>([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -32,7 +33,11 @@ const AsignaturaEdit: React.FC = () => {
         getAsignatura(asignaturaId),
         getGrados()
       ]);
-      setAsignatura(asignaturaRes.data);
+      const data = asignaturaRes.data;
+      setAsignatura(data);
+      if (data.gradoIds && data.gradoIds.length > 0) {
+        setSelectedGradoId(data.gradoIds[0]);
+      }
       setGrados(gradosRes.data);
       setLoading(false);
     } catch (err: any) {
@@ -43,15 +48,18 @@ const AsignaturaEdit: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setAsignatura(prev => ({ 
-      ...prev, 
-      [name]: name === 'gradoId' ? parseInt(value) : value 
-    }));
+    if (name === 'gradoId') {
+      const gid = parseInt(value);
+      setSelectedGradoId(gid);
+      setAsignatura(prev => ({ ...prev, gradoIds: [gid] }));
+    } else {
+      setAsignatura(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (asignatura.gradoId === 0) {
+    if (selectedGradoId === 0) {
       setError('Debe seleccionar un grado.');
       return;
     }
@@ -60,7 +68,8 @@ const AsignaturaEdit: React.FC = () => {
     setError('');
 
     try {
-      await updateAsignatura(parseInt(id!), asignatura as any);
+      const { id: _, ...payload } = asignatura as any;
+      await updateAsignatura(parseInt(id!), payload);
       navigate('/asignaturas');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Error al actualizar la asignatura.');
@@ -133,7 +142,7 @@ const AsignaturaEdit: React.FC = () => {
           <select
             name="gradoId"
             required
-            value={asignatura.gradoId || 0}
+            value={selectedGradoId}
             onChange={handleChange}
           >
             <option value={0}>Seleccione un grado...</option>

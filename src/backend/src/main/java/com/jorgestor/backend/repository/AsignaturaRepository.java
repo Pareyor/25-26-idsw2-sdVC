@@ -10,5 +10,6 @@ import java.util.Optional;
 @Repository
 public interface AsignaturaRepository extends JpaRepository<Asignatura, Long> {
     Optional<Asignatura> findByCodigo(String codigo);
+    Optional<Asignatura> findByCodigoAndProfesorId(String codigo, Long profesorId);
     List<Asignatura> findByProfesorId(Long profesorId);
 }

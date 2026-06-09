@@ -11,7 +11,7 @@ public class Grado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String codigo;
 
     @Column(nullable = false)
@@ -19,6 +19,10 @@ public class Grado {
 
     @ManyToMany(mappedBy = "grados")
     private List<Asignatura> asignaturas = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profesor_id", nullable = true)
+    private Usuario profesor;
 
     public Grado() {}
 
@@ -36,4 +40,6 @@ public class Grado {
     public void setTitulo(String titulo) { this.titulo = titulo; }
     public List<Asignatura> getAsignaturas() { return asignaturas; }
     public void setAsignaturas(List<Asignatura> asignaturas) { this.asignaturas = asignaturas; }
+    public Usuario getProfesor() { return profesor; }
+    public void setProfesor(Usuario profesor) { this.profesor = profesor; }
 }

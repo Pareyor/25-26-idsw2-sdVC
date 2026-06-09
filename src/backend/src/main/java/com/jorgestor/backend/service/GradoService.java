@@ -27,19 +27,19 @@ public class GradoService {
     public List<GradoDTO> listarGrados(Long docenteId) {
         logger.info("DEBUG - Buscando grados para docenteId: {}", docenteId);
 
-        // Obtenemos asignaturas del profesor
-        List<Asignatura> asignaturas = asignaturaRepository.findByProfesorId(docenteId);
-        logger.info("DEBUG - Asignaturas encontradas: {}", asignaturas.size());
+        // Obtenemos grados que pertenecen directamente al profesor
+        List<Grado> gradosDirectos = gradoRepository.findByProfesorId(docenteId);
+        
+        // Obtenemos grados vinculados a sus asignaturas
+        List<Grado> gradosPorAsignatura = gradoRepository.findByAsignaturasProfesorId(docenteId);
 
-        // Extraemos grados únicos de esas asignaturas
-        List<Grado> grados = asignaturas.stream()
-                .flatMap(a -> a.getGrados().stream())
-                .distinct()
-                .collect(Collectors.toList());
+        // Combinamos y eliminamos duplicados
+        java.util.Set<Grado> todos = new java.util.HashSet<>(gradosDirectos);
+        todos.addAll(gradosPorAsignatura);
 
-        logger.info("DEBUG - Grados únicos encontrados: {}", grados.size());
+        logger.info("DEBUG - Grados totales encontrados: {}", todos.size());
 
-        return grados.stream()
+        return todos.stream()
                 .map(g -> new GradoDTO(g.getId(), g.getCodigo(), g.getTitulo()))
                 .collect(Collectors.toList());
     }
@@ -50,13 +50,18 @@ public class GradoService {
         return new GradoDTO(g.getId(), g.getCodigo(), g.getTitulo());
     }
 
-    public GradoDTO crearGrado(GradoDTO dto) {
-        logger.info("DEBUG - Intentando crear grado: {}", dto.getCodigo());
-        if (gradoRepository.findByCodigo(dto.getCodigo()).isPresent()) {
-            logger.warn("DEBUG - El grado {} ya existe", dto.getCodigo());
-            throw new RuntimeException("El código de grado ya existe");
+    public GradoDTO crearGrado(GradoDTO dto, Long docenteId) {
+        logger.info("DEBUG - Intentando crear grado: {} para docente: {}", dto.getCodigo(), docenteId);
+        if (gradoRepository.findByCodigoAndProfesorId(dto.getCodigo(), docenteId).isPresent()) {
+            logger.warn("DEBUG - El grado {} ya existe para este docente", dto.getCodigo());
+            throw new RuntimeException("El código de grado ya existe para usted");
         }
         Grado grado = new Grado(dto.getCodigo(), dto.getTitulo());
+        
+        com.jorgestor.backend.model.Usuario profesor = new com.jorgestor.backend.model.Usuario();
+        profesor.setId(docenteId);
+        grado.setProfesor(profesor);
+
         Grado guardado = gradoRepository.save(grado);
         logger.info("DEBUG - Grado guardado exitosamente con ID: {}", guardado.getId());
         return new GradoDTO(guardado.getId(), guardado.getCodigo(), guardado.getTitulo());
@@ -66,6 +71,13 @@ public class GradoService {
         Grado grado = gradoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Grado no encontrado"));
         
+        // Si el código cambia, verificar que el nuevo no lo tenga ya este profesor
+        if (!grado.getCodigo().equals(dto.getCodigo())) {
+            if (gradoRepository.findByCodigoAndProfesorId(dto.getCodigo(), grado.getProfesor().getId()).isPresent()) {
+                throw new RuntimeException("El código de grado ya existe para usted");
+            }
+        }
+
         grado.setCodigo(dto.getCodigo());
         grado.setTitulo(dto.getTitulo());
         

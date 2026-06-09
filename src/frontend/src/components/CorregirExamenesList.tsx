@@ -110,14 +110,17 @@ const CorregirExamenesList: React.FC = () => {
                       <td>{e.estado}</td>
                       <td>{e.estado === 'CORREGIDO' ? e.notaFinal : '-'}</td>
                       <td>
-                        {e.estado === 'ASIGNADO' && (
-                          <button onClick={() => handleCorregir(e.id)} className="btn-edit">Corregir</button>
-                        )}
-                      </td>
-                      <td>
-                        {e.estado === 'CORREGIDO' && (
-                          <button onClick={() => navigate(`/examenes/detalle/${e.id}`)} className="btn-edit">Ver Detalle</button>
-                        )}
+                        <div style={{ display: 'flex', gap: '5px' }}>
+                          <button 
+                            onClick={() => navigate(`/examenes/detalle/${e.id}`)} 
+                            className="btn-edit"
+                          >
+                            {e.estado === 'CORREGIDO' ? 'Ver Detalle' : 'Ver Examen'}
+                          </button>
+                          {e.estado === 'ASIGNADO' && (
+                            <button onClick={() => handleCorregir(e.id)} className="btn-edit">Corregir</button>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}

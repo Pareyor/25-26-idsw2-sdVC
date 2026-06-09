@@ -10,5 +10,7 @@ import java.util.Optional;
 @Repository
 public interface GradoRepository extends JpaRepository<Grado, Long> {
     Optional<Grado> findByCodigo(String codigo);
+    Optional<Grado> findByCodigoAndProfesorId(String codigo, Long profesorId);
+    List<Grado> findByProfesorId(Long profesorId);
     List<Grado> findByAsignaturasProfesorId(Long profesorId);
 }

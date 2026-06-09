@@ -26,12 +26,14 @@ public class DetalleExamenDTO {
         private String respuestaElegida;
         private boolean esCorrecta;
         private String respuestaCorrecta;
+        private List<String> opciones;
 
-        public PreguntaDetalleDTO(String enunciado, String respuestaElegida, boolean esCorrecta, String respuestaCorrecta) {
+        public PreguntaDetalleDTO(String enunciado, String respuestaElegida, boolean esCorrecta, String respuestaCorrecta, List<String> opciones) {
             this.enunciado = enunciado;
             this.respuestaElegida = respuestaElegida;
             this.esCorrecta = esCorrecta;
             this.respuestaCorrecta = respuestaCorrecta;
+            this.opciones = opciones;
         }
 
         // Getters
@@ -39,5 +41,6 @@ public class DetalleExamenDTO {
         public String getRespuestaElegida() { return respuestaElegida; }
         public boolean isEsCorrecta() { return esCorrecta; }
         public String getRespuestaCorrecta() { return respuestaCorrecta; }
+        public List<String> getOpciones() { return opciones; }
     }
 }
