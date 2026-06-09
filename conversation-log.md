@@ -229,3 +229,18 @@
 **Enlace:** [Sesión 33](conversations/sesion-33.md)
 
 **Decisión:** Se validaron y aplicaron todos los cambios de diseño documental y navegación para mejorar la experiencia de usuario en el repositorio, asegurando que la transición entre el análisis, el diseño y el código sea intuitiva y esté bien referenciada. Se ajustó la referencia para mantener la trazabilidad histórica correcta del proyecto conforme a la solicitud del usuario.
+
+## Sesión 34: [09/06/2026][16:30] Corrección de la inhabilitación del sistema tras la implementación del módulo importar/exportar, aislamiento total de datos individuales de cada docente y pobla la base de datos con datos reales.
+
+**Prompt:** Corregir el error de visibilidad tras importar datos, permitir que diferentes docentes usen los mismos códigos de grado/asignatura, hacer que los temas de las preguntas sean texto libre y permitir ver las preguntas y opciones de los exámenes antes de corregirlos. Repoblar la base de datos con preguntas reales.
+
+**Resultado:**
+- **Corrección de Bugs**: Se arregló el fallo que impedía ver grados y asignaturas recién creadas vinculándolos correctamente al docente y corrigiendo el mismatch de tipos (Long vs List<Long>) en el frontend.
+- **Aislamiento Multitenant**: Se eliminaron las restricciones de unicidad global en la base de datos para `codigo` y se ajustaron los servicios para validar unicidad solo dentro del ámbito de cada profesor.
+- **Temas Dinámicos**: Se cambió el campo `tema` de enumerado a texto libre en backend y frontend.
+- **Visibilidad Pre-Corrección**: Se actualizó `ExamenService` y la UI para permitir inspeccionar preguntas y opciones de respuesta de exámenes en estado `ASIGNADO`.
+- **Datos Reales**: Se actualizó `DataInitializer.java` con un banco de 30 preguntas técnicas reales (Programación, Software, BD) y se limpió la BD para forzar la recarga.
+
+**Enlace:** [Sesión 34](conversations/sesion-34.md)
+
+**Decisión:** Se optó por un aislamiento total basado en profesor_id para todos los catálogos. Se aceptó la eliminación de restricciones de unicidad en BD para favorecer la independencia de los docentes. Se validó la mejora en la gestión de exámenes al permitir la previsualización de preguntas y respuestas antes de ser corregidas.
