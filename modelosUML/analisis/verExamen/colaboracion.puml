@@ -1,0 +1,28 @@
+@startuml verExamen-colaboracion
+
+skinparam linetype polyline
+
+' Importaciones externas o estados previos
+rectangle #CDEBA5 ":EXAMENES_CORREGIDOS" as ExamenesCorregidos
+rectangle #CDEBA5 ":EXAMENES_CORREGIDOS_CONTEXTUAL" as ExamenesCorregidosContextual
+
+package verExamen as "verExamen()" {
+    rectangle #629EF9 ExamenDetalleView
+    rectangle #b5bd68 ExamenController
+    rectangle #F2AC4E ExamenService
+    rectangle #F2AC4E ExamenRepository
+    rectangle #F2AC4E Examen
+}
+
+ExamenesCorregidos --> ExamenDetalleView: verExamen(examenId)
+ExamenesCorregidosContextual --> ExamenDetalleView: verExamen(examenId)
+
+ExamenDetalleView -d-> ExamenController: obtenerDetalleExamen(examenId) : DetalleExamenDTO
+
+ExamenController --> ExamenService: obtenerDetalleExamen(examenId, docenteId) : DetalleExamenDTO
+
+ExamenService --> ExamenRepository: findById(examenId) : Optional<Examen>
+
+ExamenRepository -- Examen
+
+@enduml
