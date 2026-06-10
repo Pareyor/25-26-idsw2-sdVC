@@ -254,3 +254,17 @@
 **Enlace:** [Sesión 35](conversations/sesion-35.md)
 
 **Decisión:** Se aceptó la solicitud, se verificaron los paths de las imágenes y archivos PUML, y se aplicaron los cambios en ambos READMEs. Se procedió a cerrar la tarea con el protocolo 'fin'.
+
+
+## Sesión 36: [10/06/2026][10:24] Restricción de Importación/Exportación, Aislamiento y Corrección de Eliminación de Docentes
+
+**Prompt:** Restringir el módulo de importar/exportar solo a docentes, corregir el error 403 al eliminar docentes como administrador, y habilitar la eliminación en cascada de docentes (física y total).
+
+**Resultado:**
+- **Autorización:** Se restringió visualmente el acceso a importar/exportar en Dashboard.tsx para el Admin, y se aseguró la protección en backend en ConfigController.
+- **Corrección de Seguridad:** Se cambió @PreAuthorize("hasRole('ADMIN')") por @PreAuthorize("hasAuthority('ROLE_ADMIN')") en DocenteController para resolver el error 403.
+- **Eliminación en Cascada:** Se implementó eliminarDocente en UsuarioService con @Transactional, desvinculando grados y eliminando asignaturas y preguntas asociadas antes de borrar el docente para superar errores de integridad referencial.
+
+**Enlace:** [Sesión 36](conversations/sesion-36.md)
+
+**Decisión:** Se ha garantizado la seguridad por roles según lo solicitado y se ha resuelto el problema funcional que impedía eliminar docentes con datos vinculados, implementando una eliminación en cascada segura en el servicio.
