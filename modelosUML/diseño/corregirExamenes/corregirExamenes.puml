@@ -1,38 +1,44 @@
 @startuml
-title Diagrama de Secuencia - Corregir Exámenes (Diseño) - Jorgestor
+title Diagrama de Secuencia - Corregir Exámenes (Implementación) - Jorgestor
 
 actor "Docente" as Teacher
 participant "Frontend (React)" as FE
 participant "ExamenController" as Controller
-participant "CorreccionService" as Service
+participant "ExamenService" as Service
 
-Teacher -> FE: Sube PDF con exámenes resueltos
+Teacher -> FE: Solicita listar exámenes pendientes
 activate FE
-
-FE -> Controller: POST /api/examenes/corregir\n(multipart/form-data)
+FE -> Controller: GET /api/examenes/corregir/listar
 activate Controller
-
-Controller -> Service: procesarPdf(archivo)
+Controller -> Service: obtenerTodosExamenesDocente(docenteId)
 activate Service
-
-Service -> Service: contarPaginas(pdf)
-activate Service
-Service --> Service: numPaginas
+Service --> Controller: List<Examen>
 deactivate Service
+Controller --> FE: Lista de exámenes
+deactivate Controller
+deactivate FE
 
-loop Para cada página
-    Service -> Service: generarNotaAleatoria()
-    activate Service
-    Service --> Service: nota
-    deactivate Service
-    
-    Service -> Service: crearResultado()
+Teacher -> FE: Selecciona corregir (Individual/Asignatura/Todos)
+activate FE
+alt Individual
+    FE -> Controller: POST /api/examenes/corregir/{examenId}
+    activate Controller
+    Controller -> Service: corregirExamen(examenId, docenteId)
+else Asignatura
+    FE -> Controller: POST /api/examenes/corregir/asignatura/{asignaturaId}
+    activate Controller
+    Controller -> Service: corregirExamenesPorAsignatura(asignaturaId, docenteId)
+else Todos
+    FE -> Controller: POST /api/examenes/corregir/todos
+    activate Controller
+    Controller -> Service: corregirTodosExamenes(docenteId)
 end
 
-Service --> Controller: List<ResultadoCorreccionDTO>
+activate Service
+Service -> Service: actualizarEstadoYNota()
+Service --> Controller: Examen/Void
 deactivate Service
-
-Controller --> FE: 200 OK (Resultados)
+Controller --> FE: 200 OK
 deactivate Controller
 deactivate FE
 
