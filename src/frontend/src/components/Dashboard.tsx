@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { getMenuOptions } from '../services/menu.service';
-import { logout } from '../services/auth.service';
+import { getCurrentUser, logout } from '../services/auth.service';
 import { exportarConfiguracion, importarConfiguracion } from '../services/config.service';
 import * as Icons from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -15,10 +15,16 @@ interface MenuOption {
 const Dashboard: React.FC = () => {
   const [options, setOptions] = useState<MenuOption[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userRole, setUserRole] = useState<string | null>(null);
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    const user = getCurrentUser();
+    if (user && user.role) {
+        setUserRole(user.role);
+    }
+
     getMenuOptions()
       .then(data => {
         setOptions(Array.isArray(data) ? data : []);
@@ -28,7 +34,6 @@ const Dashboard: React.FC = () => {
         navigate('/login');
       });
   }, [navigate]);
-
   const handleAction = async (path: string) => {
     if (path === '/logout') {
       if (window.confirm('¿Está seguro de que desea salir?')) {
@@ -91,13 +96,17 @@ const Dashboard: React.FC = () => {
           <p>Sistema de Gestión de Exámenes</p>
         </div>
         <div className="config-actions" style={{ display: 'flex', gap: '1rem', marginTop: '1rem', justifyContent: 'center' }}>
-            <button onClick={handleExportar} className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', borderRadius: '1rem', border: '1px solid var(--glass-border)', background: 'var(--card-bg)', cursor: 'pointer' }}>
-                <Icons.Download size={18} /> Exportar
-            </button>
-            <button onClick={() => fileInputRef.current?.click()} className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', borderRadius: '1rem', border: '1px solid var(--glass-border)', background: 'var(--card-bg)', cursor: 'pointer' }}>
-                <Icons.Upload size={18} /> Importar
-            </button>
-            <input type="file" ref={fileInputRef} onChange={handleImportar} style={{ display: 'none' }} accept=".json" />
+            {userRole === 'ROLE_DOCENTE' && (
+              <>
+                <button onClick={handleExportar} className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', borderRadius: '1rem', border: '1px solid var(--glass-border)', background: 'var(--card-bg)', cursor: 'pointer' }}>
+                    <Icons.Download size={18} /> Exportar
+                </button>
+                <button onClick={() => fileInputRef.current?.click()} className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', borderRadius: '1rem', border: '1px solid var(--glass-border)', background: 'var(--card-bg)', cursor: 'pointer' }}>
+                    <Icons.Upload size={18} /> Importar
+                </button>
+                <input type="file" ref={fileInputRef} onChange={handleImportar} style={{ display: 'none' }} accept=".json" />
+              </>
+            )}
         </div>
       </header>
 

@@ -1,11 +1,16 @@
 package com.jorgestor.backend.service;
 
 import com.jorgestor.backend.dto.DocenteDTO;
+import com.jorgestor.backend.model.Asignatura;
+import com.jorgestor.backend.model.Grado;
 import com.jorgestor.backend.model.Role;
 import com.jorgestor.backend.model.Usuario;
+import com.jorgestor.backend.repository.AsignaturaRepository;
+import com.jorgestor.backend.repository.GradoRepository;
 import com.jorgestor.backend.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,10 +19,20 @@ import java.util.stream.Collectors;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final AsignaturaRepository asignaturaRepository;
+    private final GradoRepository gradoRepository;
+    private final PreguntaService preguntaService;
     private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    public UsuarioService(UsuarioRepository usuarioRepository, 
+                          AsignaturaRepository asignaturaRepository, 
+                          GradoRepository gradoRepository,
+                          PreguntaService preguntaService,
+                          PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.asignaturaRepository = asignaturaRepository;
+        this.gradoRepository = gradoRepository;
+        this.preguntaService = preguntaService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -66,8 +81,7 @@ public class UsuarioService {
         dto.setId(guardado.getId());
         dto.setPassword(null); // No devolver contraseña
         return dto;
-        }
-
+    }
 
     public DocenteDTO actualizarDocente(Long id, DocenteDTO dto) {
         Usuario usuario = usuarioRepository.findById(id)
@@ -93,11 +107,26 @@ public class UsuarioService {
         );
     }
 
-
+    @Transactional
     public void eliminarDocente(Long id) {
-        if (!usuarioRepository.existsById(id)) {
-            throw new RuntimeException("Docente no encontrado");
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Docente no encontrado"));
+
+        // 1. Eliminar preguntas (y sus respuestas por cascada)
+        preguntaService.eliminarTodasPorDocente(id);
+
+        // 2. Desvincular grados
+        List<Grado> grados = gradoRepository.findByProfesorId(id);
+        for (Grado grado : grados) {
+            grado.setProfesor(null);
+            gradoRepository.save(grado);
         }
-        usuarioRepository.deleteById(id);
+
+        // 3. Eliminar asignaturas asociadas
+        List<Asignatura> asignaturas = asignaturaRepository.findByProfesorId(id);
+        asignaturaRepository.deleteAll(asignaturas);
+
+        // 4. Eliminar docente
+        usuarioRepository.delete(usuario);
     }
 }

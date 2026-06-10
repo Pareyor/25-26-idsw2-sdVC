@@ -26,26 +26,26 @@ public class DocenteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public DocenteDTO createDocente(@RequestBody DocenteDTO docenteDTO) {
         return usuarioService.crearDocente(docenteDTO);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public DocenteDTO getDocente(@PathVariable Long id) {
         return usuarioService.obtenerDocente(id);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public DocenteDTO updateDocente(@PathVariable Long id, @RequestBody DocenteDTO docenteDTO) {
         return usuarioService.actualizarDocente(id, docenteDTO);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void deleteDocente(@PathVariable Long id) {
         usuarioService.eliminarDocente(id);
     }
