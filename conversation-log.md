@@ -256,7 +256,7 @@
 **Decisión:** Se aceptó la solicitud, se verificaron los paths de las imágenes y archivos PUML, y se aplicaron los cambios en ambos READMEs. Se procedió a cerrar la tarea con el protocolo 'fin'.
 
 
-## Sesión 36: [10/06/2026][10:24] Restricción de Importación/Exportación, Aislamiento y Corrección de Eliminación de Docentes
+## Sesión 36: [10/06/2026][10:24] Restricción de Importación/Exportación, Aislamiento y Corrección de Eliminación de Docentes y actualizacion de corregirExamenes.
 
 **Prompt:** Restringir el módulo de importar/exportar solo a docentes, corregir el error 403 al eliminar docentes como administrador, y habilitar la eliminación en cascada de docentes (física y total).
 
